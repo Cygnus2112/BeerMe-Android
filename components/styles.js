@@ -1,0 +1,196 @@
+import React from 'react';
+
+import {
+  ActivityIndicator,
+  ListView,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TextInput,
+  Dimensions,
+  AsyncStorage,
+  TouchableNativeFeedback,
+  TouchableOpacity
+} from 'react-native';
+
+/* Redux stuff...      */
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as authActions from '../actions/authActions';
+import * as beerActions from '../actions/beerActions';
+import * as wishlistActions from '../actions/wishlistActions';
+/* End Redux stuff...      */
+
+import { Actions } from 'react-native-router-flux';
+
+import Button from 'react-native-button';
+let width = Dimensions.get('window').width;
+
+class Styles extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.fetchBeers = this.fetchBeers.bind(this);
+
+    this.loadLogin = this.loadLogin.bind(this);
+
+    this.openSwipe = this.openSwipe.bind(this);
+
+    this.signoutUser = this.signoutUser.bind(this);
+    this.wishlist = this.wishlist.bind(this);
+    this.state = {
+      styleChoice: "",
+      val: ""
+    }
+  }
+
+  signoutUser = () => {
+    const { logout } = this.props.authActions;
+    logout();
+  }
+
+  fetchBeers = (style) => {         
+    const { loadBeers } = this.props.beerActions;
+    let userData = {
+      username: this.props.username,
+      //style: style || this.props.styleChoice
+      style: style                                 //  TEMP WORKAROUND 
+    }
+    loadBeers(userData); 
+    Actions.swipe({styleChoice: style});        
+  }
+
+  openSwipe = (styleChoice) => {
+    const { clearFrontBeer } = this.props.beerActions;
+    clearFrontBeer(); 
+
+    this.fetchBeers(styleChoice); 
+
+
+    // this.setState({
+    //   showSwipeModal: true,
+    //   styleChoice: val
+    // })
+  } 
+
+  loadLogin() {
+    Actions.login();
+  }  
+
+  wishlist() {
+    const { loadWishlist } = this.props.wishlistActions;
+    loadWishlist({"username": this.props.username});
+  }
+
+  render() {
+    return (
+    <View style={styles.main}>
+          <View style={styles.header}>
+              <TouchableNativeFeedback onPress={ this.signoutUser } style={styles.button} >
+                <View style={{flexDirection: 'row',justifyContent: 'center'}}>
+                  <Text style={styles.instructions} >
+                    Sign Out
+                  </Text>
+                </View>
+              </TouchableNativeFeedback>
+          </View>
+          <View style={styles.container}>
+              <View style={{flexDirection: 'row',justifyContent: 'space-around'}}>
+                <TouchableOpacity onPress={ () => this.openSwipe("Ale") } >
+                  <Image source={require('../assets/Ale-125.png') } style={{width: 108*.65, height: 254*.65}}/>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={ () => this.openSwipe("Lager") } >
+                  <Image source={require('../assets/Lager-125.png') } style={{width: 108*.65, height: 252*.65}}/>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={ () => this.openSwipe("Pilsner") } >
+                  <Image source={require('../assets/Pilsner-125.png') } style={{width: 125*.65, height: 247*.665}}/>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={ () => this.openSwipe("Stout") } >
+                  <Image source={require('../assets/Stout-125.png') } style={{width: 108*.65, height: 252*.66}}/>
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.welcome}>  Ale         Lager        Pilsner       Stout</Text>
+          </View>
+          <View style={styles.divider} >
+            <TouchableNativeFeedback onPress={ this.wishlist } style={styles.button} >
+                <View style={{flexDirection: 'row',justifyContent: 'center'}}>
+                  <Text style={styles.instructions} >
+                    WISHLIST
+                  </Text>
+                </View>
+              </TouchableNativeFeedback>
+            </View>
+          <View style={styles.footer} />
+        </View>)
+  }
+}
+
+// <TouchableNativeFeedback onPress={ this.submitLogin } style={styles.button} >
+//                <View>
+//                    <Text >Button!</Text>
+//                </View>
+//              </TouchableNativeFeedback>
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+    backgroundColor: '#F5FCFF'
+  },
+  header: {
+    flex: .1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF'
+  },
+  divider: {
+    flex: .1
+  },
+  footer: {
+    flex: .1,
+  },
+  container: {
+    flex: .7,
+    justifyContent: 'center',
+    //alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  choose: {
+    fontSize: 27,
+    textAlign: 'center',
+    margin: 30,
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  }
+});
+
+const mapStateToProps = (state) => {
+  return {
+    username: state.authReducer.username,
+    isLoggedIn: state.authReducer.isLoggedIn,
+    isSearching: state.beerReducer.isSearching,
+    beerData: state.beerReducer.beerData,
+    beerToView: state.beerReducer.beerToView,
+    wishlist: state.wishlistReducer.wishlist,
+    dislikes: state.wishlistReducer.dislikes  
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    wishlistActions: bindActionCreators(wishlistActions, dispatch),
+    authActions: bindActionCreators(authActions, dispatch),
+    beerActions: bindActionCreators(beerActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Styles);
