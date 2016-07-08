@@ -54,14 +54,32 @@ class Wishlist extends React.Component {
   }
     
   render() {
-    let wishlistView = this.props.isFetching ? (
+    if(this.props.isFetching){
+      return (
         <View style={styles.main}>
-          <Image source={require('../assets/spinner.gif')} />
+          <ActivityIndicator
+            animating={ true }
+            style={[styles.centering, {height: 80}]}
+            size="large"/>
+        </View>
+        );
+    } else if(this.props.wishlist.length < 1){
+      return (
+        <View style={styles.main}>
+          <Text style={styles.choose}>
+            You {"haven't"} added any beers to your wishlist!
+          </Text>
+          <Text style={styles.choose}>
+            Find your brew
+          </Text>
         </View>
 
-      ) : (<ListView
-        dataSource = {this.state.dataSource}
-        renderRow = {(selectedBeer) => 
+        )
+    } else {
+      return (
+        <ListView
+          dataSource = {this.state.dataSource}
+          renderRow = {(selectedBeer) => 
           <TouchableHighlight
             onPress={()=> Actions.beerdetail({ selectedBeer })}
             underlayColor = '#ddd'>
@@ -69,7 +87,29 @@ class Wishlist extends React.Component {
             <View style ={styles.row}>
               <Text style={{fontSize:18}}>{selectedBeer.name} </Text>
             </View>
-          </TouchableHighlight>} />);
+          </TouchableHighlight>} />
+
+        )
+    }
+    // let wishlistView = this.props.isFetching ? (
+    //     <View style={styles.main}>
+    //       <ActivityIndicator
+    //         animating={ true }
+    //         style={[styles.centering, {height: 80}]}
+    //         size="large"/>
+    //     </View>
+
+    //   ) : (<ListView
+    //     dataSource = {this.state.dataSource}
+    //     renderRow = {(selectedBeer) => 
+    //       <TouchableHighlight
+    //         onPress={()=> Actions.beerdetail({ selectedBeer })}
+    //         underlayColor = '#ddd'>
+
+    //         <View style ={styles.row}>
+    //           <Text style={{fontSize:18}}>{selectedBeer.name} </Text>
+    //         </View>
+    //       </TouchableHighlight>} />);
      // <ListView
       //   dataSource = {this.state.dataSource}
       //   renderRow = {(selectedBeer) => 
@@ -81,15 +121,26 @@ class Wishlist extends React.Component {
       //         <Text style={{fontSize:18}}>{selectedBeer.name} </Text>
       //       </View>
       //     </TouchableHighlight>} />
-    return (
-      <View>
-      { wishlistView } 
-      </View>
-      );
+    // return (
+    //   <View>
+    //   { wishlistView } 
+    //   </View>
+    //   );
   }
 
 }
 let styles = StyleSheet.create({
+  centering: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 8,
+  },
+  choose: {
+    fontSize: 27,
+    textAlign: 'center',
+    margin: 30,
+  },
   main: {
     flex: 1,
     backgroundColor: '#F5FCFF'

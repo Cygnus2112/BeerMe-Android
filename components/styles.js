@@ -33,16 +33,13 @@ class Styles extends React.Component {
     super(props);
 
     this.fetchBeers = this.fetchBeers.bind(this);
-
     this.loadLogin = this.loadLogin.bind(this);
-
     this.openSwipe = this.openSwipe.bind(this);
-
     this.signoutUser = this.signoutUser.bind(this);
     this.wishlist = this.wishlist.bind(this);
+
     this.state = {
-      styleChoice: "",
-      val: ""
+      styleChoice: ""
     }
   }
 
@@ -97,6 +94,11 @@ class Styles extends React.Component {
               </TouchableNativeFeedback>
           </View>
           <View style={styles.container}>
+              <View style={{flexDirection: 'row',justifyContent: 'center'}}>
+                <Text style={styles.choose}>
+                What are you thirsty {"for"}?
+                </Text>
+              </View>
               <View style={{flexDirection: 'row',justifyContent: 'space-around'}}>
                 <TouchableOpacity onPress={ () => this.openSwipe("Ale") } >
                   <Image source={require('../assets/Ale-125.png') } style={{width: 108*.65, height: 254*.65}}/>

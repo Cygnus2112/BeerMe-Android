@@ -2,8 +2,6 @@ import { Actions } from 'react-native-router-flux';
 
 let utils = require('../utils');
 
-console.log('utils: ', utils);
-
 import {
   AsyncStorage
 } from 'react-native';

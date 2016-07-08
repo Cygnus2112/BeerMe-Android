@@ -128,9 +128,12 @@ class Swipe extends React.Component {
   //         </View>
 
   render() {
-    let swipeView = this.props.isSearching ? (
+    let swipeView = (this.props.isSearching && this.props.beerToView) ? (
       <View style={styles.main}>
-        <Image source={require('../assets/spinner.gif')} />
+        <ActivityIndicator
+          animating={ true }
+          style={[styles.centering, {height: 80}]}
+          size="large"/>
       </View>
       ) : (
       <View style={styles.main}>
@@ -152,23 +155,35 @@ class Swipe extends React.Component {
           </View>
           <View style={ styles.footer }>
             <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-                <Text style={styles.instructions} >
+                <Text style={styles.like} >
                   { this.state.likeMessage }
                 </Text>
             </View>
           </View>
-      </View>)
+      </View>
       );
 
 
     return (
-      <View>
+      <View style={styles.main}>
         { swipeView }  
       </View>)
   }
 }
 
 const styles = StyleSheet.create({
+  like: {
+    textAlign: 'center',
+    color: 'red',
+    marginBottom: 5,
+    fontSize: 18,
+  },
+  centering: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 8,
+  },
   main: {
     flex: 1,
     backgroundColor: '#F5FCFF'
