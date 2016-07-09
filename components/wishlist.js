@@ -12,7 +12,10 @@ import {
   AsyncStorage,
   TouchableNativeFeedback,
   TouchableOpacity,
-  TouchableHighlight
+  TouchableHighlight,
+  DrawerLayoutAndroid,
+  ToolbarAndroid,
+  ScrollView
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -26,6 +29,11 @@ import * as authActions from '../actions/authActions';
 class Wishlist extends React.Component {
   constructor(props) {
     super(props);
+
+    this.onActionSelected = this.onActionSelected.bind(this);
+    this.signoutUser = this.signoutUser.bind(this);
+    this.wishlist = this.wishlist.bind(this);
+    this.openDrawer = this.openDrawer.bind(this);
 
     let ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 != r2
@@ -52,8 +60,57 @@ class Wishlist extends React.Component {
     //   dataSource: this.state.dataSource.cloneWithRows(newDs)
     // })
   }
+
+  onActionSelected = (position) => {
+    if (position === 0) { // index of 'Settings'
+      //showSettings();
+    }
+  }
+
+  signoutUser = () => {
+    const { logout } = this.props.authActions;
+    logout();
+  }
+
+  wishlist = () => {
+    const { loadWishlist } = this.props.wishlistActions;
+    loadWishlist({"username": this.props.username});
+  }
+
+  openDrawer = () => {
+    this.refs['DRAWER'].openDrawer()
+  }
     
   render() {
+    let navigationView = (
+      <View style={styles.main}>
+          <View style={styles.drawer}>
+            <View >
+              <Image source={require('../assets/logo.png')} style={{width: 294*.65, height: 70*.65}} />
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: 10}}>
+              <Image source={require('../assets/ic_person_black_24dp.png') } />
+              <Text style={{fontSize: 18, textAlign: 'left'}}>{ this.props.username }</Text>
+            </View>
+            <TouchableOpacity onPress={ this.wishlist  }>
+              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+                <Text style={{margin: 10, fontSize: 18, textAlign: 'left'}}>Wishlist</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={ () => Actions.styles() }>
+              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+                <Text style={{margin: 10, fontSize: 18, textAlign: 'left'}}>Browse Beers</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={ this.signoutUser }>
+              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+                <Text style={{margin: 10, fontSize: 18, textAlign: 'left'}}>Sign Out</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+      </View>
+    );
+
     if(this.props.isFetching){
       return (
         <View style={styles.main}>
@@ -77,6 +134,20 @@ class Wishlist extends React.Component {
         )
     } else {
       return (
+      <DrawerLayoutAndroid
+        ref={'DRAWER'}
+        drawerWidth={200}
+        drawerPosition={DrawerLayoutAndroid.positions.Left}
+        renderNavigationView={() => navigationView}>
+        <ToolbarAndroid
+          navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
+          title="toolbar"
+          actions={toolbarActions}
+          onIconClicked={() => this.openDrawer() }
+          style={styles.toolbar}
+          subtitle={this.state.actionText}
+          onActionSelected={ this.onActionSelected } />
+        <ScrollView>
         <ListView
           dataSource = {this.state.dataSource}
           renderRow = {(selectedBeer) => 
@@ -88,6 +159,8 @@ class Wishlist extends React.Component {
               <Text style={{fontSize:18}}>{selectedBeer.name} </Text>
             </View>
           </TouchableHighlight>} />
+          </ScrollView>
+        </DrawerLayoutAndroid>
 
         )
     }
@@ -129,7 +202,23 @@ class Wishlist extends React.Component {
   }
 
 }
+
+const toolbarActions = [
+  {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
+];
+
 let styles = StyleSheet.create({
+  toolbar: {
+    backgroundColor: '#e9eaed',
+    height: 50,
+    justifyContent: 'center',
+  },
+  drawer: {
+    flex: .7,
+    justifyContent: 'flex-start',
+    //alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
   centering: {
     flex: 1,
     alignItems: 'center',
@@ -159,8 +248,6 @@ let styles = StyleSheet.create({
     textAlign:'right'
   },
 }); 
-
-//module.exports = Wishlist
 
 const mapStateToProps = (state) => {
   return {

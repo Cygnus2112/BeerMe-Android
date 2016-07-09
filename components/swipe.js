@@ -12,7 +12,9 @@ import {
   Dimensions,
   TouchableNativeFeedback,
   AsyncStorage,
-  TouchableOpacity 
+  TouchableOpacity,
+  DrawerLayoutAndroid,
+  ToolbarAndroid
 } from 'react-native';
 
 /* Redux stuff...      */
@@ -33,37 +35,30 @@ class Swipe extends React.Component {
     this.likeBeer = this.likeBeer.bind(this);
     this.dislikeBeer = this.dislikeBeer.bind(this);
 
-    this.showProps = this.showProps.bind(this);
+    this.onActionSelected = this.onActionSelected.bind(this);
+    this.signoutUser = this.signoutUser.bind(this);
+    this.wishlist = this.wishlist.bind(this);
+    this.openDrawer = this.openDrawer.bind(this);
 
     this.state = {
       likeMessage: "",
       wishlistToAdd: [],
-      dislikesToAdd: []
+      dislikesToAdd: [],
+      actionText: ""
     }
-  }
-
-  componentDidMount() {
-    // console.log('this.props.styleChoice ', this.props.styleChoice);
-    // console.log('this.props.beerData in SWIPE ', this.props.beerData);
-    // console.log('this.props.beerToView in SWIPE ', this.props.beerToView);
   }
 
   componentWillUnmount() {
     const { clearBeerData } = this.props.beerActions;
     clearBeerData();
     const { updateWishlist } = this.props.wishlistActions;
-    updateWishlist({
-      "username": this.props.username,
-      "wishlistToAdd": this.state.wishlistToAdd,
-      "dislikesToAdd": this.state.dislikesToAdd
+    if(this.state.wishlistToAdd || this.state.dislikesToAdd) {
+      updateWishlist({
+        "username": this.props.username,
+        "wishlistToAdd": this.state.wishlistToAdd,
+        "dislikesToAdd": this.state.dislikesToAdd
       });
-  }
-
-  showProps = () => {
-    // console.log('this.props.styleChoice ', this.props.styleChoice);
-    // console.log('this.props.beerData in SWIPE ', this.props.beerData);
-    // console.log('this.props.beerToView in SWIPE ', this.props.beerToView);
-
+    }
   }
 
   likeBeer = (beer) => {
@@ -92,7 +87,6 @@ class Swipe extends React.Component {
       }
       loadBeers(userData);
     }
-
   }
 
   dislikeBeer = (beer) => {
@@ -123,11 +117,56 @@ class Swipe extends React.Component {
     }
   }
 
-  // <View style={styles.header}>
-  //             <Image source={require('../assets/logo.png')} style={{width: 290*.50, height: 70*.50}} />
-  //         </View>
+  onActionSelected = (position) => {
+    if (position === 0) { // index of 'Settings'
+      //showSettings();
+    }
+  }
+
+  signoutUser = () => {
+    const { logout } = this.props.authActions;
+    logout();
+  }
+
+  wishlist = () => {
+    const { loadWishlist } = this.props.wishlistActions;
+    loadWishlist({"username": this.props.username});
+  }
+
+  openDrawer = () => {
+    this.refs['DRAWER'].openDrawer()
+  }
 
   render() {
+    let navigationView = (
+      <View style={styles.main}>
+          <View style={styles.drawer}>
+            <View >
+              <Image source={require('../assets/logo.png')} style={{width: 294*.65, height: 70*.65}} />
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: 10}}>
+              <Image source={require('../assets/ic_person_black_24dp.png') } />
+              <Text style={{fontSize: 18, textAlign: 'left'}}>{ this.props.username }</Text>
+            </View>
+            <TouchableOpacity onPress={ this.wishlist  }>
+              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+                <Text style={{margin: 10, fontSize: 18, textAlign: 'left'}}>Wishlist</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={ () => Actions.styles() }>
+              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+                <Text style={{margin: 10, fontSize: 18, textAlign: 'left'}}>Browse Beers</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={ this.signoutUser }>
+              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+                <Text style={{margin: 10, fontSize: 18, textAlign: 'left'}}>Sign Out</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+      </View>
+    );
+
     let swipeView = (this.props.isSearching && this.props.beerToView) ? (
       <View style={styles.main}>
         <ActivityIndicator
@@ -136,8 +175,21 @@ class Swipe extends React.Component {
           size="large"/>
       </View>
       ) : (
+      <DrawerLayoutAndroid
+        ref={'DRAWER'}
+        drawerWidth={200}
+        drawerPosition={DrawerLayoutAndroid.positions.Left}
+        renderNavigationView={() => navigationView}>
+        <ToolbarAndroid
+          navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
+          title="toolbar"
+          actions={toolbarActions}
+          onIconClicked={() => this.openDrawer() }
+          style={styles.toolbar}
+          subtitle={this.state.actionText}
+          onActionSelected={ this.onActionSelected } />
       <View style={styles.main}>
-        <View style={styles.card}>
+          <View style={styles.card}>
               <View style={{flexDirection: 'row',justifyContent: 'center'}}>
                 <Image source={{uri: this.props.beerToView.label}} style={{width: 256, height: 256}}/>
               </View>
@@ -155,23 +207,38 @@ class Swipe extends React.Component {
           </View>
           <View style={ styles.footer }>
             <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-                <Text style={styles.like} >
+                <Text style={styles.like } >
                   { this.state.likeMessage }
                 </Text>
             </View>
           </View>
-      </View>
+        </View>
+      </DrawerLayoutAndroid>
       );
-
 
     return (
       <View style={styles.main}>
         { swipeView }  
       </View>)
-  }
+    }
 }
 
+const toolbarActions = [
+  {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
+];
+
 const styles = StyleSheet.create({
+  toolbar: {
+    backgroundColor: '#e9eaed',
+    height: 50,
+    justifyContent: 'center',
+  },
+  drawer: {
+    flex: .7,
+    justifyContent: 'flex-start',
+    //alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
   like: {
     textAlign: 'center',
     color: 'red',

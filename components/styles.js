@@ -12,7 +12,9 @@ import {
   Dimensions,
   AsyncStorage,
   TouchableNativeFeedback,
-  TouchableOpacity
+  TouchableOpacity,
+  DrawerLayoutAndroid,
+  ToolbarAndroid
 } from 'react-native';
 
 /* Redux stuff...      */
@@ -33,13 +35,16 @@ class Styles extends React.Component {
     super(props);
 
     this.fetchBeers = this.fetchBeers.bind(this);
-    this.loadLogin = this.loadLogin.bind(this);
     this.openSwipe = this.openSwipe.bind(this);
     this.signoutUser = this.signoutUser.bind(this);
     this.wishlist = this.wishlist.bind(this);
 
+    this.onActionSelected = this.onActionSelected.bind(this);
+    this.openDrawer = this.openDrawer.bind(this);
+
     this.state = {
-      styleChoice: ""
+      styleChoice: "",
+      actionText: ""
     }
   }
 
@@ -53,7 +58,7 @@ class Styles extends React.Component {
     let userData = {
       username: this.props.username,
       //style: style || this.props.styleChoice
-      style: style                                 //  TEMP WORKAROUND 
+      style: style                                 
     }
     loadBeers(userData); 
     Actions.swipe({styleChoice: style});        
@@ -64,16 +69,14 @@ class Styles extends React.Component {
     clearFrontBeer(); 
 
     this.fetchBeers(styleChoice); 
-
-
     // this.setState({
     //   showSwipeModal: true,
     //   styleChoice: val
     // })
   } 
 
-  loadLogin() {
-    Actions.login();
+  loadStyles() {
+    Actions.styles();
   }  
 
   wishlist() {
@@ -81,18 +84,60 @@ class Styles extends React.Component {
     loadWishlist({"username": this.props.username});
   }
 
+  onActionSelected = (position) => {
+    if (position === 0) { // index of 'Settings'
+      //showSettings();
+    }
+  }
+
+  openDrawer = () => {
+    this.refs['DRAWER'].openDrawer()
+  }
+
   render() {
-    return (
-    <View style={styles.main}>
-          <View style={styles.header}>
-              <TouchableNativeFeedback onPress={ this.signoutUser } style={styles.button} >
-                <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-                  <Text style={styles.instructions} >
-                    Sign Out
-                  </Text>
-                </View>
-              </TouchableNativeFeedback>
+    let navigationView = (
+      <View style={styles.main}>
+          <View style={styles.drawer}>
+            <View >
+              <Image source={require('../assets/logo.png')} style={{width: 294*.65, height: 70*.65}} />
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: 10}}>
+              <Image source={require('../assets/ic_person_black_24dp.png') } />
+              <Text style={{fontSize: 18, textAlign: 'left'}}>{ this.props.username }</Text>
+            </View>
+            <TouchableOpacity onPress={ this.wishlist  }>
+              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+                <Text style={{margin: 10, fontSize: 18, textAlign: 'left'}}>Wishlist</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={ () => Actions.styles() }>
+              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+                <Text style={{margin: 10, fontSize: 18, textAlign: 'left'}}>Browse Beers</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={ this.signoutUser }>
+              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+                <Text style={{margin: 10, fontSize: 18, textAlign: 'left'}}>Sign Out</Text>
+              </View>
+            </TouchableOpacity>
           </View>
+      </View>
+    );
+    return (
+      <DrawerLayoutAndroid
+        ref={'DRAWER'}
+        drawerWidth={200}
+        drawerPosition={DrawerLayoutAndroid.positions.Left}
+        renderNavigationView={() => navigationView}>
+        <ToolbarAndroid
+          navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
+          title="toolbar"
+          actions={toolbarActions}
+          onIconClicked={() => this.openDrawer() }
+          style={styles.toolbar}
+          subtitle={this.state.actionText}
+          onActionSelected={ this.onActionSelected } />
+        <View style={styles.main}>
           <View style={styles.container}>
               <View style={{flexDirection: 'row',justifyContent: 'center'}}>
                 <Text style={styles.choose}>
@@ -115,18 +160,30 @@ class Styles extends React.Component {
               </View>
               <Text style={styles.welcome}>  Ale         Lager        Pilsner       Stout</Text>
           </View>
-          <View style={styles.divider} >
-            <TouchableNativeFeedback onPress={ this.wishlist } style={styles.button} >
-                <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-                  <Text style={styles.instructions} >
-                    WISHLIST
-                  </Text>
-                </View>
-              </TouchableNativeFeedback>
-            </View>
           <View style={styles.footer} />
-        </View>)
+        </View>
+    </DrawerLayoutAndroid>)
   }
+//  render() {
+//   let navigationView = (
+//     <View style={{flex: 1, backgroundColor: '#fff'}}>
+//       <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>{"I'm in the Drawer!"}</Text>
+//     </View>
+//   );
+//   return (
+//     <DrawerLayoutAndroid
+//       drawerWidth={200}
+//       drawerPosition={DrawerLayoutAndroid.positions.Left}
+//       renderNavigationView={() => navigationView}>
+
+//       <View style={{flex: 1, alignItems: 'center'}}>
+//         <Text style={{margin: 10, fontSize: 15, textAlign: 'right'}}>Hello</Text>
+//         <Text style={{margin: 10, fontSize: 15, textAlign: 'right'}}>World!</Text>
+//       </View>
+
+//     </DrawerLayoutAndroid>
+//   );
+// }
 }
 
 // <TouchableNativeFeedback onPress={ this.submitLogin } style={styles.button} >
@@ -135,7 +192,17 @@ class Styles extends React.Component {
 //                </View>
 //              </TouchableNativeFeedback>
 
+const toolbarActions = [
+  {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
+];
+
 const styles = StyleSheet.create({
+  toolbar: {
+    backgroundColor: '#e9eaed',
+    height: 50,
+    justifyContent: 'center',
+
+  },
   main: {
     flex: 1,
     backgroundColor: '#F5FCFF'
@@ -151,6 +218,12 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: .1,
+  },
+  drawer: {
+    flex: .7,
+    justifyContent: 'flex-start',
+    //alignItems: 'center',
+    backgroundColor: '#F5FCFF',
   },
   container: {
     flex: .7,

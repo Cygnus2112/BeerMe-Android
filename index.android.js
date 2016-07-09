@@ -77,12 +77,12 @@ class BeerMeAndroid extends Component {
         <Router>
           <Scene key="root" hideNavBar={true}>
             <Scene key="main" component={ Main } initial={ true } />
-            <Scene key="login" component={ Login } />
-            <Scene key="signup" component={ Signup } />
+            <Scene key="login" component={ Login } type='reset'/>
+            <Scene key="signup" component={ Signup } type='reset'/>
             <Scene key="styles" component={ Styles} type='replace'/>
-            <Scene key="swipe" component={ Swipe} hideNavBar={false}/>
-            <Scene key="wishlist" component={ Wishlist }/>
-            <Scene key="beerdetail" component={ BeerDetail } hideNavBar={false} />
+            <Scene key="swipe" component={ Swipe} />
+            <Scene key="wishlist" component={ Wishlist } type='replace' />
+            <Scene key="beerdetail" component={ BeerDetail } />
           </Scene>
         </Router>
       </Provider>
