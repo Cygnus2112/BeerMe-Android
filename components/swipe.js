@@ -38,6 +38,7 @@ class Swipe extends React.Component {
     this.onActionSelected = this.onActionSelected.bind(this);
     this.signoutUser = this.signoutUser.bind(this);
     this.wishlist = this.wishlist.bind(this);
+    this.loadStyles = this.loadStyles.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
 
     this.state = {
@@ -52,7 +53,7 @@ class Swipe extends React.Component {
     const { clearBeerData } = this.props.beerActions;
     clearBeerData();
     const { updateWishlist } = this.props.wishlistActions;
-    if(this.state.wishlistToAdd || this.state.dislikesToAdd) {
+    if(this.state.wishlistToAdd.length || this.state.dislikesToAdd.length) {
       updateWishlist({
         "username": this.props.username,
         "wishlistToAdd": this.state.wishlistToAdd,
@@ -124,13 +125,20 @@ class Swipe extends React.Component {
   }
 
   signoutUser = () => {
+    this.refs['DRAWER'].closeDrawer();
     const { logout } = this.props.authActions;
     logout();
   }
 
   wishlist = () => {
+    this.refs['DRAWER'].closeDrawer();
     const { loadWishlist } = this.props.wishlistActions;
     loadWishlist({"username": this.props.username});
+  }
+
+  loadStyles = () => {
+    this.refs['DRAWER'].closeDrawer();
+    Actions.styles();
   }
 
   openDrawer = () => {
@@ -141,32 +149,36 @@ class Swipe extends React.Component {
     let navigationView = (
       <View style={styles.main}>
           <View style={styles.drawer}>
-            <View >
+            <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#fff', padding: 5}}>
               <Image source={require('../assets/logo.png')} style={{width: 294*.65, height: 70*.65}} />
             </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: 10}}>
-              <Image source={require('../assets/ic_person_black_24dp.png') } />
+            <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+              <Image source={require('../assets/ic_person_black_24dp.png') } style={{margin: 10}} />
               <Text style={{fontSize: 18, textAlign: 'left'}}>{ this.props.username }</Text>
             </View>
             <TouchableOpacity onPress={ this.wishlist  }>
-              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
-                <Text style={{margin: 10, fontSize: 18, textAlign: 'left'}}>Wishlist</Text>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+                <Image source={require('../assets/ic_favorite_filled_3x.png')} style={{width: 24, height: 24,margin: 10}} />
+                <Text style={{fontSize: 18, textAlign: 'left'}}>Wishlist</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={ () => Actions.styles() }>
-              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
-                <Text style={{margin: 10, fontSize: 18, textAlign: 'left'}}>Browse Beers</Text>
+            <TouchableOpacity onPress={ this.loadStyles }>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+                <Image source={require('../assets/beer-icon.png')} style={{width: 24, height: 24, margin: 10}}/>
+                <Text style={{fontSize: 18, textAlign: 'left'}}>Browse Beers</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={ this.signoutUser }>
-              <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
-                <Text style={{margin: 10, fontSize: 18, textAlign: 'left'}}>Sign Out</Text>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+                <Image source={require('../assets/ic_account_circle_black_24dp_sm.png')} style={{margin: 10}}  />
+                <Text style={{fontSize: 18, textAlign: 'left'}}>Sign Out</Text>
               </View>
             </TouchableOpacity>
           </View>
       </View>
     );
-
+//          actions={toolbarActions}
+//          title="toolbar"
     let swipeView = (this.props.isSearching && this.props.beerToView) ? (
       <View style={styles.main}>
         <ActivityIndicator
@@ -182,8 +194,6 @@ class Swipe extends React.Component {
         renderNavigationView={() => navigationView}>
         <ToolbarAndroid
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
-          title="toolbar"
-          actions={toolbarActions}
           onIconClicked={() => this.openDrawer() }
           style={styles.toolbar}
           subtitle={this.state.actionText}
