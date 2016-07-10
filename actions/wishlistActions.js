@@ -1,6 +1,4 @@
-import {
-  AsyncStorage
-} from 'react-native';
+import { AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 let utils = require('../utils');
@@ -59,6 +57,8 @@ const loadWishlistSuccess = (wishlistData) => {
 }
 
 export const updateWishlist = (userData) => {
+  console.log('userData in updateWishlist ');
+  console.log(userData);
   return dispatch => {
     dispatch(updateWishlistRequest());      // presents spinner
 
@@ -154,56 +154,12 @@ const removeWishlistItemSuccess = (item) => {
     }
 }
 
-// export const updateWishlist = (userData) => {
-// 	console.log('userData in UPDATE wishlist', userData);
-//   return dispatch => {
-//     dispatch(updateWishlistRequest());			// presents spinner
-
-//     //	'x-access-token': token
-//    //		'Accept': 'application/json',
-//    //'Content-Type': 'application/json',
-//     AsyncStorage.getItem("beerme-token").then((token) => {
-//         if(token){
-//             //dispatch(authSuccess());
-//             return fetch("http://beermeserver.yxuemvb8nv.us-west-2.elasticbeanstalk.com/wishlist", {
-//             //return fetch("http://localhost:8080/wishlist?username="+userData.username, {
-//       			method: 'POST',
-//       			headers: {
-//       				'Accept': 'application/json',
-//       				'Content-Type': 'application/json',
-//         			'x-access-token': token  
-//       			},
-//       			body: JSON.stringify({
-//         			username: userData.username,
-//         			wishlist: userData.wishlistToAdd,
-//         			dislikes: userData.dislikesToAdd
-//       			})
-//     		})
-//     		.then(response => {
-//     			console.log('response in updateWishlist: ', response);
-//       			return response.json();
-//     		})
-//     		.then(response => {
-//       			console.log('resp in wishlist UPDATE: ', response);
-//       			dispatch(updateWishlistSuccess(response));
-//       			//Actions.wishlist();							// SEND DATA AS PROP???
-//     		})
-//     		.catch(err => console.error('Error in UPDATEWishlist:', err));
-            	
-//         } else {
-//             // dispatch(authFail());
-//             //Actions.login();
-//         }
-//     }).done();
-//   }
-// }
-
-const updateWishlistRequest = () => {
+export const updateWishlistRequest = () => {
 	return {
     	type: UPDATE_WISHLIST_REQUEST
   	}
 }
-const updateWishlistSuccess = () => {
+export const updateWishlistSuccess = () => {
 	return {
     	type: UPDATE_WISHLIST_SUCCESS
   	}

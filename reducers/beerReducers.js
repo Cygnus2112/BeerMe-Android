@@ -30,7 +30,8 @@ export default function beerReducer(state = initialState, action){
       console.error('LOAD_BEERS_FAILURE dispatched');
       return Object.assign({}, state, {
         beerToView: {name: action.errorMessage},
-        beerData: [{name: action.errorMessage}]
+        beerData: [{name: action.errorMessage}],
+        isSearching: false
       })
     case ActionTypes.LOAD_FRONT_BEER:
       return Object.assign({}, state, {

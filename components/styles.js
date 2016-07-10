@@ -98,27 +98,27 @@ class Styles extends React.Component {
     let navigationView = (
       <View style={styles.main}>
           <View style={styles.drawer}>
-            <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#fff', padding: 5}}>
-              <Image source={require('../assets/logo.png')} style={{width: 294*.65, height: 70*.65}} />
+            <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#F5FCFF', padding: 5, borderBottomColor: '#b5b5b5', borderBottomWidth: 1, paddingTop: 15, paddingBottom: 15}}>
+              <Image source={require('../assets/logo_amber.png')} style={{width: 294*.65, height: 70*.65}} />
             </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+            <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
               <Image source={require('../assets/ic_person_black_24dp.png') } style={{margin: 10}} />
               <Text style={{fontSize: 18, textAlign: 'left'}}>{ this.props.username }</Text>
             </View>
             <TouchableOpacity onPress={ this.wishlist  }>
-              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
                 <Image source={require('../assets/ic_favorite_filled_3x.png')} style={{width: 24, height: 24,margin: 10}} />
                 <Text style={{fontSize: 18, textAlign: 'left'}}>Wishlist</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={ this.loadStyles }>
-              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
                 <Image source={require('../assets/beer-icon.png')} style={{width: 24, height: 24, margin: 10}}/>
                 <Text style={{fontSize: 18, textAlign: 'left'}}>Browse Beers</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={ this.signoutUser }>
-              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
                 <Image source={require('../assets/ic_account_circle_black_24dp_sm.png')} style={{margin: 10}}  />
                 <Text style={{fontSize: 18, textAlign: 'left'}}>Sign Out</Text>
               </View>
@@ -135,8 +135,8 @@ class Styles extends React.Component {
         <ToolbarAndroid
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
+          logo={require('../assets/logo_white_30.png')}
           style={styles.toolbar}
-          subtitle={this.state.actionText}
           onActionSelected={ this.onActionSelected } />
         <View style={styles.main}>
           <View style={styles.container}>
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#ddd'
   },
   header: {
     flex: .1,
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     flex: .7,
     justifyContent: 'center',
     //alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    //backgroundColor: '#F5FCFF',
   },
   choose: {
     fontSize: 27,

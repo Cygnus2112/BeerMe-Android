@@ -128,27 +128,27 @@ class BeerDetail extends React.Component {
     let navigationView = (
       <View style={styles.main}>
           <View style={styles.drawer}>
-            <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#fff', padding: 5}}>
-              <Image source={require('../assets/logo.png')} style={{width: 294*.65, height: 70*.65}} />
+            <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#F5FCFF', padding: 5, borderBottomColor: '#b5b5b5', borderBottomWidth: 1, paddingTop: 15, paddingBottom: 15}}>
+              <Image source={require('../assets/logo_amber.png')} style={{width: 294*.65, height: 70*.65}} />
             </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+            <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
               <Image source={require('../assets/ic_person_black_24dp.png') } style={{margin: 10}} />
               <Text style={{fontSize: 18, textAlign: 'left'}}>{ this.props.username }</Text>
             </View>
             <TouchableOpacity onPress={ this.wishlist  }>
-              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
                 <Image source={require('../assets/ic_favorite_filled_3x.png')} style={{width: 24, height: 24,margin: 10}} />
                 <Text style={{fontSize: 18, textAlign: 'left'}}>Wishlist</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={ this.loadStyles }>
-              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
                 <Image source={require('../assets/beer-icon.png')} style={{width: 24, height: 24, margin: 10}}/>
                 <Text style={{fontSize: 18, textAlign: 'left'}}>Browse Beers</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={ this.signoutUser }>
-              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
                 <Image source={require('../assets/ic_account_circle_black_24dp_sm.png')} style={{margin: 10}}  />
                 <Text style={{fontSize: 18, textAlign: 'left'}}>Sign Out</Text>
               </View>
@@ -156,13 +156,14 @@ class BeerDetail extends React.Component {
           </View>
       </View>
     )
+
     let heartView = this.state.toggled ? (
         <TouchableOpacity onPress={ this.toggleWishlist } >
-          <Image source={require('../assets/ic_favorite_filled_3x.png') } style={{width: 72, height: 72}}/>
+          <Image source={require('../assets/ic_favorite_filled_3x.png') } style={{width: 72, height: 72, marginRight: 35}}/>
         </TouchableOpacity>
       ) : (
         <TouchableOpacity onPress={ this.toggleWishlist } >
-          <Image source={require('../assets/heart_empty.png') } style={{width: 72, height: 72}}/>
+          <Image source={require('../assets/heart_empty.png') } style={{width: 72, height: 72, marginRight: 35}}/>
         </TouchableOpacity>
       )
 
@@ -174,10 +175,9 @@ class BeerDetail extends React.Component {
         renderNavigationView={() => navigationView}>
         <ToolbarAndroid
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
-          actions={toolbarActions}
           onIconClicked={() => this.openDrawer() }
+          logo={require('../assets/logo_white_30.png')}
           style={styles.toolbar}
-          subtitle={this.state.actionText}
           onActionSelected={ this.onActionSelected } />
         <View style={styles.main}>
           <View style={styles.card}>
@@ -191,7 +191,7 @@ class BeerDetail extends React.Component {
           <View style={ styles.thumbs }>
               { heartView }
               <TouchableOpacity onPress={ this.cartClicked } >
-                <Image source={require('../assets/shopping_cart.png') } style={{width: 72, height: 72}}/>
+                <Image source={require('../assets/shopping_cart.png') } style={{width: 72, height: 72, marginLeft:35}}/>
               </TouchableOpacity >
           </View>
           <View style={ styles.footer }>
@@ -207,7 +207,8 @@ class BeerDetail extends React.Component {
 }
 
 const toolbarActions = [
-  {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
+  {title: 'BrowseBeers', icon: require('../assets/beer-icon.png'), show: 'always'},
+  {title: 'Wishlist', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
 ];
 
 const styles = StyleSheet.create({
@@ -235,32 +236,33 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: '#F5FCFF'
-  },
-  header: {
-    flex: .1,
-    justifyContent: 'center',
+    backgroundColor: '#ddd',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    justifyContent: 'space-around',
+    //backgroundColor: '#F5FCFF'
+  },
+  card: {
+    flex: 1,
+    justifyContent: 'center',
+    width: width*.85,
+    margin: 5,
+    //alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+  thumbs: {
+    flex: .2,
+    flexDirection: 'row',
+    margin: 10,
+    //width: width*.8,
+    //justifyContent: 'space-between'
   },
   divider: {
     flex: .1
   },
   footer: {
     flex: .1,
-  },
-  thumbs: {
-    flex: .2,
-    //width: width*.8,
-    flexDirection: 'row',
-    //alignItems: 'center',
-    justifyContent: 'space-around'
-  },
-  card: {
-    flex: .7,
-    justifyContent: 'center',
-    //alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   choose: {
     fontSize: 27,

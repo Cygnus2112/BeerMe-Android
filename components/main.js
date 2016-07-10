@@ -50,7 +50,7 @@ class Main extends React.Component {
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#ddd'
   },
   centering: {
     flex: 1,
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     flex: .2,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#ddd'
   },
   footer: {
     flex: .2
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#ddd',
   },
   welcome: {
     fontSize: 20,

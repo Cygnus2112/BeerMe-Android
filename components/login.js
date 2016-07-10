@@ -54,12 +54,6 @@ class Login extends React.Component {
   }
 
 	submitLogin(){
-    	// const username = this.refs.username;
-    	// const password = this.refs.password;
-    	// const userInfo = {
-     //  		username: username.value,
-     //  		password: password.value
-    	// };
       if(!this.state.username || !this.state.password){  
         this.setState({
           errorMsg: "Please fill out all fields"
@@ -83,15 +77,12 @@ class Login extends React.Component {
 	loadSignup() {
 		Actions.signup();
 	}
-        	// <View style={styles.header}>
-         //  		<Image source={require('../assets/logo.png')} style={{width: 294*.65, height: 70*.65}} />
-        	// </View>
-//style={{alignItems: 'flex-start'}}
+
 	render() {
 		return (
 		<View style={styles.main}>
         	<View style={styles.container}>
-        		<View >
+        		<View style={{margin: 10}}>
         			<Image source={require('../assets/logo.png')} />
         		</View>
           		<View style={{flexDirection: 'row',justifyContent: 'center'}}>
@@ -122,8 +113,8 @@ class Login extends React.Component {
           				{ "Don't" } have an account?
           			</Text>
           			<TouchableNativeFeedback onPress={ this.loadSignup } style={styles.button} >
-          				<View style={{flexDirection: 'row',justifyContent: 'center'}}>
-               				<Text style={styles.instructions} >
+          				<View style={ styles.header }>
+               				<Text style={styles.iambold} >
           					Sign up!
           					</Text>
           				</View>
@@ -134,28 +125,28 @@ class Login extends React.Component {
       	</View>)
 	}
 }
-
+//{flexDirection: 'row',justifyContent: 'center'}
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#ddd'
   },
   header: {
     flex: .1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#ddd'
   },
   footer: {
-    flex: .1
+    flex: .2,
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   container: {
-    //flex: .8,
-    flex: .9,
-    //flex: .6,
+    flex: .8,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#ddd',
   },
   error: {
     flex: .1,
@@ -175,10 +166,18 @@ const styles = StyleSheet.create({
   instructions: {
     textAlign: 'center',
     color: '#333333',
+    fontSize: 16,
+    marginBottom: 5
+  },
+  iambold: {
+    textAlign: 'center',
+    color: '#333333',
     marginBottom: 5,
+    fontSize: 16,
+    fontWeight: 'bold'
   },
   input: {
-    backgroundColor: '#dddddd', 
+    backgroundColor: 'white', 
     margin: 5, 
     padding: 10,
     height: 45, 

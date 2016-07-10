@@ -91,64 +91,14 @@ class Signup extends React.Component {
     }, 50);
   }
 
-
-	// render() {
-	// 	return (
-	// 	<View style={styles.main}>
- //        	<View style={styles.header}>
- //            <Image source={require('../assets/logo.png')} />
- //        	</View>
- //        	<View style={styles.container}>
- //              <View style={{flexDirection: 'row',justifyContent: 'center'}}>
- //                <TextInput placeholder="Email" style={styles.input} 
- //                  autoCorrect={false}
- //                  onChangeText={(email) => this.setState({email})}
- //                  value={this.state.email} />
- //              </View>
- //          		<View style={{flexDirection: 'row',justifyContent: 'center'}}>
- //            		<TextInput placeholder="Username" style={styles.input} 
- //            			onChangeText={(username) => this.setState({username})}
- //            			value={this.state.username} />
- //          		</View>
- //          		<View style={{flexDirection: 'row',justifyContent: 'center'}}>
- //            		<TextInput placeholder="Password" style={styles.input} 
- //                  secureTextEntry={true}
- //            			onChangeText={(password) => this.setState({password})}
- //            			value={this.state.password} />
- //          		</View>
- //          		<Button
- //          			containerStyle={ styles.buttonBox }
- //        			  style={{fontSize: 18, color: 'white'}}
- //        			  styleDisabled={{color: 'red'}}
- //        			  onPress={ this.submitSignup }>
- //        			  Sign up
- //      			  </Button>		
- //          		<View> 
- //          			<Text style={styles.instructions} >
- //          				Already have an account?
- //          			</Text>
- //          			<TouchableNativeFeedback onPress={ this.loadLogin } style={styles.button} >
- //                  <View style={{flexDirection: 'row',justifyContent: 'center'}}>
- //                    <Text style={styles.instructions} >
- //                    Sign {"in"}
- //                    </Text>
- //                  </View>
- //                </TouchableNativeFeedback>
- //          		</View>
-	// 		</View>
- //        	<View style={styles.footer} />
- //      	</View>)
-	// }
-  //style={styles.scrollView}
-  // <View style={styles.header}>
-  //           <Image source={require('../assets/logo.png')} />
-  //         </View>
     render() {
     return (
     <View style={styles.main}>
       <ScrollView ref='scrollView' style={styles.scrollView} keyboardDismissMode='interactive' contentContainerStyle={styles.contentContainerStyle}>        
-          <View style={styles.container} ref='input'>
+            <View style={{margin: 10, justifyContent: 'center', alignItems: 'center'}}>
                 <Image source={require('../assets/logo.png')} />
+                </View>
+            <View style={styles.container} ref='input'>
                 <View style={{flexDirection: 'row',justifyContent: 'center'}}>
                   <TextInput placeholder="Email" style={styles.input} 
                     ref='email'
@@ -192,8 +142,8 @@ class Signup extends React.Component {
                     Already have an account?
                   </Text>
                   <TouchableNativeFeedback onPress={ this.loadLogin } style={styles.button} >
-                    <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-                      <Text style={styles.instructions} >
+                    <View style={ styles.header }>
+                      <Text style={styles.iambold} >
                       Sign {"in"}
                       </Text>
                     </View>
@@ -212,16 +162,18 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
    // alignItems: 'flex-start',
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#ddd'
   },
   header: {
     flex: .1,
     //justifyContent: 'center',
     //alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#ddd'
   },
   footer: {
-    flex: .1,
+    flex: .2,
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   errorBox: {
     flex: .1,
@@ -246,7 +198,7 @@ const styles = StyleSheet.create({
     //flex: .5,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#ddd',
   },
   welcome: {
     fontSize: 20,
@@ -256,10 +208,18 @@ const styles = StyleSheet.create({
   instructions: {
     textAlign: 'center',
     color: '#333333',
+    fontSize: 16,
     marginBottom: 5,
   },
+  iambold: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
   input: {
-    backgroundColor: '#dddddd', 
+    backgroundColor: 'white', 
     margin: 3, 
     padding: 10,
     height: 45, 

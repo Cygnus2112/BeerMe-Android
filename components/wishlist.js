@@ -3,7 +3,6 @@ import React from 'react';
 import {
   ActivityIndicator,
   ListView,
-  Platform,
   StyleSheet,
   Text,
   View,
@@ -35,15 +34,14 @@ class Wishlist extends React.Component {
     this.wishlist = this.wishlist.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
     this.loadStyles = this.loadStyles.bind(this);
+    this.renderHeader = this.renderHeader.bind(this);
 
     let ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 != r2
     });
 
     this.state = {
-      //ds:[{name: "TeamA", HomeTeam: "TeamB", Selection: "AwayTeam"},{name: "TeamC", HomeTeam: "TeamD", Selection: "HomeTeam"}],
-      //ds: [],
-      dataSource: ds.cloneWithRows([])
+      dataSource: ds.cloneWithRows(this.props.wishlist)
     }
   }
 
@@ -51,6 +49,8 @@ class Wishlist extends React.Component {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(this.props.wishlist)
     })
+    const { updateWishlistSuccess} = this.props.wishlistActions;
+    updateWishlistSuccess();
   }
 
   componentWillReceiveProps(newProps){
@@ -58,6 +58,12 @@ class Wishlist extends React.Component {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(newProps.wishlist)
     })
+  }
+
+  renderHeader = () => {
+    return(
+      <View style={styles.header}><Text style={{textAlign: 'center', color: 'white', fontSize: 20, fontWeight: 'bold'}} >Wishlist</Text></View>
+      );
   }
 
   pressRow(rowData){
@@ -98,27 +104,27 @@ class Wishlist extends React.Component {
     let navigationView = (
       <View style={styles.main}>
           <View style={styles.drawer}>
-            <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#fff', padding: 5}}>
-              <Image source={require('../assets/logo.png')} style={{width: 294*.60, height: 70*.60}} />
+            <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#F5FCFF', padding: 5, borderBottomColor: '#b5b5b5', borderBottomWidth: 1, paddingTop: 15, paddingBottom: 15}}>
+              <Image source={require('../assets/logo_amber.png')} style={{width: 294*.60, height: 70*.60}} />
             </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+            <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
               <Image source={require('../assets/ic_person_black_24dp.png') } style={{margin: 10}} />
               <Text style={{fontSize: 18, textAlign: 'left'}}>{ this.props.username }</Text>
             </View>
             <TouchableOpacity onPress={ this.wishlist  }>
-              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
                 <Image source={require('../assets/ic_favorite_filled_3x.png')} style={{width: 24, height: 24,margin: 10}} />
                 <Text style={{fontSize: 18, textAlign: 'left'}}>Wishlist</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={ this.loadStyles }>
-              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
                 <Image source={require('../assets/beer-icon.png')} style={{width: 24, height: 24, margin: 10}}/>
                 <Text style={{fontSize: 18, textAlign: 'left'}}>Browse Beers</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={ this.signoutUser }>
-              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
                 <Image source={require('../assets/ic_account_circle_black_24dp_sm.png')} style={{margin: 10}}  />
                 <Text style={{fontSize: 18, textAlign: 'left'}}>Sign Out</Text>
               </View>
@@ -159,11 +165,12 @@ class Wishlist extends React.Component {
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
           style={styles.toolbar}
-          subtitle={this.state.actionText}
+          logo={require('../assets/logo_white_30.png')}
           onActionSelected={ this.onActionSelected } />
         <ScrollView>
         <ListView
           dataSource = {this.state.dataSource}
+          renderHeader={this.renderHeader}
           renderRow = {(selectedBeer, sectionID, rowID) => 
           <TouchableHighlight
             onPress={()=> Actions.beerdetail({ selectedBeer, rowID })}
@@ -178,41 +185,6 @@ class Wishlist extends React.Component {
 
         )
     }
-    // let wishlistView = this.props.isFetching ? (
-    //     <View style={styles.main}>
-    //       <ActivityIndicator
-    //         animating={ true }
-    //         style={[styles.centering, {height: 80}]}
-    //         size="large"/>
-    //     </View>
-
-    //   ) : (<ListView
-    //     dataSource = {this.state.dataSource}
-    //     renderRow = {(selectedBeer) => 
-    //       <TouchableHighlight
-    //         onPress={()=> Actions.beerdetail({ selectedBeer })}
-    //         underlayColor = '#ddd'>
-
-    //         <View style ={styles.row}>
-    //           <Text style={{fontSize:18}}>{selectedBeer.name} </Text>
-    //         </View>
-    //       </TouchableHighlight>} />);
-     // <ListView
-      //   dataSource = {this.state.dataSource}
-      //   renderRow = {(selectedBeer) => 
-      //     <TouchableHighlight
-      //       onPress={()=> Actions.beerdetail({ selectedBeer })}
-      //       underlayColor = '#ddd'>
-
-      //       <View style ={styles.row}>
-      //         <Text style={{fontSize:18}}>{selectedBeer.name} </Text>
-      //       </View>
-      //     </TouchableHighlight>} />
-    // return (
-    //   <View>
-    //   { wishlistView } 
-    //   </View>
-    //   );
   }
 
 }
@@ -222,10 +194,16 @@ const toolbarActions = [
 ];
 
 let styles = StyleSheet.create({
+  header: {
+    backgroundColor: 'brown',
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    height: 30
+  },
   toolbar: {
     backgroundColor: '#ffbf00',
-    height: 50,
     justifyContent: 'center',
+    height: 50
   },
   drawer: {
     flex: .7,
