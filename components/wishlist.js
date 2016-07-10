@@ -49,9 +49,9 @@ class Wishlist extends React.Component {
 
   componentDidMount(){
     this.setState({
-      //dataSource: this.state.dataSource.cloneWithRows(this.state.ds),
       dataSource: this.state.dataSource.cloneWithRows(this.props.wishlist)
     })
+    console.log('this.state.dataSource', this.state.dataSource);
 
   }
 
@@ -159,9 +159,9 @@ class Wishlist extends React.Component {
         <ScrollView>
         <ListView
           dataSource = {this.state.dataSource}
-          renderRow = {(selectedBeer) => 
+          renderRow = {(selectedBeer, sectionID, rowID) => 
           <TouchableHighlight
-            onPress={()=> Actions.beerdetail({ selectedBeer })}
+            onPress={()=> Actions.beerdetail({ selectedBeer, rowID })}
             underlayColor = '#ddd'>
 
             <View style ={styles.row}>

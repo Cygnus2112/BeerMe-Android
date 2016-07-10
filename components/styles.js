@@ -203,7 +203,8 @@ const toolbarActions = [
 
 const styles = StyleSheet.create({
   toolbar: {
-    backgroundColor: '#e9eaed',
+   // backgroundColor: '#e9eaed',
+    backgroundColor: '#ffbf00',
     height: 50,
     justifyContent: 'center',
 

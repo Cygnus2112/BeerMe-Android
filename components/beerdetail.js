@@ -32,61 +32,74 @@ class BeerDetail extends React.Component {
   constructor(props){
     super(props);
 
-    this.likeBeer = this.likeBeer.bind(this);
-    this.dislikeBeer = this.dislikeBeer.bind(this);
-
     this.onActionSelected = this.onActionSelected.bind(this);
     this.signoutUser = this.signoutUser.bind(this);
     this.wishlist = this.wishlist.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
     this.loadStyles = this.loadStyles.bind(this);
+    this.toggleWishlist = this.toggleWishlist.bind(this);
+    this.cartClicked = this.cartClicked.bind(this);
 
     this.state = {
+      toggled: true,
       actionMessage: "",
-    
-     
+      wishlistMessage: "Remove From Wishlist",
+      heartUri: '../assets/ic_favorite_filled_3x.png',
+      dislikeToAdd: null,
+      dislikeID: null
     }
   }
 
-  // componentWillUnmount() {
-
-  // }
-
-  // showProps = () => {
-  //   console.log('this.props.styleChoice ', this.props.styleChoice);
-  //   console.log('this.props.beerData in SWIPE ', this.props.beerData);
-  //   console.log('this.props.beerToView in SWIPE ', this.props.beerToView);
-  // }
-
-  likeBeer = (beer) => {
-    //console.log('beer in beerDetail ', beer);
-    // this.setState({
-    //   likeMessage: "You liked " + beer.name,
-    //   wishlistToAdd: this.state.wishlistToAdd.concat([beer])
-    // })
-
-    // setTimeout(() => {this.setState({
-    //   likeMessage: ""
-    // });}, 1000);
+  componentWillUnmount() {
+    const { removeWishlistItem } = this.props.wishlistActions;
+    if(this.state.dislikeToAdd) {
+      let a = {
+        "id": this.state.dislikeID,
+        "name": this.state.dislikeToAdd.name,
+        "style": this.state.dislikeToAdd.style,
+        "labelUrl": this.state.dislikeToAdd.label
+      }
+      removeWishlistItem ({
+        "username": this.props.username,
+        "wishlist": [a],
+        "dislikes": [a]
+      });
+    }
   }
 
-  dislikeBeer = (beer) => {
-
-  //   this.setState({
-  //     likeMessage: "You disliked " + beer.name,
-  //     dislikesToAdd: this.state.dislikesToAdd.concat([beer])
-  //   })
-
-  //   setTimeout(() => {this.setState({
-  //     likeMessage: ""
-  //   });}, 2000);
+  cartClicked = () => {
+    this.setState({
+      actionMessage: 'Shopping Feature Coming Soon!'
+    })
+    setTimeout(() => {this.setState({
+      actionMessage: ""
+    });}, 2000);
   }
 
-  // <View style={styles.header}>
-  //             <Image source={require('../assets/logo.png')} style={{width: 290*.50, height: 70*.50}} />
-  //         </View>
+  toggleWishlist = () => {
+    console.log('this.props.selectedBeer ', this.props.selectedBeer);
+    console.log('this.props.rowID ', this.props.rowID);
+    if(this.state.toggled){
+      this.setState({
+        actionMessage: 'Removed From Wishlist',
+        toggled: !this.state.toggled,
+        dislikeToAdd: this.props.selectedBeer,
+        dislikeID: this.props.rowID
+      })
+    } else {
+      this.setState({
+        actionMessage: 'Added to Wishlist',
+        toggled: !this.state.toggled,
+        dislikeToAdd: null,
+        dislikeID: null
+      })
+    }
+    setTimeout(() => {this.setState({
+      actionMessage: ""
+    });}, 2000);
+  }
 
-   onActionSelected = (position) => {
+  onActionSelected = (position) => {
     if (position === 0) { // index of 'Settings'
       //showSettings();
     }
@@ -144,7 +157,17 @@ class BeerDetail extends React.Component {
             </TouchableOpacity>
           </View>
       </View>
-    );
+    )
+    let heartView = this.state.toggled ? (
+        <TouchableOpacity onPress={ this.toggleWishlist } >
+          <Image source={require('../assets/ic_favorite_filled_3x.png') } style={{width: 72, height: 72}}/>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity onPress={ this.toggleWishlist } >
+          <Image source={require('../assets/heart_empty.png') } style={{width: 72, height: 72}}/>
+        </TouchableOpacity>
+      )
+
     return (
       <DrawerLayoutAndroid
         ref={'DRAWER'}
@@ -169,16 +192,14 @@ class BeerDetail extends React.Component {
               </Text>
           </View>
           <View style={ styles.thumbs }>
-              <TouchableOpacity onPress={ () => this.dislikeBeer(this.props.selectedBeer) } >
-                <Image source={require('../assets/heart_empty.png') } style={{width: 72, height: 72}}/>
-              </TouchableOpacity >
-              <TouchableOpacity onPress={ () => this.likeBeer(this.props.selectedBeer) } >
+              { heartView }
+              <TouchableOpacity onPress={ this.cartClicked } >
                 <Image source={require('../assets/shopping_cart.png') } style={{width: 72, height: 72}}/>
               </TouchableOpacity >
           </View>
           <View style={ styles.footer }>
             <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-                <Text style={styles.instructions} >
+                <Text style={styles.like} >
                   { this.state.actionMessage }
                 </Text>
             </View>
@@ -193,6 +214,17 @@ const toolbarActions = [
 ];
 
 const styles = StyleSheet.create({
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+  like: {
+    textAlign: 'center',
+    color: 'red',
+    marginBottom: 5,
+    fontSize: 18,
+  },
   toolbar: {
     backgroundColor: '#e9eaed',
     height: 50,

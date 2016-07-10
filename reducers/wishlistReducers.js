@@ -26,6 +26,18 @@ export default function beerReducer(state = initialState, action){
       return Object.assign({}, state, {
         isFetching: false,
       })
+    case ActionTypes.REMOVE_WISHLIST_ITEM_REQUEST:
+      return Object.assign({}, state, {
+        isUpdating: true,
+      })
+    case ActionTypes.REMOVE_WISHLIST_ITEM_SUCCESS:
+      let newWishlist = Object.assign({}, state.wishlist);
+      delete newWishlist[action.item.id];
+      console.log('newWishlist: ', newWishlist);
+      return Object.assign({}, state, {
+        isUpdating: false,
+        wishlist: newWishlist
+      })
     default:
       return state;
   }

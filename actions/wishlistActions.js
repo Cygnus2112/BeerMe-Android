@@ -9,6 +9,8 @@ export const LOAD_WISHLIST_REQUEST = 'LOAD_WISHLIST_REQUEST';
 export const LOAD_WISHLIST_SUCCESS = 'LOAD_WISHLIST_SUCCESS';
 export const UPDATE_WISHLIST_REQUEST = 'UPDATE_WISHLIST_REQUEST';
 export const UPDATE_WISHLIST_SUCCESS = 'UPDATE_WISHLIST_SUCCESS';
+export const REMOVE_WISHLIST_ITEM_REQUEST = 'REMOVE_WISHLIST_ITEM_REQUEST';
+export const REMOVE_WISHLIST_ITEM_SUCCESS = 'REMOVE_WISHLIST_ITEM_SUCCESS';
 
 export const loadWishlist = (userData) => {
   return dispatch => {
@@ -97,6 +99,63 @@ export const updateWishlist = (userData) => {
         }
     }).done();
   }
+}
+
+export const removeWishlistItem = (userData) => {
+  console.log('userData in updateWishlist ', userData);
+  return dispatch => {
+    dispatch(removeWishlistItemRequest());      // presents spinner
+
+    AsyncStorage.getItem("beerme-token").then((token) => {
+        if(token){
+            //console.log('token: ', token);
+            //dispatch(authSuccess());
+            return axios({
+              url: utils.wishlistURL,
+              method: 'put',
+              data: JSON.stringify({
+                username: userData.username,
+                wishlist: userData.wishlist,
+                dislikes: userData.dislikes
+              }),
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token': token  
+              },
+              timeout: 30000
+            }   
+        )
+        .then(response => {
+            console.log('initial response in wishlist UPDATE: ', response);
+            //return response.json();
+            return response;
+        })
+        .then(response => {
+            console.log('userData.wishlist[0] ', userData.wishlist[0]);
+            dispatch(removeWishlistItemSuccess(userData.wishlist[0]));
+        })
+        .catch(err => console.error('Error in UPDATEWishlist:', err));
+              
+        } else {
+            // dispatch(authFail());
+            Actions.login();
+        }
+    }).done();
+  }
+}
+
+const removeWishlistItemRequest = () => {
+  return {
+      type: REMOVE_WISHLIST_ITEM_REQUEST
+    }
+}
+
+const removeWishlistItemSuccess = (item) => {
+  return {
+      type: REMOVE_WISHLIST_ITEM_SUCCESS,
+      item: item
+    }
 }
 
 // export const updateWishlist = (userData) => {
