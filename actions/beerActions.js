@@ -61,16 +61,16 @@ const loadBeersSuccess = (beerData) => {
   }
 }
 
-const loadFrontBeerSuccess = () => {
-  return {
-    type: LOAD_FRONT_BEER
-  }
-}
-
 const loadBeersFailure = (errorMessage) => {
   return {
     type: LOAD_BEERS_FAILURE,
     errorMessage
+  }
+}
+
+const loadFrontBeerSuccess = () => {
+  return {
+    type: LOAD_FRONT_BEER
   }
 }
 

@@ -38,15 +38,11 @@ class Main extends React.Component {
 	render() {
 		return (
 		  <View style={styles.main}>
-        	<View style={styles.header}>
-          		<Image source={require('../assets/logo.png')} />
-        	</View>
-        	<View style={styles.container}>
-          		<Text style={styles.welcome}>
-            		THIS IS THE LOADING SCENE
-          		</Text>   
-			    </View>
-      <View style={styles.footer} />
+        <View style={styles.header} />
+          <View style={styles.container}>
+              <Image source={require('../assets/logo.png')} />
+          </View> 
+        <View style={styles.footer} />
     </View>)
 	}
 }
@@ -56,6 +52,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5FCFF'
   },
+  centering: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 8,
+  },
   header: {
     flex: .2,
     justifyContent: 'center',
@@ -63,10 +65,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF'
   },
   footer: {
-    flex: .1
+    flex: .2
   },
   container: {
-    flex: .7,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',

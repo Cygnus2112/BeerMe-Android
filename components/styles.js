@@ -65,10 +65,6 @@ class Styles extends React.Component {
     clearFrontBeer(); 
 
     this.fetchBeers(styleChoice); 
-    // this.setState({
-    //   showSwipeModal: true,
-    //   styleChoice: val
-    // })
   } 
 
   signoutUser = () => {
@@ -191,11 +187,6 @@ class Styles extends React.Component {
 // }
 }
 
-// <TouchableNativeFeedback onPress={ this.submitLogin } style={styles.button} >
-//                <View>
-//                    <Text >Button!</Text>
-//                </View>
-//              </TouchableNativeFeedback>
 
 const toolbarActions = [
   {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
@@ -207,7 +198,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffbf00',
     height: 50,
     justifyContent: 'center',
-
   },
   main: {
     flex: 1,

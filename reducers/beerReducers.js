@@ -9,9 +9,11 @@ export default function beerReducer(state = initialState, action){
   switch(action.type){
     case ActionTypes.LOAD_BEERS_REQUEST:
       return Object.assign({}, state, {
-        isSearching: true,
+        isSearching: true
       })
     case ActionTypes.LOAD_BEERS_SUCCESS:
+      console.log('incoming state in LOAD_BEERS_SUCCESS: ');
+      console.log(state);
       if(!state.beerToView.label) {
         return Object.assign({}, state, {
           isSearching: false,
@@ -32,7 +34,7 @@ export default function beerReducer(state = initialState, action){
       })
     case ActionTypes.LOAD_FRONT_BEER:
       return Object.assign({}, state, {
-        beerToView: state.beerData[0],
+        beerToView: state.beerData[0] || {},
         beerData: state.beerData.slice(1)
       })
 

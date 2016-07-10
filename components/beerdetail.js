@@ -77,8 +77,6 @@ class BeerDetail extends React.Component {
   }
 
   toggleWishlist = () => {
-    console.log('this.props.selectedBeer ', this.props.selectedBeer);
-    console.log('this.props.rowID ', this.props.rowID);
     if(this.state.toggled){
       this.setState({
         actionMessage: 'Removed From Wishlist',
@@ -176,7 +174,6 @@ class BeerDetail extends React.Component {
         renderNavigationView={() => navigationView}>
         <ToolbarAndroid
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
-          title="toolbar"
           actions={toolbarActions}
           onIconClicked={() => this.openDrawer() }
           style={styles.toolbar}
@@ -226,7 +223,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   toolbar: {
-    backgroundColor: '#e9eaed',
+    backgroundColor: '#ffbf00',
     height: 50,
     justifyContent: 'center',
   },

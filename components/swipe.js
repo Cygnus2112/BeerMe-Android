@@ -80,7 +80,7 @@ class Swipe extends React.Component {
       likeMessage: ""
     });}, 1000);
 
-    if(this.props.beerData.length < 5){
+    if(this.props.beerData.length < 5 && !this.props.isSearching){
       const { loadBeers } = this.props.beerActions;
       let userData = {
         username: this.props.username,
@@ -108,7 +108,7 @@ class Swipe extends React.Component {
       likeMessage: ""
     });}, 2000);
 
-    if(this.props.beerData.length < 5){
+    if(this.props.beerData.length < 5 && !this.props.isSearching){
       const { loadBeers } = this.props.beerActions;
       let userData = {
         username: this.props.username,
@@ -132,8 +132,24 @@ class Swipe extends React.Component {
 
   wishlist = () => {
     this.refs['DRAWER'].closeDrawer();
-    const { loadWishlist } = this.props.wishlistActions;
-    loadWishlist({"username": this.props.username});
+    const { clearBeerData } = this.props.beerActions;
+    clearBeerData();
+    const { updateWishlist } = this.props.wishlistActions;
+    if(this.state.wishlistToAdd.length || this.state.dislikesToAdd.length) {
+      updateWishlist({
+        "username": this.props.username,
+        "wishlistToAdd": this.state.wishlistToAdd,
+        "dislikesToAdd": this.state.dislikesToAdd
+      });
+    }
+    let loading = true;
+    while(loading) {
+      if(!this.props.isUpdating){
+        loading = false;
+        const { loadWishlist } = this.props.wishlistActions;
+        loadWishlist({"username": this.props.username});
+      }
+    }
   }
 
   loadStyles = () => {
@@ -179,7 +195,7 @@ class Swipe extends React.Component {
     );
 //          actions={toolbarActions}
 //          title="toolbar"
-    let swipeView = (this.props.isSearching && this.props.beerToView) ? (
+    let swipeView = (this.props.isSearching && (!this.props.beerToView || !this.props.beerToView.label)) ? (
       <View style={styles.main}>
         <ActivityIndicator
           animating={ true }
@@ -313,6 +329,7 @@ const mapStateToProps = (state) => {
     beerData: state.beerReducer.beerData,
     isSearching: state.beerReducer.isSearching,
     isFetching: state.wishlistReducer.isFetching,
+    isUpdating: state.wishlistReducer.isUpdating,
     wishlist: state.wishlistReducer.wishlist,
     dislikes: state.wishlistReducer.dislikes 
   }

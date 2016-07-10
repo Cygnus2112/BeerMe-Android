@@ -51,8 +51,13 @@ class Wishlist extends React.Component {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(this.props.wishlist)
     })
-    console.log('this.state.dataSource', this.state.dataSource);
+  }
 
+  componentWillReceiveProps(newProps){
+    console.log('componentWillReceiveProps called');
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(newProps.wishlist)
+    })
   }
 
   pressRow(rowData){
@@ -94,7 +99,7 @@ class Wishlist extends React.Component {
       <View style={styles.main}>
           <View style={styles.drawer}>
             <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#fff', padding: 5}}>
-              <Image source={require('../assets/logo.png')} style={{width: 294*.65, height: 70*.65}} />
+              <Image source={require('../assets/logo.png')} style={{width: 294*.60, height: 70*.60}} />
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
               <Image source={require('../assets/ic_person_black_24dp.png') } style={{margin: 10}} />
@@ -218,7 +223,7 @@ const toolbarActions = [
 
 let styles = StyleSheet.create({
   toolbar: {
-    backgroundColor: '#e9eaed',
+    backgroundColor: '#ffbf00',
     height: 50,
     justifyContent: 'center',
   },
@@ -260,6 +265,7 @@ let styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    isUpdating: state.wishlistReducer.isUpdating,
     isFetching: state.wishlistReducer.isFetching,
     username: state.authReducer.username,
     wishlist: state.wishlistReducer.wishlist,

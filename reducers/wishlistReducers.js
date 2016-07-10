@@ -20,11 +20,11 @@ export default function beerReducer(state = initialState, action){
       })
     case ActionTypes.UPDATE_WISHLIST_REQUEST:
       return Object.assign({}, state, {
-        isFetching: true,
+        isUpdating: true,
       })
     case ActionTypes.UPDATE_WISHLIST_SUCCESS:
       return Object.assign({}, state, {
-        isFetching: false,
+        isUpdating: false,
       })
     case ActionTypes.REMOVE_WISHLIST_ITEM_REQUEST:
       return Object.assign({}, state, {

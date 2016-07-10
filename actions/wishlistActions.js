@@ -59,7 +59,6 @@ const loadWishlistSuccess = (wishlistData) => {
 }
 
 export const updateWishlist = (userData) => {
-  console.log('userData in updateWishlist ', userData);
   return dispatch => {
     dispatch(updateWishlistRequest());      // presents spinner
 
@@ -84,7 +83,6 @@ export const updateWishlist = (userData) => {
             }   
         )
         .then(response => {
-            console.log('initial response in wishlist UPDATE: ', response);
             //return response.json();
             return response;
         })
@@ -102,7 +100,6 @@ export const updateWishlist = (userData) => {
 }
 
 export const removeWishlistItem = (userData) => {
-  console.log('userData in updateWishlist ', userData);
   return dispatch => {
     dispatch(removeWishlistItemRequest());      // presents spinner
 
@@ -127,7 +124,6 @@ export const removeWishlistItem = (userData) => {
             }   
         )
         .then(response => {
-            console.log('initial response in wishlist UPDATE: ', response);
             //return response.json();
             return response;
         })
