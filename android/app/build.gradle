@@ -84,7 +84,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.beermeandroid"
@@ -104,6 +104,11 @@ android {
             keyPassword MYAPP_RELEASE_KEY_PASSWORD
         }
     }
+
+    aaptOptions {
+        ignoreAssetsPattern "!node_modules_reactnativerouterflux_node_modules_reactnativeexperimentalnavigation_assets_backicon.png:!.ds_store"
+    }
+
     splits {
         abi {
             reset()
