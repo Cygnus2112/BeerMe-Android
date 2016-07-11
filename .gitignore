@@ -43,3 +43,8 @@ android/keystores/debug.keystore
 utils
 utils.js
 ./utils.js
+
+my-release-key.keystore
+my-release-key
+android/app/my-release-key.keystore
+android/app/my-release-key
