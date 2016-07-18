@@ -57,7 +57,10 @@ class BeerDetail extends React.Component {
         "id": this.state.dislikeID,
         "name": this.state.dislikeToAdd.name,
         "style": this.state.dislikeToAdd.style,
-        "labelUrl": this.state.dislikeToAdd.label
+        "labelUrl": this.state.dislikeToAdd.label,
+        "icon": this.state.dislikeToAdd.icon,
+        "descript": this.state.dislikeToAdd.descript,
+        "abv": this.state.dislikeToAdd.abv
       }
       removeWishlistItem ({
         "username": this.props.username,

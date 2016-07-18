@@ -48,3 +48,5 @@ my-release-key.keystore
 my-release-key
 android/app/my-release-key.keystore
 android/app/my-release-key
+android/gradle.properties
+gradle.properties

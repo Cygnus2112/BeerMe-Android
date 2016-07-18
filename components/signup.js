@@ -154,10 +154,8 @@ class Signup extends React.Component {
       </ScrollView>
     </View>)
   }
-
-
 }
-
+//{flexDirection: 'row',justifyContent: 'center'}}
 const styles = StyleSheet.create({
   main: {
     flex: 1,
