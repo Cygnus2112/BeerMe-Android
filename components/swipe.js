@@ -106,12 +106,15 @@ class Swipe extends React.Component {
     loadFrontBeer();
 
     this.setState({
-      likeMessage: "You liked " + beer.name,
+      likeMessage: "" + beer.name + " Added to Wishlist",
       wishlistToAdd: this.state.wishlistToAdd.concat([{
         "id": beer.id,
         "name": beer.name,
         "labelUrl": beer.label,
-        "style": beer.style
+        "style": beer.style,
+        "icon": beer.icon,
+        "abv": beer.abv,
+        "descript": beer.descript
       }])
     })
 
@@ -139,7 +142,10 @@ class Swipe extends React.Component {
         "id": beer.id,
         "name": beer.name,
         "labelUrl": beer.label,
-        "style": beer.style
+        "style": beer.style,
+        "icon": beer.icon,
+        "abv": beer.abv,
+        "descript": beer.descript
       }])
     })
 

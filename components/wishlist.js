@@ -155,6 +155,9 @@ class Wishlist extends React.Component {
 
         )
     } else {
+
+      let beerIcon;
+    
       return (
       <DrawerLayoutAndroid
         ref={'DRAWER'}
@@ -171,23 +174,44 @@ class Wishlist extends React.Component {
         <ListView
           dataSource = {this.state.dataSource}
           renderHeader={this.renderHeader}
-          renderRow = {(selectedBeer, sectionID, rowID) => 
+          renderRow = {(selectedBeer, sectionID, rowID) => {
+            console.log("selectedBeer.icon: ", selectedBeer.icon);
+
+                        {() => {
+                console.log("is this even being called???")  //     NOPE
+                beerIcon = selectedBeer.icon ? (
+                  <Image source={{uri: selectedBeer.icon}} style={{width: 24, height: 24}} />
+                ) : (
+                  null
+                );
+                return beerIcon;
+              }
+
+              }
+
+
+            return (
           <TouchableHighlight
-            onPress={()=> Actions.beerdetail({ selectedBeer, rowID })}
+            onPress={()=> {
+              console.log("beerIcon: ", beerIcon);
+              Actions.beerdetail({ selectedBeer, rowID })}
+            }
             underlayColor = '#ddd'>
 
             <View style ={styles.row}>
-              <Text style={{fontSize:18}}>{selectedBeer.name} </Text>
+              { () => beerIcon }
+              <Text style={{fontSize:18}}>{selectedBeer.name}</Text>
             </View>
-          </TouchableHighlight>} />
+          </TouchableHighlight>  ) }} />
           </ScrollView>
         </DrawerLayoutAndroid>
 
         )
     }
   }
-
 }
+
+ 
 
 const toolbarActions = [
   {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
