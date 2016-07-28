@@ -42,7 +42,9 @@ export const loadBeers = (userData={style: "Ale"}) => {				// remember to remove
           style: response[key].style,
           icon: response[key].icon,
           descript: response[key].descript,
-          abv: response[key].abv
+          abv: response[key].abv,
+          brewery: response[key].brewery,
+          website: response[key].website
         })
       }
       dispatch(loadBeersSuccess(beerArr));             

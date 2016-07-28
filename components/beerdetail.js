@@ -38,7 +38,8 @@ class BeerDetail extends React.Component {
     this.openDrawer = this.openDrawer.bind(this);
     this.loadStyles = this.loadStyles.bind(this);
     this.toggleWishlist = this.toggleWishlist.bind(this);
-    this.cartClicked = this.cartClicked.bind(this);
+    this.drizlyClicked = this.drizlyClicked.bind(this);
+    this.websiteClicked = this.websiteClicked.bind(this);
 
     this.state = {
       toggled: true,
@@ -60,7 +61,9 @@ class BeerDetail extends React.Component {
         "labelUrl": this.state.dislikeToAdd.label,
         "icon": this.state.dislikeToAdd.icon,
         "descript": this.state.dislikeToAdd.descript,
-        "abv": this.state.dislikeToAdd.abv
+        "abv": this.state.dislikeToAdd.abv,
+        "brewery": this.state.dislikeToAdd.brewery,
+        "website": this.state.dislikeToAdd.website
       }
       removeWishlistItem ({
         "username": this.props.username,
@@ -70,13 +73,23 @@ class BeerDetail extends React.Component {
     }
   }
 
-  cartClicked = () => {
+  drizlyClicked = () => {
     this.setState({
-      actionMessage: 'Shopping Feature Coming Soon!'
+      actionMessage: 'Drizly Feature Coming Soon!'
     })
     setTimeout(() => {this.setState({
       actionMessage: ""
     });}, 2000);
+  }
+
+  websiteClicked = () => {
+    Actions.webview({website: this.props.selectedBeer.website})
+    // this.setState({
+    //   actionMessage: this.props.selectedBeer.website
+    // })
+    // setTimeout(() => {this.setState({
+    //   actionMessage: ""
+    // });}, 2000);
   }
 
   toggleWishlist = () => {
@@ -162,14 +175,60 @@ class BeerDetail extends React.Component {
 
     let heartView = this.state.toggled ? (
         <TouchableOpacity onPress={ this.toggleWishlist } >
-          <Image source={require('../assets/ic_favorite_filled_3x.png') } style={{width: 72, height: 72, marginRight: 35}}/>
+          <Image source={require('../assets/ic_favorite_filled_3x.png') } style={{width: 60, height: 60, marginRight: 20}}/>
         </TouchableOpacity>
       ) : (
         <TouchableOpacity onPress={ this.toggleWishlist } >
-          <Image source={require('../assets/heart_empty.png') } style={{width: 72, height: 72, marginRight: 35}}/>
+          <Image source={require('../assets/heart_empty.png') } style={{width: 60, height: 60, marginRight: 20}}/>
         </TouchableOpacity>
       )
 
+    let beerTitle;
+
+    if(this.props.selectedBeer.name.length > 20) {
+      beerTitle = (
+        <View style={{flex: 5, flexDirection: 'column'}}>
+            <View style={{flex: 2, marginLeft:2}}>
+              <Text numberOfLines={2} style={styles.choose}>
+                { this.props.selectedBeer.name }
+              </Text>
+            </View>
+            <View style={{flex: .8, flexDirection: 'row',marginLeft:2, alignItems:'center'}}>
+              <Text style={styles.descript}>
+                { this.props.selectedBeer.brewery }
+              </Text>
+            </View>
+        </View>
+      )
+    } else {
+      beerTitle = (
+        <View style={{flex: 5, flexDirection: 'column'}}>
+          <View style={{flex: 2, marginLeft:2,justifyContent:'center'}}>
+              <Text numberOfLines={1} style={styles.choose}>
+                { this.props.selectedBeer.name }
+              </Text>
+          </View>
+          <View style={{flex: 1.5, flexDirection: 'row',marginLeft:2, alignItems:'flex-start'}}>
+              <Text style={styles.descript}>
+                { this.props.selectedBeer.brewery }
+              </Text>
+          </View>
+        </View>
+      )
+    }
+          // USE THE SAME STYLES.CARD SETTINGS BUT GET RID OF BORDER & COLOR
+                 // to deal with text overflow, one potential solution is to use the accordion plugin
+                 // chop the 'descript' string at a certain length, ie ... 
+                 //  let header = this.props.selectedBeer.descript.slice(0, 50)
+                 //  let len = this.props.selectedBeer.descript.length;
+                 //  let content = this.props.selectedBeer.descript.slice(51, len)
+                 //  <View style={{flexDirection: 'row',justifyContent: 'flex-start', marginLeft: 10}}>
+                 // </View>
+            // <View style={{flexDirection: 'column',justifyContent: 'flex-end',alignItems: 'flex-end', marginLeft: 10, borderColor: 'black',borderWidth: 1}}>
+            //     <Text style={styles.abv}>
+            //       ABV: {this.props.selectedBeer.abv}
+            //     </Text>
+            //   </View>
     return (
       <DrawerLayoutAndroid
         ref={'DRAWER'}
@@ -183,27 +242,46 @@ class BeerDetail extends React.Component {
           style={styles.toolbar}
           onActionSelected={ this.onActionSelected } />
         <View style={styles.main}>
-          <View style={styles.card}>
-              <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-                <Image source={{uri: this.props.selectedBeer.label}} style={{width: 256, height: 256}}/>
-              </View>
-              <Text style={styles.choose}>
-                {this.props.selectedBeer.name}
-              </Text>
-          </View>
-          <View style={ styles.thumbs }>
-              { heartView }
-              <TouchableOpacity onPress={ this.cartClicked } >
-                <Image source={require('../assets/shopping_cart.png') } style={{width: 72, height: 72, marginLeft:35}}/>
-              </TouchableOpacity >
-          </View>
-          <View style={ styles.footer }>
-            <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-                <Text style={styles.like} >
-                  { this.state.actionMessage }
-                </Text>
+            <View style={styles.card}>
+                <View style={{flex: 1, flexDirection: 'row',justifyContent: 'flex-start',borderBottomColor: 'black',borderBottomWidth: 1}}>
+                    <View style={{flex: 1.7, flexDirection: 'column',justifyContent: 'center',alignItems: 'center'}}>
+                        <Image source={{uri: this.props.selectedBeer.icon}} style={{width: 75, height: 75}}/>
+                    </View>  
+                    { beerTitle }
+                </View>
+                <View style={{flex: 3,flexDirection: 'column'}}>
+                    <View style={{flex:1,flexDirection: 'column', alignItems:'flex-end', marginLeft: 5, marginRight: 5}}>
+                      <Text numberOfLines={10} style={{margin:5}} >
+                          {this.props.selectedBeer.descript}
+                      </Text>
+                      <View style={{margin:5,flexDirection: 'column', borderColor: 'black',borderWidth: 1, height: 70, width:70,backgroundColor: '#ffbf00'}}>
+                        <Text style={styles.abv}>
+                            {this.props.selectedBeer.abv}
+                        </Text>
+                        <Text style={styles.abvtitle}>
+                            ABV
+                        </Text>
+                      </View>
+                    </View>
+              
+                </View>
+                <View style={ styles.icons }>
+                    { heartView }
+                    <TouchableOpacity onPress={ this.websiteClicked } >
+                        <Image source={require('../assets/ic_public_black_24dp.png') } style={{width: 60, height: 60, marginLeft:20, marginRight: 20}}/>
+                    </TouchableOpacity >
+                    <TouchableOpacity onPress={ this.drizlyClicked } >
+                          <Image source={require('../assets/drizly_logo.jpeg') } style={{width: 60, height: 60, marginLeft:20}}/>
+                    </TouchableOpacity >
+                </View>
             </View>
-          </View>
+            <View style={ styles.footer }>
+                <View style={{flexDirection: 'row',justifyContent: 'center'}}>
+                    <Text style={styles.like} >
+                      { this.state.actionMessage }
+                    </Text>
+                </View>
+            </View>
         </View>
       </DrawerLayoutAndroid>)
   }
@@ -247,19 +325,33 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     justifyContent: 'center',
-    width: width*.85,
+    width: width*.90,
     margin: 5,
     //alignItems: 'center',
     backgroundColor: '#F5FCFF',
     borderColor: 'black',
     borderWidth: 1,
   },
-  thumbs: {
-    flex: .2,
+  abvtitle: {
+    fontSize: 14,
+    textAlign: 'center',
+  },
+  abv: {
+    fontSize: 36,
+    textAlign: 'center',
+  },
+  descript: {
+    fontSize: 14,
+    textAlign: 'left',
+  },
+  icons: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
     flexDirection: 'row',
     margin: 10,
-    //width: width*.8,
-    //justifyContent: 'space-between'
+    borderColor: 'black',
+    borderWidth: 1,
   },
   divider: {
     flex: .1
@@ -268,10 +360,11 @@ const styles = StyleSheet.create({
     flex: .1,
   },
   choose: {
-    fontSize: 27,
-    textAlign: 'center',
+    fontSize: 22,
+    textAlign: 'left',
+    //flexWrap: 'wrap',
    // justifyContent: 'center',
-    margin: 10,
+   // margin: 10,
   }
 });
 
