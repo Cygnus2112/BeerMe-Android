@@ -114,7 +114,9 @@ class Swipe extends React.Component {
         "style": beer.style,
         "icon": beer.icon,
         "abv": beer.abv,
-        "descript": beer.descript
+        "descript": beer.descript,
+        "brewery": beer.brewery,
+        "website": beer.website
       }])
     })
 
@@ -145,7 +147,9 @@ class Swipe extends React.Component {
         "style": beer.style,
         "icon": beer.icon,
         "abv": beer.abv,
-        "descript": beer.descript
+        "descript": beer.descript,
+        "brewery": beer.brewery,
+        "website": beer.website
       }])
     })
 

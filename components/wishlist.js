@@ -54,7 +54,6 @@ class Wishlist extends React.Component {
   }
 
   componentWillReceiveProps(newProps){
-    console.log('componentWillReceiveProps called');
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(newProps.wishlist)
     })
@@ -157,7 +156,7 @@ class Wishlist extends React.Component {
     } else {
 
       let beerIcon;
-    
+       //         console.log("selectedBeer.icon: ", selectedBeer.icon);
       return (
       <DrawerLayoutAndroid
         ref={'DRAWER'}
@@ -175,7 +174,6 @@ class Wishlist extends React.Component {
           dataSource = {this.state.dataSource}
           renderHeader={this.renderHeader}
           renderRow = {(selectedBeer, sectionID, rowID) => {
-            console.log("selectedBeer.icon: ", selectedBeer.icon);
 
                         {() => {
                 console.log("is this even being called???")  //     NOPE
