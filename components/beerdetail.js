@@ -47,7 +47,8 @@ class BeerDetail extends React.Component {
       wishlistMessage: "Remove From Wishlist",
       heartUri: '../assets/ic_favorite_filled_3x.png',
       dislikeToAdd: null,
-      dislikeID: null
+      dislikeID: null,
+      avbColor: null,
     }
   }
 
@@ -84,12 +85,6 @@ class BeerDetail extends React.Component {
 
   websiteClicked = () => {
     Actions.webview({website: this.props.selectedBeer.website})
-    // this.setState({
-    //   actionMessage: this.props.selectedBeer.website
-    // })
-    // setTimeout(() => {this.setState({
-    //   actionMessage: ""
-    // });}, 2000);
   }
 
   toggleWishlist = () => {
@@ -183,52 +178,31 @@ class BeerDetail extends React.Component {
         </TouchableOpacity>
       )
 
-    let beerTitle;
+    let beerTitle = (
+        <View style={{flex: 5, flexDirection: 'column', justifyContent: 'space-around'}}>
+          <View style={{flex: 1, marginLeft:2,marginRight:2,marginBottom:2, flexDirection: 'column', justifyContent: 'space-around'}}>
+              <Text style={styles.choose}>
+                { this.props.selectedBeer.name }
+              </Text>
+              <Text style={styles.brewery}>
+                { this.props.selectedBeer.brewery }
+              </Text>
+              <Text style={{fontSize: 12,textAlign: 'left'}}>
+                { this.props.selectedBeer.style }
+              </Text>
+              <View style={{flexDirection: 'row',alignItems:'center'}}>
+                <Text style={{fontSize: 12,textAlign: 'left'}}>ABV: </Text>
+                  <View style={ styles.avbbox }>
+                        <Text style={styles.abv}>
+                            {this.props.selectedBeer.abv}%
+                        </Text>
+                  </View>
+              </View>
+          </View>
+     
+        </View>
+      )
 
-    if(this.props.selectedBeer.name.length > 20) {
-      beerTitle = (
-        <View style={{flex: 5, flexDirection: 'column'}}>
-            <View style={{flex: 2, marginLeft:2}}>
-              <Text numberOfLines={2} style={styles.choose}>
-                { this.props.selectedBeer.name }
-              </Text>
-            </View>
-            <View style={{flex: .8, flexDirection: 'row',marginLeft:2, alignItems:'center'}}>
-              <Text style={styles.descript}>
-                { this.props.selectedBeer.brewery }
-              </Text>
-            </View>
-        </View>
-      )
-    } else {
-      beerTitle = (
-        <View style={{flex: 5, flexDirection: 'column'}}>
-          <View style={{flex: 2, marginLeft:2,justifyContent:'center'}}>
-              <Text numberOfLines={1} style={styles.choose}>
-                { this.props.selectedBeer.name }
-              </Text>
-          </View>
-          <View style={{flex: 1.5, flexDirection: 'row',marginLeft:2, alignItems:'flex-start'}}>
-              <Text style={styles.descript}>
-                { this.props.selectedBeer.brewery }
-              </Text>
-          </View>
-        </View>
-      )
-    }
-          // USE THE SAME STYLES.CARD SETTINGS BUT GET RID OF BORDER & COLOR
-                 // to deal with text overflow, one potential solution is to use the accordion plugin
-                 // chop the 'descript' string at a certain length, ie ... 
-                 //  let header = this.props.selectedBeer.descript.slice(0, 50)
-                 //  let len = this.props.selectedBeer.descript.length;
-                 //  let content = this.props.selectedBeer.descript.slice(51, len)
-                 //  <View style={{flexDirection: 'row',justifyContent: 'flex-start', marginLeft: 10}}>
-                 // </View>
-            // <View style={{flexDirection: 'column',justifyContent: 'flex-end',alignItems: 'flex-end', marginLeft: 10, borderColor: 'black',borderWidth: 1}}>
-            //     <Text style={styles.abv}>
-            //       ABV: {this.props.selectedBeer.abv}
-            //     </Text>
-            //   </View>
     return (
       <DrawerLayoutAndroid
         ref={'DRAWER'}
@@ -243,27 +217,16 @@ class BeerDetail extends React.Component {
           onActionSelected={ this.onActionSelected } />
         <View style={styles.main}>
             <View style={styles.card}>
-                <View style={{flex: 1, flexDirection: 'row',justifyContent: 'flex-start',borderBottomColor: 'black',borderBottomWidth: 1}}>
-                    <View style={{flex: 1.7, flexDirection: 'column',justifyContent: 'center',alignItems: 'center'}}>
-                        <Image source={{uri: this.props.selectedBeer.icon}} style={{width: 75, height: 75}}/>
+                <View style={{marginTop:2, flex: 1.3, flexDirection: 'row',justifyContent: 'flex-start',borderBottomColor: 'black',borderBottomWidth: 5, backgroundColor: 'white'}}>
+                    <View style={{flex: 2, flexDirection: 'column',justifyContent: 'center',alignItems: 'center'}}>
+                        <Image source={{uri: this.props.selectedBeer.icon}} style={{width: 80, height: 80}}/>
                     </View>  
                     { beerTitle }
                 </View>
-                <View style={{flex: 3,flexDirection: 'column'}}>
-                    <View style={{flex:1,flexDirection: 'column', alignItems:'flex-end', marginLeft: 5, marginRight: 5}}>
-                      <Text numberOfLines={10} style={{margin:5}} >
+                <View style={{flex: 2.5,flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+                        <Text numberOfLines={12} style={{margin:10}} >
                           {this.props.selectedBeer.descript}
-                      </Text>
-                      <View style={{margin:5,flexDirection: 'column', borderColor: 'black',borderWidth: 1, height: 70, width:70,backgroundColor: '#ffbf00'}}>
-                        <Text style={styles.abv}>
-                            {this.props.selectedBeer.abv}
                         </Text>
-                        <Text style={styles.abvtitle}>
-                            ABV
-                        </Text>
-                      </View>
-                    </View>
-              
                 </View>
                 <View style={ styles.icons }>
                     { heartView }
@@ -314,31 +277,51 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     //alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    borderColor: 'black',
+    borderWidth: 2    
   },
   main: {
     flex: 1,
     backgroundColor: '#ddd',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    //justifyContent: 'space-around',
     //backgroundColor: '#F5FCFF'
   },
   card: {
     flex: 1,
-    justifyContent: 'center',
+ //   justifyContent: 'center',
     width: width*.90,
     margin: 5,
     //alignItems: 'center',
     backgroundColor: '#F5FCFF',
     borderColor: 'black',
-    borderWidth: 1,
+    borderWidth: 3,
+    borderRadius: 5,
   },
   abvtitle: {
-    fontSize: 14,
+    fontSize: 10,
     textAlign: 'center',
+   // lineHeight: 12
   },
   abv: {
-    fontSize: 36,
+    fontSize: 14,
     textAlign: 'center',
+    textAlignVertical: 'top',
+    fontWeight: 'bold',
+  },
+  avbbox: {
+    flexDirection: 'column', 
+    justifyContent:'flex-start',
+    alignItems: 'center', 
+    paddingLeft:3,
+    paddingRight:3, 
+    borderColor: 'black',
+    borderWidth: 1, 
+    backgroundColor: 'red'
+  },
+  brewery: {
+    fontSize: 14,
+    textAlign: 'left',
   },
   descript: {
     fontSize: 14,
@@ -352,6 +335,7 @@ const styles = StyleSheet.create({
     margin: 10,
     borderColor: 'black',
     borderWidth: 1,
+    backgroundColor: 'white'
   },
   divider: {
     flex: .1
@@ -362,9 +346,8 @@ const styles = StyleSheet.create({
   choose: {
     fontSize: 22,
     textAlign: 'left',
-    //flexWrap: 'wrap',
-   // justifyContent: 'center',
-   // margin: 10,
+    color:'black',
+    fontWeight: 'bold'
   }
 });
 

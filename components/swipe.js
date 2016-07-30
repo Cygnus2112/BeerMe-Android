@@ -298,7 +298,7 @@ class Swipe extends React.Component {
           onActionSelected={ this.onActionSelected } />
       <View style={styles.main} >
           <View style={styles.card}>
-              <View style={{flexDirection: 'row',justifyContent: 'center'}}>
+              <View style={{flexDirection: 'row',justifyContent: 'center', borderColor: 'black', borderWidth: 1, width: 258, height: 258}}>
                 <Image source={{uri: this.props.beerToView.label}} style={{width: 256, height: 256}}/>
               </View>
               <Text style={styles.choose}>
@@ -365,13 +365,15 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    justifyContent: 'center',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
     width: width*.85,
     margin: 5,
-    //alignItems: 'center',
+    alignItems: 'center',
     backgroundColor: '#F5FCFF',
     borderColor: 'black',
-    borderWidth: 1,
+    borderWidth: 2,
+    borderRadius: 5
   },
   thumbs: {
     flex: .2,
