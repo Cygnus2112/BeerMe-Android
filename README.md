@@ -1,7 +1,12 @@
 # BeerMe! for Android
-The award winning iOS beer discovery app, now available on Android!
+The award-winning iOS beer discovery app, now available on Android!
 
 Swipe your way to craft-beer nirvana with BeerMe!, a fun way to expand your beer-drinking palette. (This just the front end, and is meant to be paired with the existing [BeerMe!](https://github.com/Cygnus2112/BeerMe) back end.)
+
+####How It Works
+
+Log in, choose a style, and swipe through a continuously reloading assortment of beers chosen at random. 
+![beerme_android_pics](assets/beerme_android_pics.png)
 
 The BeerMe! for Android tech stack includes the following languages and frameworks...
 
