@@ -28,6 +28,9 @@ import * as authActions from '../actions/authActions';
 import { Actions } from 'react-native-router-flux';
 let width = Dimensions.get('window').width;
 
+
+import Drawer from './drawer'
+
 class BeerDetail extends React.Component {
   constructor(props){
     super(props);
@@ -42,35 +45,58 @@ class BeerDetail extends React.Component {
     this.websiteClicked = this.websiteClicked.bind(this);
 
     this.state = {
-      toggled: true,
+      toggled: this.props.isAlreadyInWishlist,
       actionMessage: "",
       wishlistMessage: "Remove From Wishlist",
       heartUri: '../assets/ic_favorite_filled_3x.png',
-      dislikeToAdd: null,
-      dislikeID: null,
-      avbColor: null,
+      //dislikeToAdd: null,
+      //dislikeID: null
     }
   }
 
   componentWillUnmount() {
     const { removeWishlistItem } = this.props.wishlistActions;
-    if(this.state.dislikeToAdd) {
+    //if(this.state.dislikeToAdd) {
+    if(!this.state.toggled && this.props.isAlreadyInWishlist) {
       let a = {
-        "id": this.state.dislikeID,
-        "name": this.state.dislikeToAdd.name,
-        "style": this.state.dislikeToAdd.style,
-        "labelUrl": this.state.dislikeToAdd.label,
-        "icon": this.state.dislikeToAdd.icon,
-        "descript": this.state.dislikeToAdd.descript,
-        "abv": this.state.dislikeToAdd.abv,
-        "brewery": this.state.dislikeToAdd.brewery,
-        "website": this.state.dislikeToAdd.website
+        "id": this.props.rowID,
+        "name": this.props.selectedBeer.name,
+        "style": this.props.selectedBeer.style,
+        "labelUrl": this.props.selectedBeer.label,
+        "icon": this.props.selectedBeer.icon,
+        "descript": this.props.selectedBeer.descript,
+        "abv": this.props.selectedBeer.abv,
+        "brewery": this.props.selectedBeer.brewery,
+        "website": this.props.selectedBeer.website
       }
       removeWishlistItem ({
         "username": this.props.username,
         "wishlist": [a],
         "dislikes": [a]
       });
+    }
+    if(this.state.toggled && !this.props.isAlreadyInWishlist){
+      //add to wishlist
+      const { updateWishlist } = this.props.wishlistActions;
+      let a = {
+        "id": this.props.rowID,
+        "name": this.props.selectedBeer.name,
+        "style": this.props.selectedBeer.style,
+        "labelUrl": this.props.selectedBeer.label,
+        "icon": this.props.selectedBeer.icon,
+        "descript": this.props.selectedBeer.descript,
+        "abv": this.props.selectedBeer.abv,
+        "brewery": this.props.selectedBeer.brewery,
+        "website": this.props.selectedBeer.website
+      }
+
+      updateWishlist({
+        "username": this.props.username,
+        "wishlistToAdd": [a],
+        "dislikesToAdd": []
+      });
+    
+
     }
   }
 
@@ -92,15 +118,15 @@ class BeerDetail extends React.Component {
       this.setState({
         actionMessage: 'Removed From Wishlist',
         toggled: !this.state.toggled,
-        dislikeToAdd: this.props.selectedBeer,
-        dislikeID: this.props.rowID
+       // dislikeToAdd: this.props.selectedBeer,
+      //  dislikeID: this.props.rowID
       })
     } else {
       this.setState({
         actionMessage: 'Added to Wishlist',
         toggled: !this.state.toggled,
-        dislikeToAdd: null,
-        dislikeID: null
+      //  dislikeToAdd: null,
+      //  dislikeID: null
       })
     }
     setTimeout(() => {this.setState({
@@ -137,7 +163,7 @@ class BeerDetail extends React.Component {
 
   render() {
     let navigationView = (
-      <View style={styles.main}>
+      <View style={styles.drawermain}>
           <View style={styles.drawer}>
             <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#F5FCFF', padding: 5, borderBottomColor: '#b5b5b5', borderBottomWidth: 1, paddingTop: 15, paddingBottom: 15}}>
               <Image source={require('../assets/logo_amber.png')} style={{width: 294*.65, height: 70*.65}} />
@@ -168,7 +194,8 @@ class BeerDetail extends React.Component {
       </View>
     )
 
-    let heartView = this.state.toggled ? (
+    //let heartView = this.state.toggled ? (
+      let heartView = this.state.toggled ? (
         <TouchableOpacity onPress={ this.toggleWishlist } >
           <Image source={require('../assets/ic_favorite_filled_3x.png') } style={{width: 60, height: 60, marginRight: 20}}/>
         </TouchableOpacity>
@@ -177,6 +204,20 @@ class BeerDetail extends React.Component {
           <Image source={require('../assets/heart_empty.png') } style={{width: 60, height: 60, marginRight: 20}}/>
         </TouchableOpacity>
       )
+
+      let abvColor;
+
+    if(this.props.selectedBeer.abv < 4) {
+        abvColor='#ffff00';
+    } else if(this.props.selectedBeer.abv >= 4 && this.props.selectedBeer.abv < 5.7) {
+        abvColor= '#ffcc00'
+    } else if(this.props.selectedBeer.abv >= 5.7 && this.props.selectedBeer.abv < 7.4) {
+        abvColor= '#ff9900'
+    } else if(this.props.selectedBeer.abv >= 7.4 && this.props.selectedBeer.abv < 9) {
+        abvColor= '#ff6600'
+    } else {
+        abvColor= '#ff3300'
+    }
 
     let beerTitle = (
         <View style={{flex: 5, flexDirection: 'column', justifyContent: 'space-around'}}>
@@ -192,7 +233,7 @@ class BeerDetail extends React.Component {
               </Text>
               <View style={{flexDirection: 'row',alignItems:'center'}}>
                 <Text style={{fontSize: 12,textAlign: 'left'}}>ABV: </Text>
-                  <View style={ styles.avbbox }>
+                  <View style={{ flexDirection: 'column', justifyContent:'flex-start',alignItems: 'center', paddingLeft:3, paddingRight:3, borderColor: 'black',borderWidth: 1, backgroundColor: abvColor}}>
                         <Text style={styles.abv}>
                             {this.props.selectedBeer.abv}%
                         </Text>
@@ -202,7 +243,7 @@ class BeerDetail extends React.Component {
      
         </View>
       )
-
+//navigationView
     return (
       <DrawerLayoutAndroid
         ref={'DRAWER'}
@@ -280,12 +321,21 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 2    
   },
+  drawermain: {
+    flex: 1,
+    backgroundColor: '#ddd',
+    alignItems: 'center',
+    //justifyContent: 'space-around',
+    //backgroundColor: '#F5FCFF'
+  },
   main: {
     flex: 1,
     backgroundColor: '#ddd',
     alignItems: 'center',
     //justifyContent: 'space-around',
     //backgroundColor: '#F5FCFF'
+    borderTopWidth: 1,
+    borderTopColor: 'white'
   },
   card: {
     flex: 1,

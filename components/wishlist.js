@@ -174,30 +174,16 @@ class Wishlist extends React.Component {
           dataSource = {this.state.dataSource}
           renderHeader={this.renderHeader}
           renderRow = {(selectedBeer, sectionID, rowID) => {
-
-                        {() => {
-                console.log("is this even being called???")  //     NOPE
-                beerIcon = selectedBeer.icon ? (
-                  <Image source={{uri: selectedBeer.icon}} style={{width: 24, height: 24}} />
-                ) : (
-                  null
-                );
-                return beerIcon;
-              }
-
-              }
-
-
             return (
           <TouchableHighlight
             onPress={()=> {
               console.log("beerIcon: ", beerIcon);
-              Actions.beerdetail({ selectedBeer, rowID })}
+              Actions.beerdetail({ selectedBeer: selectedBeer, rowID: rowID, isAlreadyInWishlist: true })}
             }
             underlayColor = '#ddd'>
 
             <View style ={styles.row}>
-              { () => beerIcon }
+              <Image source={{uri: selectedBeer.icon}} style={{height:34, width:34, borderColor: 'black', borderWidth: 1, marginLeft: 5, marginRight:5}} />
               <Text style={{fontSize:18}}>{selectedBeer.name}</Text>
             </View>
           </TouchableHighlight>  ) }} />
@@ -251,7 +237,9 @@ let styles = StyleSheet.create({
   row:{
     flex:1,
     flexDirection:'row',
-    padding:10,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    padding:5,
     borderBottomWidth: 1,
     borderColor: '#d7d7d7',
   },
