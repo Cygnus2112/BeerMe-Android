@@ -335,7 +335,8 @@ const styles = StyleSheet.create({
     //justifyContent: 'space-around',
     //backgroundColor: '#F5FCFF'
     borderTopWidth: 1,
-    borderTopColor: 'white'
+    borderTopColor: 'white',
+    paddingTop: 20
   },
   card: {
     flex: 1,

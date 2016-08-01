@@ -171,7 +171,7 @@ class Swipe extends React.Component {
 
   render() {
     let navigationView = (
-      <View style={styles.main}>
+      <View style={styles.maindrawer}>
           <View style={styles.drawer}>
             <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#F5FCFF', padding: 5, borderBottomColor: '#b5b5b5', borderBottomWidth: 1, paddingTop: 15, paddingBottom: 15}}>
               <Image source={require('../assets/logo_amber.png')} style={{width: 294*.65, height: 70*.65}} />
@@ -338,7 +338,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     //backgroundColor: '#F5FCFF'
     borderTopWidth: 1,
-    borderTopColor: 'white'
+    borderTopColor: 'white',
+    paddingTop: 20
+  },
+  maindrawer: {
+    flex: 1,
+    backgroundColor: '#ddd',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    //backgroundColor: '#F5FCFF'
+    borderColor: 'black',
+    borderWidth: 2
   },
   card: {
     flex: 1,
