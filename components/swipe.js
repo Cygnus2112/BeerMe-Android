@@ -34,7 +34,7 @@ class Swipe extends React.Component {
     this.likeBeer = this.likeBeer.bind(this);
     this.dislikeBeer = this.dislikeBeer.bind(this);
 
-    this.onActionSelected = this.onActionSelected.bind(this);
+   // this.onActionSelected = this.onActionSelected.bind(this);
     this.signoutUser = this.signoutUser.bind(this);
     this.wishlist = this.wishlist.bind(this);
     this.loadStyles = this.loadStyles.bind(this);
@@ -87,7 +87,6 @@ class Swipe extends React.Component {
     })
  
     while(loading) {
-      console.log('in while loop');
       if(this.props.isUpdating === false){
 
         const { updateWishlistRequest } = this.props.wishlistActions;
@@ -95,8 +94,7 @@ class Swipe extends React.Component {
         const { loadWishlist } = this.props.wishlistActions;
        // loadWishlist({"username": this.props.username});
         setTimeout(() => loadWishlist({"username": this.props.username}), 500);
-        //setTimeout(() => this.setState({isLoadingWishlist: false}), 1000);
-      loading = false;
+        loading = false;
       }
     }
   }
@@ -104,29 +102,8 @@ class Swipe extends React.Component {
   likeBeer = (beer) => {
     Actions.beerdetail({selectedBeer: beer, rowID: beer.id, isAlreadyInWishlist: false});
 
-
-
     const { loadFrontBeer } = this.props.beerActions;
     setTimeout(loadFrontBeer, 200);
-
-    // this.setState({
-    //   likeMessage: "" + beer.name + " Added to Wishlist",
-    //   wishlistToAdd: this.state.wishlistToAdd.concat([{
-    //     "id": beer.id,
-    //     "name": beer.name,
-    //     "labelUrl": beer.label,
-    //     "style": beer.style,
-    //     "icon": beer.icon,
-    //     "abv": beer.abv,
-    //     "descript": beer.descript,
-    //     "brewery": beer.brewery,
-    //     "website": beer.website
-    //   }])
-    // })
-
-    // setTimeout(() => {this.setState({
-    //   likeMessage: ""
-    // });}, 1000);
 
     if(this.props.beerData.length < 5 && !this.props.isSearching){
       const { loadBeers } = this.props.beerActions;
@@ -171,11 +148,11 @@ class Swipe extends React.Component {
     }
   }
 
-  onActionSelected = (position) => {
-    if (position === 0) { // index of 'Settings'
-      //showSettings();
-    }
-  }
+  // onActionSelected = (position) => {
+  //   if (position === 0) { // index of 'Settings'
+  //     //showSettings();
+  //   }
+  // }
 
   signoutUser = () => {
     this.refs['DRAWER'].closeDrawer();
@@ -224,58 +201,6 @@ class Swipe extends React.Component {
           </View>
       </View>
     );
-//          actions={toolbarActions}
-//          title="toolbar"
-    // let swipeView = (this.props.isSearching && (!this.props.beerToView || !this.props.beerToView.label)) ? (
-    //   <View style={styles.main}>
-    //     <ActivityIndicator
-    //       animating={ true }
-    //       style={[styles.centering, {height: 80}]}
-    //       size="large"/>
-    //   </View>
-    //   ) : (
-    //   <DrawerLayoutAndroid
-    //     ref={'DRAWER'}
-    //     drawerWidth={200}
-    //     drawerPosition={DrawerLayoutAndroid.positions.Left}
-    //     renderNavigationView={() => navigationView}>
-    //     <ToolbarAndroid
-    //       navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
-    //       onIconClicked={() => this.openDrawer() }
-    //       logo={require('../assets/logo_white_30.png')}
-    //       style={styles.toolbar}
-    //       onActionSelected={ this.onActionSelected } />
-    //   <View >
-    //       <View style={styles.card}>
-    //           <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-    //             <Image source={{uri: this.props.beerToView.label}} style={{width: 256, height: 256}}/>
-    //           </View>
-    //           <Text style={styles.choose}>
-    //             {this.props.beerToView.name}
-    //           </Text>
-    //       </View>
-    //       <View style={ styles.thumbs }>
-    //           <TouchableOpacity onPress={ () => this.dislikeBeer(this.props.beerToView) } >
-    //             <Image source={require('../assets/thumbdown.png') } style={{width: 72, height: 72}}/>
-    //           </TouchableOpacity >
-    //           <TouchableOpacity onPress={ () => this.likeBeer(this.props.beerToView) } >
-    //             <Image source={require('../assets/thumbup.png') } style={{width: 72, height: 72}}/>
-    //           </TouchableOpacity >
-    //       </View>
-    //       <View style={ styles.footer }>
-    //         <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-    //             <Text style={styles.like } >
-    //               { this.state.likeMessage }
-    //             </Text>
-    //         </View>
-    //       </View>
-    //     </View>
-    //   </DrawerLayoutAndroid>
-    //   );
-    // return (
-    //   <View  style={styles.main}>
-    //     { swipeView }  
-    //   </View>)
 
     if(this.props.isSearching && !this.props.beerToView.label) {
       return (
@@ -291,8 +216,8 @@ class Swipe extends React.Component {
           style={styles.toolbar}
           onActionSelected={ this.onActionSelected } />
         <View style={styles.loading}>
-          <View style={{flex:.5, justifyContent:'center',alignItems:'flex-end'}}>
-            <Text style={{fontSize: 27, fontWeight:'bold', textAlign: 'center'}}>Fetching beers...</Text>
+          <View style={{flex:.5,flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
+            <Text style={{fontSize: 27, textAlign: 'center'}}>Fetching beers...</Text>
           </View>
           <ActivityIndicator
             animating={ true }
@@ -315,8 +240,8 @@ class Swipe extends React.Component {
           style={styles.toolbar}
           onActionSelected={ this.onActionSelected } />
         <View style={styles.loading}>
-          <View style={{flex:.5, justifyContent:'center',alignItems:'flex-end'}}>
-            <Text style={{fontSize: 27, fontWeight:'bold', textAlign: 'center'}}>Loading wishlist...</Text>
+          <View style={{flex:.5, flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
+            <Text style={{fontSize: 27, textAlign: 'center'}}>Loading wishlist...</Text>
           </View>
           <ActivityIndicator
             animating={ true }
@@ -370,9 +295,9 @@ class Swipe extends React.Component {
 
 }
 
-const toolbarActions = [
-  {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
-];
+// const toolbarActions = [
+//   {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
+// ];
 
 const styles = StyleSheet.create({
   toolbar: {
@@ -396,7 +321,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 8,
+    padding: 2,
   },
   loading: {
     flex: 1,

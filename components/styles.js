@@ -39,13 +39,14 @@ class Styles extends React.Component {
     this.signoutUser = this.signoutUser.bind(this);
     this.wishlist = this.wishlist.bind(this);
 
-    this.onActionSelected = this.onActionSelected.bind(this);
+   // this.onActionSelected = this.onActionSelected.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
     this.loadStyles = this.loadStyles.bind(this);
 
     this.state = {
       styleChoice: "",
-      actionText: ""
+      actionText: "",
+      isLoadingWishlist: false
     }
   }
 
@@ -53,7 +54,6 @@ class Styles extends React.Component {
     const { loadBeers } = this.props.beerActions;
     let userData = {
       username: this.props.username,
-      //style: style || this.props.styleChoice
       style: style                                 
     }
     loadBeers(userData); 
@@ -74,6 +74,9 @@ class Styles extends React.Component {
   }
 
   wishlist = () => {
+    this.setState({
+      isLoadingWishlist: true
+    })
     this.refs['DRAWER'].closeDrawer();
     const { loadWishlist } = this.props.wishlistActions;
     loadWishlist({"username": this.props.username});
@@ -84,11 +87,11 @@ class Styles extends React.Component {
     Actions.styles();
   }
 
-  onActionSelected = (position) => {
-    if (position === 0) { // index of 'Settings'
-      //showSettings();
-    }
-  }
+  // onActionSelected = (position) => {
+  //   if (position === 0) { // index of 'Settings'
+  //     //showSettings();
+  //   }
+  // }
 
   openDrawer = () => {
     this.refs['DRAWER'].openDrawer()
@@ -126,6 +129,33 @@ class Styles extends React.Component {
           </View>
       </View>
     );
+
+    if (this.state.isLoadingWishlist) {
+       return (
+      <DrawerLayoutAndroid
+        ref={'DRAWER'}
+        drawerWidth={200}
+        drawerPosition={DrawerLayoutAndroid.positions.Left}
+        renderNavigationView={() => navigationView}>
+        <ToolbarAndroid
+          navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
+          onIconClicked={() => this.openDrawer() }
+          logo={require('../assets/logo_white_30.png')}
+          style={styles.toolbar}
+          onActionSelected={ this.onActionSelected } />
+        <View style={styles.loading}>
+          <View style={{flex:.5, flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
+            <Text style={{fontSize: 27, textAlign: 'center'}}>Loading wishlist...</Text>
+          </View>
+          <ActivityIndicator
+            animating={ true }
+            style={[styles.centering, {height: 80}]}
+            size="large"/>
+        </View>
+      </DrawerLayoutAndroid>
+        )
+    } else {
+
     return (
       <DrawerLayoutAndroid
         ref={'DRAWER'}
@@ -164,33 +194,13 @@ class Styles extends React.Component {
           <View style={styles.footer} />
         </View>
     </DrawerLayoutAndroid>)
+    }
   }
-//  render() {
-//   let navigationView = (
-//     <View style={{flex: 1, backgroundColor: '#fff'}}>
-//       <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>{"I'm in the Drawer!"}</Text>
-//     </View>
-//   );
-//   return (
-//     <DrawerLayoutAndroid
-//       drawerWidth={200}
-//       drawerPosition={DrawerLayoutAndroid.positions.Left}
-//       renderNavigationView={() => navigationView}>
-
-//       <View style={{flex: 1, alignItems: 'center'}}>
-//         <Text style={{margin: 10, fontSize: 15, textAlign: 'right'}}>Hello</Text>
-//         <Text style={{margin: 10, fontSize: 15, textAlign: 'right'}}>World!</Text>
-//       </View>
-
-//     </DrawerLayoutAndroid>
-//   );
-// }
 }
 
-
-const toolbarActions = [
-  {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
-];
+// const toolbarActions = [
+//   {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
+// ];
 
 const styles = StyleSheet.create({
   toolbar: {
@@ -198,6 +208,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffbf00',
     height: 50,
     justifyContent: 'center',
+  },
+  loading: {
+    flex: 1,
+    backgroundColor: '#ddd',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    //backgroundColor: '#F5FCFF'
+  },
+  centering: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 2,
   },
   main: {
     flex: 1,
