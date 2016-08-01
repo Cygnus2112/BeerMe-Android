@@ -226,6 +226,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     //alignItems: 'center',
     //backgroundColor: '#F5FCFF',
+    borderTopWidth: 1,
+    borderTopColor: 'white'
   },
   choose: {
     fontSize: 27,

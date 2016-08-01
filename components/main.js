@@ -40,7 +40,7 @@ class Main extends React.Component {
 		  <View style={styles.main}>
         <View style={styles.header} />
           <View style={styles.container}>
-              <Image source={require('../assets/logo.png')} />
+              <Image source={require('../assets/logo_outline.png')} />
           </View> 
         <View style={styles.footer} />
     </View>)
