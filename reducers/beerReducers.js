@@ -12,8 +12,6 @@ export default function beerReducer(state = initialState, action){
         isSearching: true
       })
     case ActionTypes.LOAD_BEERS_SUCCESS:
-      console.log('incoming state in LOAD_BEERS_SUCCESS: ');
-      console.log(state);
       if(!state.beerToView.label) {
         return Object.assign({}, state, {
           isSearching: false,
