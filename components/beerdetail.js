@@ -55,6 +55,13 @@ class BeerDetail extends React.Component {
   }
 
   componentWillUnmount() {
+    console.log("componentWillUnmount called in BEERDETAIL");
+    // temp solution to load front beer when back button pressed to return to swipe
+
+    // if(this.props.beerData.length) {
+    //   const { loadFrontBeer } = this.props.beerActions;
+    // }
+
     const { removeWishlistItem } = this.props.wishlistActions;
     //if(this.state.dislikeToAdd) {
     if(!this.state.toggled && this.props.isAlreadyInWishlist) {
@@ -95,8 +102,6 @@ class BeerDetail extends React.Component {
         "wishlistToAdd": [a],
         "dislikesToAdd": []
       });
-    
-
     }
   }
 
@@ -405,12 +410,14 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = (dispatch) => {
   return {
     authActions: bindActionCreators(authActions, dispatch),
-    wishlistActions: bindActionCreators(wishlistActions, dispatch)
+    wishlistActions: bindActionCreators(wishlistActions, dispatch),
+    beerActions: bindActionCreators(beerActions, dispatch)
   }
 }
 
 const mapStateToProps = (state) => {
   return {
+    beerData: state.beerReducer.beerData,
     username: state.authReducer.username,
     wishlist: state.wishlistReducer.wishlist,
     dislikes: state.wishlistReducer.dislikes 

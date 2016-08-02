@@ -13,7 +13,9 @@ import {
   AsyncStorage,
   TouchableOpacity,
   DrawerLayoutAndroid,
-  ToolbarAndroid
+  ToolbarAndroid,
+  Animated,
+  PanResponder
 } from 'react-native';
 
 /* Redux stuff...      */
@@ -26,6 +28,9 @@ import * as authActions from '../actions/authActions';
 
 import { Actions } from 'react-native-router-flux';
 let width = Dimensions.get('window').width;
+
+import clamp from 'clamp';
+const SWIPE_THRESHOLD = 120;
 
 class Swipe extends React.Component {
   constructor(props){
@@ -45,9 +50,81 @@ class Swipe extends React.Component {
       wishlistToAdd: [],
       dislikesToAdd: [],
       actionText: "",
-      isLoadingWishlist: false
+      isLoadingWishlist: false,
+      pan: new Animated.ValueXY(),
+      //enter: new Animated.Value(0.5),
+      enter: new Animated.Value(1),
     }
   }
+
+  /* Begin Tinder Swipe code, large portions of which are gratefully copied from
+   * https://github.com/meteor-factory/react-native-tinder-swipe-cards, which was 
+   * gratefully copied from https://github.com/brentvatne/react-native-animated-demo-tinder
+   */
+
+  componentDidMount() {
+    this._animateEntrance();
+  }
+
+  _animateEntrance() {
+    Animated.spring(
+      this.state.enter,
+      { toValue: 1, friction: 8 }
+    ).start();
+  }
+
+  componentWillMount() {
+    this._panResponder = PanResponder.create({
+      onMoveShouldSetResponderCapture: () => true,
+      onMoveShouldSetPanResponderCapture: () => true,
+
+      onPanResponderGrant: (e, gestureState) => {
+        this.state.pan.setOffset({x: this.state.pan.x._value, y: this.state.pan.y._value});
+        this.state.pan.setValue({x: 0, y: 0});
+      },
+
+      onPanResponderMove: Animated.event([
+        null, {dx: this.state.pan.x, dy: this.state.pan.y},
+      ]),
+
+      onPanResponderRelease: (e, {vx, vy}) => {
+        this.state.pan.flattenOffset();
+        var velocity;
+
+        if (vx >= 0) {
+          velocity = clamp(vx, 3, 5);
+        } else if (vx < 0) {
+          velocity = clamp(vx * -1, 3, 5) * -1;
+        }
+
+        if (Math.abs(this.state.pan.x._value) > SWIPE_THRESHOLD) {
+
+          this.state.pan.x._value > 0
+            ? this.likeBeer(this.props.beerToView)
+            : this.dislikeBeer(this.props.beerToView)
+
+          Animated.decay(this.state.pan, {
+            velocity: {x: velocity, y: vy},
+            deceleration: 0.98
+          }).start(this._resetState.bind(this))
+        } else {
+          Animated.spring(this.state.pan, {
+            toValue: {x: 0, y: 0},
+            friction: 4
+          }).start()
+        }
+      }
+    })
+  }
+
+  _resetState() {
+    this.state.pan.setValue({x: 0, y: 0});
+    this.state.enter.setValue(0);
+  //  this._goToNextCard();
+    this._animateEntrance();
+  }
+
+  /* End gratefully copied Tinder Swipe code */
 
   componentWillUnmount() {
     console.log('componentWillUnmount called');
@@ -170,6 +247,28 @@ class Swipe extends React.Component {
   }
 
   render() {
+    /* Begin Tinder Swipe code pt. II ....        */
+    let { pan, enter, } = this.state;
+
+    let [translateX, translateY] = [pan.x, pan.y];
+
+    let rotate = pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: ["-30deg", "0deg", "30deg"]});
+    let opacity = pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: [0.5, 1, 0.5]});
+    let scale = enter;
+
+    let animatedCardstyles = {transform: [{translateX}, {translateY}, {rotate}, {scale}], opacity};
+
+    let yupOpacity = pan.x.interpolate({inputRange: [0, 150], outputRange: [0, 1]});
+    let yupScale = pan.x.interpolate({inputRange: [0, 150], outputRange: [0.5, 1], extrapolate: 'clamp'});
+    let animatedYupStyles = {transform: [{scale: yupScale}], opacity: yupOpacity}
+
+    let nopeOpacity = pan.x.interpolate({inputRange: [-150, 0], outputRange: [1, 0]});
+    let nopeScale = pan.x.interpolate({inputRange: [-150, 0], outputRange: [1, 0.5], extrapolate: 'clamp'});
+    let animatedNopeStyles = {transform: [{scale: nopeScale}], opacity: nopeOpacity}
+
+    /* End Tinder Swipe code pt. II ------------------ */
+
+
     let navigationView = (
       <View style={styles.maindrawer}>
           <View style={styles.drawer}>
@@ -264,14 +363,14 @@ class Swipe extends React.Component {
           style={styles.toolbar}
           onActionSelected={ this.onActionSelected } />
       <View style={styles.main} >
-          <View style={styles.card}>
+          <Animated.View style={[styles.card, animatedCardstyles]} {...this._panResponder.panHandlers}>
               <View style={{flexDirection: 'row',justifyContent: 'center', borderColor: 'black', borderWidth: 1, width: 258, height: 258}}>
                 <Image source={{uri: this.props.beerToView.label}} style={{width: 256, height: 256}}/>
               </View>
               <Text style={styles.choose}>
                 {this.props.beerToView.name}
               </Text>
-          </View>
+          </Animated.View>
           <View style={ styles.thumbs }>
               <TouchableOpacity onPress={ () => this.dislikeBeer(this.props.beerToView) } >
                 <Image source={require('../assets/thumbdown_outline2.png') } style={{width: 72, height: 72, marginRight:35}}/>
