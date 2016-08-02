@@ -6,7 +6,7 @@ Swipe your way to craft-beer nirvana with BeerMe!, a fun way to expand your beer
 ####How It Works
 
 Log in, choose a style, and swipe through a continuously reloading assortment of beers chosen at random. 
-![beerme_android_pics2](assets/beerme_android_pics.png)
+![beerme_android_pics2](assets/beerme_android_pics2.png)
 
 The BeerMe! for Android tech stack includes the following languages and frameworks...
 
