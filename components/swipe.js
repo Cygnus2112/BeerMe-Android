@@ -63,7 +63,7 @@ class Swipe extends React.Component {
    */
 
   componentDidMount() {
-    this._animateEntrance();
+   // this._animateEntrance();
   }
 
   _animateEntrance() {
@@ -121,7 +121,7 @@ class Swipe extends React.Component {
     this.state.pan.setValue({x: 0, y: 0});
     this.state.enter.setValue(0);
   //  this._goToNextCard();
-    this._animateEntrance();
+  //  this._animateEntrance();
   }
 
   /* End gratefully copied Tinder Swipe code */

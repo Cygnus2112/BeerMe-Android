@@ -55,8 +55,13 @@ class Drawer extends React.Component {
     Actions.styles();
   }
 
+  openDrawer = () => {
+    this.refs['DRAWER'].openDrawer();
+  }
+  
   render() {
-    return (
+
+  return (
       <View style={styles.main}>
           <View style={styles.drawer}>
             <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#F5FCFF', padding: 5, borderBottomColor: '#b5b5b5', borderBottomWidth: 1, paddingTop: 15, paddingBottom: 15}}>

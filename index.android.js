@@ -14,11 +14,10 @@ import {
   TouchableNativeFeedback
 } from 'react-native';
 
-/* ---- experimenting with redux ---- */
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
-// import * as reducers from './reducers'
+
 import beerReducer from './reducers/beerReducers'
 import authReducer from './reducers/authReducers'
 import wishlistReducer from './reducers/wishlistReducers'
@@ -32,7 +31,6 @@ const finalCreateStore = compose(
   applyMiddleware(thunk)
 )(createStore)
 const store = finalCreateStore(reducer)
-/* ----------------------------------- */
 
 import Login from './components/login'
 import Signup from './components/signup'
@@ -45,7 +43,6 @@ import Browser from './components/webview'
 
 let width = Dimensions.get('window').width;
 
-//let _navigator;
 BackAndroid.addEventListener('hardwareBackPress', () => {
   //if (_navigator && _navigator.getCurrentRoutes().length > 1) {
    // _navigator.pop();
@@ -55,19 +52,6 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
 
   //return false;
 });
-
-// <View style={{flex: 1}}>
-//         <ToolbarAndroid
-//           actions={[]}
-//           navIcon={require('image!android_back_white')}
-//           onIconClicked={navigationOperations.pop}
-//           style={styles.toolbar}
-//           titleColor="white"
-//           title={"bleh!"} />
-//         <Login
-//           style={{flex: 1}}
-//           navigator={navigationOperations}/>
-//       </View>
 
 import {Scene, Router, Actions } from 'react-native-router-flux';
 
