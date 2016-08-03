@@ -83,7 +83,7 @@ class Login extends React.Component {
 		<View style={styles.main}>
         	<View style={styles.container}>
         		<View style={{margin: 10}}>
-        			<Image source={require('../assets/logo.png')} />
+        			<Image source={require('../assets/logo_outline.png')} />
         		</View>
           		<View style={{flexDirection: 'row',justifyContent: 'center'}}>
             		<TextInput placeholder="Username" style={styles.input} 

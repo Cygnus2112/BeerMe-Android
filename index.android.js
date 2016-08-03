@@ -40,6 +40,7 @@ import Main from './components/main'
 import Wishlist from './components/wishlist'
 import BeerDetail from './components/beerdetail'
 import Browser from './components/webview'
+//import Drawer from './components/drawer'
 
 let width = Dimensions.get('window').width;
 
@@ -54,7 +55,7 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
 });
 
 import {Scene, Router, Actions } from 'react-native-router-flux';
-
+//component={ Drawer}
 class BeerMeAndroid extends Component {
   render () {
     return (

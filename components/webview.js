@@ -64,9 +64,9 @@ class Browser extends Component {
     this.refs[WEBVIEW_REF].goBack();
   }
 
-  goForward = () => {
-    this.refs[WEBVIEW_REF].goForward();
-  }
+  // goForward = () => {
+  //   this.refs[WEBVIEW_REF].goForward();
+  // }
 
   reload = () => {
     this.refs[WEBVIEW_REF].reload();
@@ -99,34 +99,6 @@ class Browser extends Component {
   openDrawer = () => {
     this.refs['DRAWER'].openDrawer()
   }
-
-  // pressGoButton = () => {
-  //   var url = this.inputText.toLowerCase();
-  //   if (url === this.state.url) {
-  //     this.reload();
-  //   } else {
-  //     this.setState({
-  //       url: url,
-  //     });
-  //   }
-  //   // dismiss keyboard
-  //   this.refs[TEXT_INPUT_REF].blur();
-  // }
-
-          // <TouchableOpacity onPress={this.pressGoButton}>
-          //   <View style={styles.goButton}>
-          //     <Text>
-          //        Go!
-          //     </Text>
-          //   </View>
-          // </TouchableOpacity>
-          //      <TouchableOpacity
-          //   onPress={this.goForward}
-          //   style={this.state.forwardButtonEnabled ? styles.navButton : styles.disabledButton}>
-          //   <Text>
-          //     {'>'}
-          //   </Text>
-          // </TouchableOpacity>
 
   render() {
     let navigationView = (
@@ -217,7 +189,12 @@ class Browser extends Component {
             style={styles.addressBarTextInput}/>
         </View>
       	<WebView
+            ref={WEBVIEW_REF}
+            automaticallyAdjustContentInsets={false}
         		source={{uri: this.props.website}}
+            javaScriptEnabled={true}
+            domStorageEnabled={true}
+            decelerationRate="normal"
         		style={{marginTop: 1}}/>
       </View>
     </DrawerLayoutAndroid>
@@ -241,14 +218,14 @@ const styles = StyleSheet.create({
     flex: .7,
     justifyContent: 'flex-start',
     //alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    borderColor: 'black',
-    borderWidth: 2    
+    backgroundColor: '#F5FCFF', 
   },
   drawermain: {
     flex: 1,
     backgroundColor: '#ddd',
     alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 2,   
     //justifyContent: 'space-around',
     //backgroundColor: '#F5FCFF'
   },
@@ -286,8 +263,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    //backgroundColor: '#F5FCFF'
+    justifyContent: 'center'
   },
   navButton: {
     width: 20,

@@ -177,7 +177,6 @@ class Wishlist extends React.Component {
             return (
           <TouchableHighlight
             onPress={()=> {
-              console.log("beerIcon: ", beerIcon);
               Actions.beerdetail({ selectedBeer: selectedBeer, rowID: rowID, isAlreadyInWishlist: true })}
             }
             underlayColor = '#ddd'>

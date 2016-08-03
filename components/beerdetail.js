@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import Drawer from 'react-native-drawer'
 
 import {
   ActivityIndicator,
@@ -28,8 +29,8 @@ import * as authActions from '../actions/authActions';
 import { Actions } from 'react-native-router-flux';
 let width = Dimensions.get('window').width;
 
-
-import Drawer from './drawer'
+import Styles from './styles'
+import DrawerView from './drawer'
 
 class BeerDetail extends React.Component {
   constructor(props){
@@ -49,8 +50,6 @@ class BeerDetail extends React.Component {
       actionMessage: "",
       wishlistMessage: "Remove From Wishlist",
       heartUri: '../assets/ic_favorite_filled_3x.png',
-      //dislikeToAdd: null,
-      //dislikeID: null
     }
   }
 
@@ -116,6 +115,7 @@ class BeerDetail extends React.Component {
 
   websiteClicked = () => {
     Actions.webview({website: this.props.selectedBeer.website})
+    //Actions.drawer();
   }
 
   toggleWishlist = () => {
@@ -166,7 +166,12 @@ class BeerDetail extends React.Component {
     this.refs['DRAWER'].openDrawer()
   }
 
+  // openDrawer = () => {
+  //   this._drawer.open();
+  // }
+
   render() {
+
     let navigationView = (
       <View style={styles.drawermain}>
           <View style={styles.drawer}>
@@ -201,13 +206,22 @@ class BeerDetail extends React.Component {
 
     //let heartView = this.state.toggled ? (
       let heartView = this.state.toggled ? (
-        <TouchableOpacity onPress={ this.toggleWishlist } >
-          <Image source={require('../assets/ic_favorite_filled_3x.png') } style={{width: 60, height: 60, marginRight: 20}}/>
-        </TouchableOpacity>
+        <View style={ styles.icon }>
+          <TouchableOpacity onPress={ this.toggleWishlist } >
+            <Image source={require('../assets/ic_favorite_filled_3x.png') } style={{width: 60, height: 60}}/>
+          </TouchableOpacity>
+          <Text style={{fontSize: 10, textAlign: 'center'}}>Remove</Text>
+          <Text style={{fontSize: 10, textAlign: 'center'}}>From Wishlist</Text>
+
+        </View>
       ) : (
-        <TouchableOpacity onPress={ this.toggleWishlist } >
-          <Image source={require('../assets/heart_empty.png') } style={{width: 60, height: 60, marginRight: 20}}/>
-        </TouchableOpacity>
+        <View style={ styles.icon }>
+          <TouchableOpacity onPress={ this.toggleWishlist } >
+            <Image source={require('../assets/heart_empty.png') } style={{width: 60, height: 60}}/>
+          </TouchableOpacity>
+          <Text style={{fontSize: 10, textAlign: 'center'}}>Add</Text>
+          <Text style={{fontSize: 10, textAlign: 'center'}}>To Wishlist</Text>
+        </View>
       )
 
       let abvColor;
@@ -248,13 +262,23 @@ class BeerDetail extends React.Component {
      
         </View>
       )
-//navigationView
+
     return (
+      // <Drawer
+      //   ref={(ref) => this._drawer = ref}
+      //   type="overlay"
+      //   tapToClose={true}
+      //   drawerWidth={200}
+      //   content={<DrawerView newref={ this._drawer } />} 
+      //   openDrawerOffset={0.42}
+      //   tweenHandler={(ratio) => ({
+      //      main: { opacity:(2-ratio)/2 }
+      //   })}>
       <DrawerLayoutAndroid
-        ref={'DRAWER'}
-        drawerWidth={200}
-        drawerPosition={DrawerLayoutAndroid.positions.Left}
-        renderNavigationView={() => navigationView}>
+          ref={'DRAWER'}
+          drawerWidth={200}
+          drawerPosition={DrawerLayoutAndroid.positions.Left}
+          renderNavigationView={() => navigationView}>
         <ToolbarAndroid
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
@@ -276,12 +300,20 @@ class BeerDetail extends React.Component {
                 </View>
                 <View style={ styles.icons }>
                     { heartView }
-                    <TouchableOpacity onPress={ this.websiteClicked } >
+                    <View style={ styles.icon }>
+                      <TouchableOpacity onPress={ this.websiteClicked } >
                         <Image source={require('../assets/ic_public_black_24dp.png') } style={{width: 60, height: 60, marginLeft:20, marginRight: 20}}/>
-                    </TouchableOpacity >
-                    <TouchableOpacity onPress={ this.drizlyClicked } >
-                          <Image source={require('../assets/drizly_logo.jpeg') } style={{width: 60, height: 60, marginLeft:20}}/>
-                    </TouchableOpacity >
+                      </TouchableOpacity >
+                      <Text style={{fontSize: 10, textAlign: 'center'}}>Brewery</Text>
+                      <Text style={{fontSize: 10, textAlign: 'center'}}>Homepage</Text>
+                    </View>
+                    <View style={ styles.icon }>
+                      <TouchableOpacity onPress={ this.drizlyClicked } >
+                          <Image source={require('../assets/drizly_logo.jpeg') } style={{width: 60, height: 60}}/>
+                      </TouchableOpacity >
+                      <Text style={{fontSize: 10, textAlign: 'center'}}>Order</Text>
+                      <Text style={{fontSize: 10, textAlign: 'center'}}>Online</Text>
+                    </View>
                 </View>
             </View>
             <View style={ styles.footer }>
@@ -341,10 +373,10 @@ const styles = StyleSheet.create({
     //backgroundColor: '#F5FCFF'
     borderTopWidth: 1,
     borderTopColor: 'white',
-    paddingTop: 20
+    paddingTop: 15
   },
   card: {
-    flex: 1,
+    flex: 1.1,
  //   justifyContent: 'center',
     width: width*.90,
     margin: 5,
@@ -385,13 +417,21 @@ const styles = StyleSheet.create({
   },
   icons: {
     alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
+    //justifyContent: 'center',
+    justifyContent: 'space-around',
+    flex: 1.1,
     flexDirection: 'row',
     margin: 10,
+    paddingRight: 10,
+    paddingLeft: 10,
     borderColor: 'black',
     borderWidth: 1,
     backgroundColor: 'white'
+  },
+  icon: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   divider: {
     flex: .1
