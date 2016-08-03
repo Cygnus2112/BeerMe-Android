@@ -11,6 +11,37 @@ export const REMOVE_WISHLIST_ITEM_REQUEST = 'REMOVE_WISHLIST_ITEM_REQUEST';
 export const REMOVE_WISHLIST_ITEM_SUCCESS = 'REMOVE_WISHLIST_ITEM_SUCCESS';
 
 export const loadWishlist = (userData) => {
+ // return dispatch => {
+
+    // AsyncStorage.getItem("beerme-token", (error, token) => {
+    //   console.log('error: ', error);
+    //   console.log('result: ', token);
+    //   if(!error) {
+    //     return fetch(utils.wishlistURL+"?username="+userData.username, {
+    //         //return fetch("http://localhost:8080/wishlist?username="+userData.username, {
+    //         method: 'GET',
+    //         headers: {
+    //           'Accept': 'application/json',
+    //           'Content-Type': 'application/json',
+    //           'x-access-token': token
+    //         }
+    //     })
+    //     .then(response => {
+    //         return response.json();
+    //     })
+    //     .then(response => {
+    //       console.log('response in loadWishlist: ', response);
+    //     //    dispatch(loadWishlistSuccess(response));
+    //        // Actions.wishlist();             
+    //     })
+    //     .catch(err => console.error('Error in loadWishlist:', err));
+
+
+    //   }
+
+    // });
+  //}
+
   return dispatch => {
     dispatch(loadWishlistRequest());			// presents spinner
 
@@ -39,6 +70,8 @@ export const loadWishlist = (userData) => {
             // dispatch(authFail());
             Actions.login();
         }
+    }, (reason) => {
+      console.log('reason??? ', reason);
     }).done();
   }
 }
@@ -57,7 +90,6 @@ const loadWishlistSuccess = (wishlistData) => {
 }
 
 export const updateWishlist = (userData) => {
-  console.log('userData in updateWishlist ');
   console.log(userData);
   return dispatch => {
     dispatch(updateWishlistRequest());      // presents spinner
@@ -128,7 +160,7 @@ export const removeWishlistItem = (userData) => {
             return response;
         })
         .then(response => {
-            console.log('userData.wishlist[0] ', userData.wishlist[0]);
+           // console.log('userData.wishlist[0] ', userData.wishlist[0]);
             dispatch(removeWishlistItemSuccess(userData.wishlist[0]));
         })
         .catch(err => console.error('Error in UPDATEWishlist:', err));

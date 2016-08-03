@@ -96,7 +96,7 @@ class Signup extends React.Component {
     <View style={styles.main}>
       <ScrollView ref='scrollView' style={styles.scrollView} keyboardDismissMode='interactive' contentContainerStyle={styles.contentContainerStyle}>        
             <View style={{margin: 10, justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={require('../assets/logo.png')} />
+                <Image source={require('../assets/logo_outline.png')} />
                 </View>
             <View style={styles.container} ref='input'>
                 <View style={{flexDirection: 'row',justifyContent: 'center'}}>
