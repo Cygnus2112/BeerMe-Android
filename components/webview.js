@@ -16,6 +16,8 @@ import {
   TouchableOpacity 
 } from 'react-native';
 
+import { Actions } from 'react-native-router-flux';
+
 import * as wishlistActions from '../actions/wishlistActions';
 import * as authActions from '../actions/authActions';
 
@@ -31,7 +33,7 @@ class Browser extends Component {
 
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
     this.goBack = this.goBack.bind(this);
-    this.goForward = this.goForward.bind(this);
+    //this.goForward = this.goForward.bind(this);
     this.reload = this.reload.bind(this);
 
     this.signoutUser = this.signoutUser.bind(this);
