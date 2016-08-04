@@ -27,6 +27,8 @@ const DISABLED_WASH = 'rgba(255,255,255,0.25)';
 const TEXT_INPUT_REF = 'urlInput';
 const WEBVIEW_REF = 'webview';
 
+let screenHeight = Dimensions.get('window').height;
+
 class Browser extends Component {
   constructor(props){
     super(props);
@@ -210,11 +212,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: HEADER,
+    borderTopWidth: 1,
+    borderTopColor: 'white'
   },
   toolbar: {
     backgroundColor: '#ffbf00',
     justifyContent: 'center',
-    height: 50
+    height: screenHeight * .095
   },
   drawer: {
     flex: .7,

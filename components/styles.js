@@ -26,6 +26,7 @@ import * as wishlistActions from '../actions/wishlistActions';
 /* End Redux stuff...      */
 
 import { Actions } from 'react-native-router-flux';
+let screenHeight = Dimensions.get('window').height;
 
 import Button from 'react-native-button';
 let width = Dimensions.get('window').width;
@@ -206,7 +207,8 @@ const styles = StyleSheet.create({
   toolbar: {
    // backgroundColor: '#e9eaed',
     backgroundColor: '#ffbf00',
-    height: 50,
+    //height: 50,
+    height: screenHeight * .095,
     justifyContent: 'center',
   },
   loading: {

@@ -27,7 +27,8 @@ import * as authActions from '../actions/authActions';
 /* End redux stuff...      */ 
 
 import { Actions } from 'react-native-router-flux';
-let width = Dimensions.get('window').width;
+let screenWidth = Dimensions.get('window').width;
+let screenHeight = Dimensions.get('window').height;
 
 import Styles from './styles'
 import DrawerView from './drawer'
@@ -44,6 +45,8 @@ class BeerDetail extends React.Component {
     this.toggleWishlist = this.toggleWishlist.bind(this);
     this.drizlyClicked = this.drizlyClicked.bind(this);
     this.websiteClicked = this.websiteClicked.bind(this);
+
+    this.goBack = this.goBack.bind(this);
 
     this.state = {
       toggled: this.props.isAlreadyInWishlist,
@@ -194,9 +197,9 @@ class BeerDetail extends React.Component {
     this.refs['DRAWER'].openDrawer()
   }
 
-  // openDrawer = () => {
-  //   this._drawer.open();
-  // }
+  goBack = () => {
+    Actions.pop();
+  }
 
   render() {
 
@@ -291,19 +294,21 @@ class BeerDetail extends React.Component {
         </View>
       )
 
+      // <DrawerLayoutAndroid
+      //   ref={'DRAWER'}
+      //   drawerWidth={200}
+      //   drawerPosition={DrawerLayoutAndroid.positions.Left}
+      //   renderNavigationView={() => navigationView}>
+      //          <ToolbarAndroid
+      //     navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
+      //     onIconClicked={() => this.openDrawer() }
+      //     logo={require('../assets/logo_white_30.png')}
+      //     style={styles.toolbar}
+      //     onActionSelected={ this.onActionSelected } />
+      // </DrawerLayoutAndroid>
+
     if (this.state.isLoadingWishlist) {
        return (
-      <DrawerLayoutAndroid
-        ref={'DRAWER'}
-        drawerWidth={200}
-        drawerPosition={DrawerLayoutAndroid.positions.Left}
-        renderNavigationView={() => navigationView}>
-        <ToolbarAndroid
-          navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
-          onIconClicked={() => this.openDrawer() }
-          logo={require('../assets/logo_white_30.png')}
-          style={styles.toolbar}
-          onActionSelected={ this.onActionSelected } />
         <View style={styles.loading}>
           <View style={{flex:.5, flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
             <Text style={{fontSize: 27, textAlign: 'center'}}>Loading wishlist...</Text>
@@ -312,24 +317,59 @@ class BeerDetail extends React.Component {
             animating={ true }
             style={[styles.centering, {height: 80}]}
             size="large"/>
-        </View>
-      </DrawerLayoutAndroid>)
+        </View>)
+      
     } else {
 
+//           //      logo={require('../assets/logo_white_30.png')}
+// <View style={styles.main}>
+//       <View style={styles.card}>
+//                 <View style={{marginTop:2, flex: 1.3, flexDirection: 'row',justifyContent: 'flex-start',borderBottomColor: 'black',borderBottomWidth: 5, backgroundColor: 'white'}}>
+//                     <View style={{flex: 2, flexDirection: 'column',justifyContent: 'center',alignItems: 'center'}}>
+//                         <Image source={{uri: this.props.selectedBeer.icon}} style={{width: 80, height: 80}}/>
+//                     </View>  
+//                     { beerTitle }
+//                 </View>
+//                 <View style={{flex: 2.5,flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+//                         <Text numberOfLines={12} style={{margin:10}} >
+//                           {this.props.selectedBeer.descript}
+//                         </Text>
+//                 </View>
+//                 <View style={ styles.icons }>
+//                     { heartView }
+//                     <View style={ styles.icon }>
+//                       <TouchableOpacity onPress={ this.websiteClicked } >
+//                         <Image source={require('../assets/ic_public_black_24dp.png') } style={{width: 60, height: 60, marginLeft:20, marginRight: 20}}/>
+//                       </TouchableOpacity >
+//                       <Text style={{fontSize: 10, textAlign: 'center'}}>Brewery</Text>
+//                       <Text style={{fontSize: 10, textAlign: 'center'}}>Homepage</Text>
+//                     </View>
+//                     <View style={ styles.icon }>
+//                       <TouchableOpacity onPress={ this.drizlyClicked } >
+//                           <Image source={require('../assets/drizly_logo.jpeg') } style={{width: 60, height: 60}}/>
+//                       </TouchableOpacity >
+//                       <Text style={{fontSize: 10, textAlign: 'center'}}>Order</Text>
+//                       <Text style={{fontSize: 10, textAlign: 'center'}}>Online</Text>
+//                     </View>
+//                 </View>
+//             </View>
+//             <View style={ styles.footer }>
+//                 <View style={{flexDirection: 'row',justifyContent: 'center'}}>
+//                     <Text style={styles.like} >
+//                       { this.state.actionMessage }
+//                     </Text>
+//                 </View>
+//             </View>
+//         </View>
     return (
-      <DrawerLayoutAndroid
-          ref={'DRAWER'}
-          drawerWidth={200}
-          drawerPosition={DrawerLayoutAndroid.positions.Left}
-          renderNavigationView={() => navigationView}>
+      <View style={{flex: 1}}>
         <ToolbarAndroid
-          navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
-          onIconClicked={() => this.openDrawer() }
+          navIcon={require('../assets/ic_navigate_before_black_24dp.png')}
+          onIconClicked={() => this.goBack() }
           logo={require('../assets/logo_white_30.png')}
-          style={styles.toolbar}
-          onActionSelected={ this.onActionSelected } />
+          style={styles.toolbar}/>
         <View style={styles.main}>
-            <View style={styles.card}>
+          <View style={styles.card}>
                 <View style={{marginTop:2, flex: 1.3, flexDirection: 'row',justifyContent: 'flex-start',borderBottomColor: 'black',borderBottomWidth: 5, backgroundColor: 'white'}}>
                     <View style={{flex: 2, flexDirection: 'column',justifyContent: 'center',alignItems: 'center'}}>
                         <Image source={{uri: this.props.selectedBeer.icon}} style={{width: 80, height: 80}}/>
@@ -367,7 +407,8 @@ class BeerDetail extends React.Component {
                 </View>
             </View>
         </View>
-      </DrawerLayoutAndroid>)
+      </View>
+      )
     }
   }
 }
@@ -405,8 +446,9 @@ const styles = StyleSheet.create({
   },
   toolbar: {
     backgroundColor: '#ffbf00',
-    height: 50,
+    //height: 50,
     justifyContent: 'center',
+    height: screenHeight * .095,
   },
   drawer: {
     flex: .7,
@@ -426,8 +468,9 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     backgroundColor: '#ddd',
+    flexDirection: 'column',
     alignItems: 'center',
-    //justifyContent: 'space-around',
+    justifyContent: 'center',
     //backgroundColor: '#F5FCFF'
     borderTopWidth: 1,
     borderTopColor: 'white',
@@ -436,7 +479,7 @@ const styles = StyleSheet.create({
   card: {
     flex: 1.1,
  //   justifyContent: 'center',
-    width: width*.90,
+    width: screenWidth*.90,
     margin: 5,
     //alignItems: 'center',
     backgroundColor: '#F5FCFF',

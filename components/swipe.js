@@ -28,6 +28,7 @@ import * as authActions from '../actions/authActions';
 
 import { Actions } from 'react-native-router-flux';
 let width = Dimensions.get('window').width;
+let screenHeight = Dimensions.get('window').height;
 
 import clamp from 'clamp';
 const SWIPE_THRESHOLD = 120;
@@ -423,7 +424,7 @@ class Swipe extends React.Component {
 const styles = StyleSheet.create({
   toolbar: {
     backgroundColor: '#ffbf00',
-    height: 50,
+    height: screenHeight * .095,
     justifyContent: 'center',
   },
   drawer: {
@@ -450,6 +451,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    borderTopWidth: 1,
+    borderTopColor: 'white'
     //backgroundColor: '#F5FCFF'
   },
   main: {
