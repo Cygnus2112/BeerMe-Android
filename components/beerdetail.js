@@ -50,6 +50,8 @@ class BeerDetail extends React.Component {
       actionMessage: "",
       wishlistMessage: "Remove From Wishlist",
       heartUri: '../assets/ic_favorite_filled_3x.png',
+      wishlistClicked: false,
+      isLoadingWishlist: false,
     }
   }
 
@@ -81,7 +83,7 @@ class BeerDetail extends React.Component {
         "dislikes": [a]
       });
     }
-    if(this.state.toggled && !this.props.isAlreadyInWishlist){
+    if(this.state.toggled && !this.props.isAlreadyInWishlist && !this.state.wishlistClicked){
       //add to wishlist
       const { updateWishlist } = this.props.wishlistActions;
       let a = {
@@ -152,9 +154,35 @@ class BeerDetail extends React.Component {
   }
 
   wishlist = () => {
+    this.setState({
+      wishlistClicked: true,
+      isLoadingWishlist: true
+    })
     this.refs['DRAWER'].closeDrawer();
-    const { loadWishlist } = this.props.wishlistActions;
-    loadWishlist({"username": this.props.username});
+    if(this.state.toggled && !this.props.isAlreadyInWishlist){
+      //add to wishlist
+      const { updateAndLoadWishlist } = this.props.wishlistActions;
+      let a = {
+        "id": this.props.rowID,
+        "name": this.props.selectedBeer.name,
+        "style": this.props.selectedBeer.style,
+        "labelUrl": this.props.selectedBeer.label,
+        "icon": this.props.selectedBeer.icon,
+        "descript": this.props.selectedBeer.descript,
+        "abv": this.props.selectedBeer.abv,
+        "brewery": this.props.selectedBeer.brewery,
+        "website": this.props.selectedBeer.website
+      }
+
+      updateAndLoadWishlist({
+        "username": this.props.username,
+        "wishlistToAdd": [a],
+        "dislikesToAdd": []
+      });
+    } else {
+      const { loadWishlist } = this.props.wishlistActions;
+      loadWishlist({"username": this.props.username});
+    }
   }
 
   loadStyles = () => {
@@ -263,17 +291,32 @@ class BeerDetail extends React.Component {
         </View>
       )
 
+    if (this.state.isLoadingWishlist) {
+       return (
+      <DrawerLayoutAndroid
+        ref={'DRAWER'}
+        drawerWidth={200}
+        drawerPosition={DrawerLayoutAndroid.positions.Left}
+        renderNavigationView={() => navigationView}>
+        <ToolbarAndroid
+          navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
+          onIconClicked={() => this.openDrawer() }
+          logo={require('../assets/logo_white_30.png')}
+          style={styles.toolbar}
+          onActionSelected={ this.onActionSelected } />
+        <View style={styles.loading}>
+          <View style={{flex:.5, flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
+            <Text style={{fontSize: 27, textAlign: 'center'}}>Loading wishlist...</Text>
+          </View>
+          <ActivityIndicator
+            animating={ true }
+            style={[styles.centering, {height: 80}]}
+            size="large"/>
+        </View>
+      </DrawerLayoutAndroid>)
+    } else {
+
     return (
-      // <Drawer
-      //   ref={(ref) => this._drawer = ref}
-      //   type="overlay"
-      //   tapToClose={true}
-      //   drawerWidth={200}
-      //   content={<DrawerView newref={ this._drawer } />} 
-      //   openDrawerOffset={0.42}
-      //   tweenHandler={(ratio) => ({
-      //      main: { opacity:(2-ratio)/2 }
-      //   })}>
       <DrawerLayoutAndroid
           ref={'DRAWER'}
           drawerWidth={200}
@@ -325,6 +368,7 @@ class BeerDetail extends React.Component {
             </View>
         </View>
       </DrawerLayoutAndroid>)
+    }
   }
 }
 
@@ -334,6 +378,20 @@ const toolbarActions = [
 ];
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    backgroundColor: '#ddd',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    //backgroundColor: '#F5FCFF'
+  },
+  centering: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 2,
+  },
   instructions: {
     textAlign: 'center',
     color: '#333333',

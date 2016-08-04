@@ -63,7 +63,7 @@ class Swipe extends React.Component {
    */
 
   componentDidMount() {
-   // this._animateEntrance();
+    this._animateEntrance();
   }
 
   _animateEntrance() {
@@ -74,6 +74,7 @@ class Swipe extends React.Component {
   }
 
   componentWillMount() {
+    console.log('componentWill MOUNT called');
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
@@ -121,13 +122,12 @@ class Swipe extends React.Component {
     this.state.pan.setValue({x: 0, y: 0});
     this.state.enter.setValue(0);
   //  this._goToNextCard();
-  //  this._animateEntrance();
+    this._animateEntrance();
   }
 
   /* End gratefully copied Tinder Swipe code */
 
   componentWillUnmount() {
-    console.log('componentWillUnmount called');
     const { clearBeerData } = this.props.beerActions;
     clearBeerData();
     const { updateWishlist } = this.props.wishlistActions;
@@ -141,13 +141,12 @@ class Swipe extends React.Component {
   }
 
   wishlist = () => {
-    console.log('wishlist called');
     this.refs['DRAWER'].closeDrawer();
     const { clearBeerData } = this.props.beerActions;
     clearBeerData();
     const { updateWishlist } = this.props.wishlistActions;
     if(this.state.wishlistToAdd.length || this.state.dislikesToAdd.length) {
-      updateWishlist({
+    updateWishlist({
         "username": this.props.username,
         "wishlistToAdd": this.state.wishlistToAdd,
         "dislikesToAdd": this.state.dislikesToAdd
@@ -169,12 +168,35 @@ class Swipe extends React.Component {
         const { updateWishlistRequest } = this.props.wishlistActions;
         updateWishlistRequest();
         const { loadWishlist } = this.props.wishlistActions;
-       // loadWishlist({"username": this.props.username});
-        setTimeout(() => loadWishlist({"username": this.props.username}), 500);
+        loadWishlist({"username": this.props.username});
+        //setTimeout(() => loadWishlist({"username": this.props.username}), 500);
         loading = false;
       }
     }
   }
+
+  // wishlist = () => {
+  //   this.refs['DRAWER'].closeDrawer();
+  //   const { clearBeerData } = this.props.beerActions;
+  //   clearBeerData();
+  //   const { updateAndLoadWishlist } = this.props.wishlistActions;
+  //   if(this.state.wishlistToAdd.length || this.state.dislikesToAdd.length) {
+  //     updateAndLoadWishlist({
+  //       "username": this.props.username,
+  //       "wishlistToAdd": this.state.wishlistToAdd,
+  //       "dislikesToAdd": this.state.dislikesToAdd
+  //     });
+  //     this.setState({
+  //       wishlistToAdd: [],
+  //       dislikesToAdd: []
+  //     })
+  //   }
+  //   let loading = true;
+
+  //   this.setState({
+  //     isLoadingWishlist: true
+  //   })
+  // }
 
   likeBeer = (beer) => {
     Actions.beerdetail({selectedBeer: beer, rowID: beer.id, isAlreadyInWishlist: false});
@@ -189,7 +211,7 @@ class Swipe extends React.Component {
         style: this.props.styleChoice
       }
       loadBeers(userData);
-    }
+    }    
   }
 
   dislikeBeer = (beer) => {

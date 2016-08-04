@@ -11,39 +11,8 @@ export const REMOVE_WISHLIST_ITEM_REQUEST = 'REMOVE_WISHLIST_ITEM_REQUEST';
 export const REMOVE_WISHLIST_ITEM_SUCCESS = 'REMOVE_WISHLIST_ITEM_SUCCESS';
 
 export const loadWishlist = (userData) => {
- // return dispatch => {
-
-    // AsyncStorage.getItem("beerme-token", (error, token) => {
-    //   console.log('error: ', error);
-    //   console.log('result: ', token);
-    //   if(!error) {
-    //     return fetch(utils.wishlistURL+"?username="+userData.username, {
-    //         //return fetch("http://localhost:8080/wishlist?username="+userData.username, {
-    //         method: 'GET',
-    //         headers: {
-    //           'Accept': 'application/json',
-    //           'Content-Type': 'application/json',
-    //           'x-access-token': token
-    //         }
-    //     })
-    //     .then(response => {
-    //         return response.json();
-    //     })
-    //     .then(response => {
-    //       console.log('response in loadWishlist: ', response);
-    //     //    dispatch(loadWishlistSuccess(response));
-    //        // Actions.wishlist();             
-    //     })
-    //     .catch(err => console.error('Error in loadWishlist:', err));
-
-
-    //   }
-
-    // });
-  //}
-
   return dispatch => {
-    dispatch(loadWishlistRequest());			// presents spinner
+    dispatch(loadWishlistRequest());			
 
     AsyncStorage.getItem("beerme-token").then((token) => {
         if(token){
@@ -70,8 +39,6 @@ export const loadWishlist = (userData) => {
             // dispatch(authFail());
             Actions.login();
         }
-    }, (reason) => {
-      console.log('reason??? ', reason);
     }).done();
   }
 }
@@ -90,13 +57,10 @@ const loadWishlistSuccess = (wishlistData) => {
 }
 
 export const updateWishlist = (userData) => {
-  console.log(userData);
   return dispatch => {
     dispatch(updateWishlistRequest());      // presents spinner
-
     AsyncStorage.getItem("beerme-token").then((token) => {
         if(token){
-            //console.log('token: ', token);
             //dispatch(authSuccess());
             return axios({
               url: utils.wishlistURL,
@@ -120,6 +84,64 @@ export const updateWishlist = (userData) => {
         })
         .then(response => {
             dispatch(updateWishlistSuccess(response));
+        })
+        .catch(err => console.error('Error in UPDATEWishlist:', err));
+              
+        } else {
+            // dispatch(authFail());
+            Actions.login();
+        }
+    }).done();
+  }
+}
+
+export const updateAndLoadWishlist = (userData) => {
+  return dispatch => {
+    dispatch(loadWishlistRequest());      // presents spinner
+    AsyncStorage.getItem("beerme-token").then((token) => {
+        if(token){
+            //dispatch(authSuccess());
+            return axios({
+              url: utils.wishlistURL,
+              method: 'post',
+              data: JSON.stringify({
+                username: userData.username,
+                wishlist: userData.wishlistToAdd,
+                dislikes: userData.dislikesToAdd
+              }),
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token': token  
+              },
+              timeout: 30000
+            }   
+        )
+        .then(response => {
+            //return response.json();
+            return response;
+        })
+        .then(response => {
+            //dispatch(updateWishlistSuccess(response));              
+            //dispatch(authSuccess());
+            return fetch(utils.wishlistURL+"?username="+userData.username, {
+                method: 'GET',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'x-access-token': token
+                }
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(response => {
+                dispatch(updateWishlistSuccess(response));  
+                dispatch(loadWishlistSuccess(response));
+                Actions.wishlist();             
+            })
+            .catch(err => console.error('Error in loadWishlist:', err));   
+
         })
         .catch(err => console.error('Error in UPDATEWishlist:', err));
               
