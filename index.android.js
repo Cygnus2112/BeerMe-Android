@@ -68,7 +68,7 @@ class BeerMeAndroid extends Component {
             <Scene key="styles" component={ Styles} type='reset'/>
             <Scene key="swipe" component={ Swipe} />
             <Scene key="wishlist" component={ Wishlist } type='reset' />
-            <Scene key="beerdetail" component={ BeerDetail } />
+            <Scene key="beerdetail" component={ BeerDetail } direction='vertical' />
             <Scene key="webview" component={ Browser} />
           </Scene>
         </Router>

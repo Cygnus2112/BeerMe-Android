@@ -25,6 +25,8 @@ import { bindActionCreators } from 'redux'
 import * as wishlistActions from '../actions/wishlistActions';
 import * as authActions from '../actions/authActions';
 
+let screenHeight = Dimensions.get('window').height;
+
 class Wishlist extends React.Component {
   constructor(props) {
     super(props);
@@ -169,7 +171,7 @@ class Wishlist extends React.Component {
           style={styles.toolbar}
           logo={require('../assets/logo_white_30.png')}
           onActionSelected={ this.onActionSelected } />
-        <ScrollView>
+        <ScrollView style={{ borderTopWidth: 1, borderTopColor: 'white'}}>
         <ListView
           dataSource = {this.state.dataSource}
           renderHeader={this.renderHeader}
@@ -210,7 +212,8 @@ let styles = StyleSheet.create({
   toolbar: {
     backgroundColor: '#ffbf00',
     justifyContent: 'center',
-    height: 50
+    //height: 50
+    height: screenHeight * .095
   },
   drawer: {
     flex: .7,
