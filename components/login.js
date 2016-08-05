@@ -69,10 +69,7 @@ class Login extends React.Component {
         })
         login(userInfo)
       }
-      
-
   	}
-
 
 	loadSignup() {
 		Actions.signup();
@@ -81,58 +78,68 @@ class Login extends React.Component {
 	render() {
 		return (
 		<View style={styles.main}>
-        	<View style={styles.container}>
-        		<View style={{margin: 10}}>
-        			<Image source={require('../assets/logo_outline.png')} />
-        		</View>
-          		<View style={{flexDirection: 'row',justifyContent: 'center'}}>
-            		<TextInput placeholder="Username" style={styles.input} 
-            			onChangeText={(username) => this.setState({username})}
-            			value={this.state.username} />
-          		</View>
-          		<View style={{flexDirection: 'row',justifyContent: 'center'}}>
-            		<TextInput placeholder="Password" style={styles.input} 
-            			secureTextEntry={true}
-            			onChangeText={(password) => this.setState({password})}
-            			value={this.state.password} />
-          		</View>
-          		<Button
-          			containerStyle={ styles.buttonBox }
-        			  style={{fontSize: 18, color: 'white'}}
-        			  styleDisabled={{color: 'red'}}
-        			  onPress={ this.submitLogin }>
-        			  Login
-      			  </Button> 
-              <View style={ styles.error } >  
-                <Text style={ styles.errorMsg }>
-                  {this.state.errorMsg}
-                </Text>
-              </View>   		
-          		<View > 
-          			<Text style={styles.instructions} >
-          				{ "Don't" } have an account?
-          			</Text>
-          			<TouchableNativeFeedback onPress={ this.loadSignup } style={styles.button} >
-          				<View style={ styles.header }>
-               				<Text style={styles.iambold} >
+  
+        <View style={{margin: 10, flex: 1.5, flexDirection: 'column', justifyContent: 'center'}}>
+        		<Image source={require('../assets/logo_outline.png')} />
+        </View>
+        <View style={{flex: 1,flexDirection: 'row',justifyContent: 'center', backgroundColor:'white', margin:5, borderRadius: 4}}>
+            <TextInput placeholder="Username" style={styles.textInput} 
+            	onChangeText={(username) => this.setState({username})}
+            	value={this.state.username} />
+        </View>
+        <View style={{flex: 1, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white', margin:5, borderRadius: 4}}>
+            <TextInput placeholder="Password" 
+              style={styles.textInput} 
+            	secureTextEntry={true}
+            	onChangeText={(password) => this.setState({password})}
+            	value={this.state.password} />
+        </View>
+        <Button
+          	containerStyle={ styles.buttonBox }
+        		style={{fontSize: 18, color: 'white'}}
+        		styleDisabled={{color: 'red'}}
+        		onPress={ this.submitLogin }>
+        		Login
+      	</Button> 
+        <View style={ styles.error } >  
+            <Text style={ styles.errorMsg }>
+              {this.state.errorMsg}
+            </Text>
+        </View>   		
+        <View style={ styles.signup }> 
+          	<Text style={styles.instructions} >
+          		{ "Don't" } have an account?
+          	</Text>
+          	<TouchableNativeFeedback onPress={ this.loadSignup } style={styles.button} >
+          			<View style={ styles.header }>
+               		<Text style={styles.iambold} >
           					Sign up!
-          					</Text>
-          				</View>
-          			</TouchableNativeFeedback>
-          		</View>
-			</View>
-        	<View style={styles.footer} />
-      	</View>)
+          				</Text>
+          			</View>
+          	</TouchableNativeFeedback>
+        </View>
+	
+    </View>)
 	}
 }
 //{flexDirection: 'row',justifyContent: 'center'}
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: '#ddd'
+    backgroundColor: '#ddd', 
+    flexDirection: 'column',
+  //  justifyContent: 'flex-start',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  signup: {
+    flex: 5,
+    flexDirection: 'column',
+    justifyContent: 'center',
+
   },
   header: {
-    flex: .1,
+   // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ddd'
@@ -149,7 +156,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
   },
   error: {
-    flex: .1,
+    flex: .5,
     flexDirection: 'row',
     justifyContent: 'center'
   },
@@ -176,19 +183,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold'
   },
-  input: {
+  textInput: {
     backgroundColor: 'white', 
     margin: 5, 
-    padding: 10,
-    height: 45, 
+    padding: 5,
+   // height: 45, 
     width: width*.7,
     fontSize: 18,
-    textAlign: 'center'
+    textAlign: 'center',
+   // borderRadius: 5
   },
   buttonBox: {
+   // flex: 1,
   	padding:10, 
   	margin: 5,
-  	height:45, 
+    height:45, 
   	width: width*.7, 
   	overflow:'hidden', 
   	borderRadius:4, 

@@ -42,6 +42,7 @@ class Browser extends Component {
     this.wishlist = this.wishlist.bind(this);
     this.loadStyles = this.loadStyles.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
+    this.quitWeb = this.quitWeb.bind(this);
 
     this.state = {
       url: this.props.website,
@@ -102,6 +103,10 @@ class Browser extends Component {
 
   openDrawer = () => {
     this.refs['DRAWER'].openDrawer()
+  }
+
+  quitWeb = () => {
+    Actions.pop()
   }
 
   render() {
@@ -169,11 +174,10 @@ class Browser extends Component {
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={() => navigationView}>
         <ToolbarAndroid
-          navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
-          onIconClicked={() => this.openDrawer() }
+          navIcon={require('../assets/ic_navigate_before_black_24dp.png')}
+          onIconClicked={() => this.quitWeb() }
           logo={require('../assets/logo_white_30.png')}
-          style={styles.toolbar}
-          onActionSelected={ this.onActionSelected } />
+          style={styles.toolbar} />
       <View style={styles.container}>	
       	<View style={styles.addressBarRow}>
           <TouchableOpacity
@@ -191,6 +195,13 @@ class Browser extends Component {
             onChange={this.handleTextInputChange}
             clearButtonMode="while-editing"
             style={styles.addressBarTextInput}/>
+            <TouchableOpacity onPress={this.quitWeb}>
+              <View style={styles.goButton}>
+                <Text style={{fontWeight: 'bold'}}>
+                 X
+                </Text>
+              </View>
+            </TouchableOpacity>
         </View>
       	<WebView
             ref={WEBVIEW_REF}
@@ -218,7 +229,7 @@ const styles = StyleSheet.create({
   toolbar: {
     backgroundColor: '#ffbf00',
     justifyContent: 'center',
-    height: screenHeight * .095
+    height: screenHeight * .092
   },
   drawer: {
     flex: .7,
