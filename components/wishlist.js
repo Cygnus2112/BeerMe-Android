@@ -31,7 +31,6 @@ class Wishlist extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onActionSelected = this.onActionSelected.bind(this);
     this.signoutUser = this.signoutUser.bind(this);
     this.wishlist = this.wishlist.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
@@ -169,8 +168,7 @@ class Wishlist extends React.Component {
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
           style={styles.toolbar}
-          logo={require('../assets/logo_white_30.png')}
-          onActionSelected={ this.onActionSelected } />
+          logo={require('../assets/logo_white_30.png')}/>
         <ScrollView style={{ borderTopWidth: 1, borderTopColor: 'white'}}>
         <ListView
           dataSource = {this.state.dataSource}
@@ -213,7 +211,7 @@ let styles = StyleSheet.create({
     backgroundColor: '#ffbf00',
     justifyContent: 'center',
     //height: 50
-    height: screenHeight * .095
+    height: screenHeight * .092
   },
   drawer: {
     flex: .7,

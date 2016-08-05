@@ -37,13 +37,11 @@ class Signup extends React.Component {
       email: "",
       errorMsg: ""
 		}
-
 	}
 
   componentWillReceiveProps(newProps){
     if(newProps.authErrorMsg.ERROR) {
       this.setState({
-        //errorMsg: newProps.authErrorMsg.ERROR
         errorMsg: "That username is already taken.\nPlease choose another."
       })
     }
@@ -76,54 +74,34 @@ class Signup extends React.Component {
     Actions.login();
 	}
 
-  inputFocused(refName) {
-    setTimeout(() => {
-      // Note the this.refs.scrollView -- the ScrollView element to be
-      // handled must have the ref='scrollView' for this to work.
-      let scrollResponder = this.refs.scrollView.getScrollResponder();
-      scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
-        findNodeHandle(this.refs[refName]),
-        //offset,
-        //110, //additionalOffset
-        300, //additionalOffset
-        true
-      );
-    }, 50);
-  }
-
-    render() {
+  render() {
     return (
     <View style={styles.main}>
-      <ScrollView ref='scrollView' style={styles.scrollView} keyboardDismissMode='interactive' contentContainerStyle={styles.contentContainerStyle}>        
-            <View style={{margin: 10, justifyContent: 'center', alignItems: 'center'}}>
-                <Image source={require('../assets/logo_outline.png')} />
-                </View>
-            <View style={styles.container} ref='input'>
-                <View style={{flexDirection: 'row',justifyContent: 'center'}}>
+        <View style={{flex: 1.25, margin: 10, justifyContent: 'center', alignItems: 'center'}}>
+            <Image source={require('../assets/logo_outline.png')} />
+        </View>
+            <View style={styles.container} >
+                <View style={{flex: .85, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
                   <TextInput placeholder="Email" style={styles.input} 
-                    ref='email'
                     autoCorrect={false}
                     onChangeText={(email) => this.setState({email})}
                     value={this.state.email} 
-                    returnKeyType='next'
-                    onFocus={this.inputFocused.bind(this, 'email')} />
+                    returnKeyType='next'/>
                 </View>
-                <View style={{flexDirection: 'row',justifyContent: 'center'}}>
+                <View style={{flex: .85, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
                   <TextInput placeholder="Username" style={styles.input} 
                     ref="username"
                     onChangeText={(username) => this.setState({username})}
                     value={this.state.username} 
-                    returnKeyType='next'
-                    onFocus={this.inputFocused.bind(this, 'username')} />
+                    returnKeyType='next'/>
                 </View>
-                <View style={{flexDirection: 'row',justifyContent: 'center'}}>
+                <View style={{flex: .85, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
                   <TextInput placeholder="Password" style={styles.input}
                     ref='password' 
                     secureTextEntry={true}
                     onChangeText={(password) => this.setState({password})}
                     value={this.state.password}
-                    returnKeyType='next'
-                    onFocus={this.inputFocused.bind(this, 'input')} />
+                    returnKeyType='next' />
                 </View>
                 <Button
                   containerStyle={ styles.buttonBox }
@@ -137,63 +115,44 @@ class Signup extends React.Component {
                     {this.state.errorMsg}
                   </Text>
                 </View>
-                <View> 
-                  <Text style={styles.instructions} >
-                    Already have an account?
-                  </Text>
-                  <TouchableNativeFeedback onPress={ this.loadLogin } style={styles.button} >
-                    <View style={ styles.header }>
-                      <Text style={styles.iambold} >
-                      Sign {"in"}
-                      </Text>
-                    </View>
-                  </TouchableNativeFeedback>
-                </View>
             </View>
-          <View style={styles.footer} />
-      </ScrollView>
+            <View style={{flex: 4, flexDirection: 'column', justifyContent: 'center'}}> 
+                <Text style={styles.instructions} >
+                    Already have an account?
+                </Text>
+                <TouchableNativeFeedback onPress={ this.loadLogin } style={styles.button} >
+                  <View style={ styles.header }>
+                    <Text style={styles.iambold} >
+                      Sign {"in"}
+                    </Text>
+                  </View>
+                </TouchableNativeFeedback>
+            </View> 
+      
     </View>)
   }
 }
-//{flexDirection: 'row',justifyContent: 'center'}}
+
 const styles = StyleSheet.create({
   main: {
     flex: 1,
    // alignItems: 'flex-start',
     backgroundColor: '#ddd'
   },
-  header: {
-    flex: .1,
-    //justifyContent: 'center',
-    //alignItems: 'center',
-    backgroundColor: '#ddd'
-  },
-  footer: {
-    flex: .2,
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
   errorBox: {
-    flex: .1,
-    margin: 10,
+    flex: .3,
+    margin: 2,
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'flex-start'
   },
   errorMsg: {
     textAlign: 'center',
     color: 'red',
     marginBottom: 5
   },
-   contentContainerStyle: {
-    flex: 1,
-  },
-   scrollView: {
-    flex: 1,
-  },
-  //inputcontainer
   container: {
-    flex: .6,
-    //flex: .5,
+    flex: 3.5,
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#ddd',
@@ -219,13 +178,15 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: 'white', 
     margin: 3, 
-    padding: 10,
-    height: 45, 
+    // padding: 10,
+    padding: 5,
+   // height: 45, 
     width: width*.7,
     fontSize: 18,
     textAlign: 'center'
   },
   buttonBox: {
+    //flex: 1, 
   	padding:10, 
   	margin: 3,
   	height:45, 

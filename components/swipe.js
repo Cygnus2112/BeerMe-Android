@@ -176,29 +176,6 @@ class Swipe extends React.Component {
     }
   }
 
-  // wishlist = () => {
-  //   this.refs['DRAWER'].closeDrawer();
-  //   const { clearBeerData } = this.props.beerActions;
-  //   clearBeerData();
-  //   const { updateAndLoadWishlist } = this.props.wishlistActions;
-  //   if(this.state.wishlistToAdd.length || this.state.dislikesToAdd.length) {
-  //     updateAndLoadWishlist({
-  //       "username": this.props.username,
-  //       "wishlistToAdd": this.state.wishlistToAdd,
-  //       "dislikesToAdd": this.state.dislikesToAdd
-  //     });
-  //     this.setState({
-  //       wishlistToAdd: [],
-  //       dislikesToAdd: []
-  //     })
-  //   }
-  //   let loading = true;
-
-  //   this.setState({
-  //     isLoadingWishlist: true
-  //   })
-  // }
-
   likeBeer = (beer) => {
     Actions.beerdetail({selectedBeer: beer, rowID: beer.id, isAlreadyInWishlist: false});
 
@@ -247,12 +224,6 @@ class Swipe extends React.Component {
       loadBeers(userData);
     }
   }
-
-  // onActionSelected = (position) => {
-  //   if (position === 0) { // index of 'Settings'
-  //     //showSettings();
-  //   }
-  // }
 
   signoutUser = () => {
     this.refs['DRAWER'].closeDrawer();
@@ -335,8 +306,7 @@ class Swipe extends React.Component {
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
           logo={require('../assets/logo_white_30.png')}
-          style={styles.toolbar}
-          onActionSelected={ this.onActionSelected } />
+          style={styles.toolbar} />
         <View style={styles.loading}>
           <View style={{flex:.5,flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
             <Text style={{fontSize: 27, textAlign: 'center'}}>Fetching beers...</Text>
@@ -359,8 +329,7 @@ class Swipe extends React.Component {
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
           logo={require('../assets/logo_white_30.png')}
-          style={styles.toolbar}
-          onActionSelected={ this.onActionSelected } />
+          style={styles.toolbar} />
         <View style={styles.loading}>
           <View style={{flex:.5, flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
             <Text style={{fontSize: 27, textAlign: 'center'}}>Loading wishlist...</Text>
@@ -383,8 +352,7 @@ class Swipe extends React.Component {
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
           logo={require('../assets/logo_white_30.png')}
-          style={styles.toolbar}
-          onActionSelected={ this.onActionSelected } />
+          style={styles.toolbar} />
       <View style={styles.main} >
           <Animated.View style={[styles.card, animatedCardstyles]} {...this._panResponder.panHandlers}>
               <View style={{flexDirection: 'row',justifyContent: 'center', borderColor: 'black', borderWidth: 1, width: 258, height: 258}}>
@@ -417,14 +385,10 @@ class Swipe extends React.Component {
 
 }
 
-// const toolbarActions = [
-//   {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
-// ];
-
 const styles = StyleSheet.create({
   toolbar: {
     backgroundColor: '#ffbf00',
-    height: screenHeight * .095,
+    height: screenHeight * .092,
     justifyContent: 'center',
   },
   drawer: {

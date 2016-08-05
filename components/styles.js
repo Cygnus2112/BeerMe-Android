@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
    // backgroundColor: '#e9eaed',
     backgroundColor: '#ffbf00',
     //height: 50,
-    height: screenHeight * .095,
+    height: screenHeight * .092,
     justifyContent: 'center',
   },
   loading: {
@@ -217,7 +217,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    //backgroundColor: '#F5FCFF'
+    borderTopWidth: 1,
+    borderTopColor: 'white'
   },
   centering: {
     flex: 1,

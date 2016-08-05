@@ -30,14 +30,10 @@ import { Actions } from 'react-native-router-flux';
 let screenWidth = Dimensions.get('window').width;
 let screenHeight = Dimensions.get('window').height;
 
-import Styles from './styles'
-import DrawerView from './drawer'
-
 class BeerDetail extends React.Component {
   constructor(props){
     super(props);
 
-    this.onActionSelected = this.onActionSelected.bind(this);
     this.signoutUser = this.signoutUser.bind(this);
     this.wishlist = this.wishlist.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
@@ -59,7 +55,6 @@ class BeerDetail extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log("componentWillUnmount called in BEERDETAIL");
     // temp solution to load front beer when back button pressed to return to swipe
 
     // if(this.props.beerData.length) {
@@ -120,7 +115,6 @@ class BeerDetail extends React.Component {
 
   websiteClicked = () => {
     Actions.webview({website: this.props.selectedBeer.website})
-    //Actions.drawer();
   }
 
   toggleWishlist = () => {
@@ -142,12 +136,6 @@ class BeerDetail extends React.Component {
     setTimeout(() => {this.setState({
       actionMessage: ""
     });}, 2000);
-  }
-
-  onActionSelected = (position) => {
-    if (position === 0) { // index of 'Settings'
-      //showSettings();
-    }
   }
 
   signoutUser = () => {
@@ -320,47 +308,6 @@ class BeerDetail extends React.Component {
         </View>)
       
     } else {
-
-//           //      logo={require('../assets/logo_white_30.png')}
-// <View style={styles.main}>
-//       <View style={styles.card}>
-//                 <View style={{marginTop:2, flex: 1.3, flexDirection: 'row',justifyContent: 'flex-start',borderBottomColor: 'black',borderBottomWidth: 5, backgroundColor: 'white'}}>
-//                     <View style={{flex: 2, flexDirection: 'column',justifyContent: 'center',alignItems: 'center'}}>
-//                         <Image source={{uri: this.props.selectedBeer.icon}} style={{width: 80, height: 80}}/>
-//                     </View>  
-//                     { beerTitle }
-//                 </View>
-//                 <View style={{flex: 2.5,flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
-//                         <Text numberOfLines={12} style={{margin:10}} >
-//                           {this.props.selectedBeer.descript}
-//                         </Text>
-//                 </View>
-//                 <View style={ styles.icons }>
-//                     { heartView }
-//                     <View style={ styles.icon }>
-//                       <TouchableOpacity onPress={ this.websiteClicked } >
-//                         <Image source={require('../assets/ic_public_black_24dp.png') } style={{width: 60, height: 60, marginLeft:20, marginRight: 20}}/>
-//                       </TouchableOpacity >
-//                       <Text style={{fontSize: 10, textAlign: 'center'}}>Brewery</Text>
-//                       <Text style={{fontSize: 10, textAlign: 'center'}}>Homepage</Text>
-//                     </View>
-//                     <View style={ styles.icon }>
-//                       <TouchableOpacity onPress={ this.drizlyClicked } >
-//                           <Image source={require('../assets/drizly_logo.jpeg') } style={{width: 60, height: 60}}/>
-//                       </TouchableOpacity >
-//                       <Text style={{fontSize: 10, textAlign: 'center'}}>Order</Text>
-//                       <Text style={{fontSize: 10, textAlign: 'center'}}>Online</Text>
-//                     </View>
-//                 </View>
-//             </View>
-//             <View style={ styles.footer }>
-//                 <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-//                     <Text style={styles.like} >
-//                       { this.state.actionMessage }
-//                     </Text>
-//                 </View>
-//             </View>
-//         </View>
     return (
       <View style={{flex: 1}}>
         <ToolbarAndroid
@@ -387,8 +334,8 @@ class BeerDetail extends React.Component {
                       <TouchableOpacity onPress={ this.websiteClicked } >
                         <Image source={require('../assets/ic_public_black_24dp.png') } style={{width: 60, height: 60, marginLeft:20, marginRight: 20}}/>
                       </TouchableOpacity >
-                      <Text style={{fontSize: 10, textAlign: 'center'}}>Brewery</Text>
-                      <Text style={{fontSize: 10, textAlign: 'center'}}>Homepage</Text>
+                      <Text style={{fontSize: 10, textAlign: 'center'}}>Brewer</Text>
+                      <Text style={{fontSize: 10, textAlign: 'center'}}>Website</Text>
                     </View>
                     <View style={ styles.icon }>
                       <TouchableOpacity onPress={ this.drizlyClicked } >
@@ -448,7 +395,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffbf00',
     //height: 50,
     justifyContent: 'center',
-    height: screenHeight * .095,
+    height: screenHeight * .092,
   },
   drawer: {
     flex: .7,
