@@ -9,6 +9,7 @@ export const UPDATE_WISHLIST_REQUEST = 'UPDATE_WISHLIST_REQUEST';
 export const UPDATE_WISHLIST_SUCCESS = 'UPDATE_WISHLIST_SUCCESS';
 export const REMOVE_WISHLIST_ITEM_REQUEST = 'REMOVE_WISHLIST_ITEM_REQUEST';
 export const REMOVE_WISHLIST_ITEM_SUCCESS = 'REMOVE_WISHLIST_ITEM_SUCCESS';
+export const EMPTY_WISHLIST = 'EMPTY_WISHLIST';
 
 export const loadWishlist = (userData) => {
   return dispatch => {
@@ -27,13 +28,23 @@ export const loadWishlist = (userData) => {
       			}
     		})
     		.then(response => {
-      			return response.json();
+            // if(!response['_bodyText']){
+            //   dispatch(emptyWishlist());
+            //   Actions.wishlist(); 
+            //   return response.json();
+            // } else{
+      			  return response.json();
+            //}
     		})
     		.then(response => {
       			dispatch(loadWishlistSuccess(response));
       			Actions.wishlist();							
     		})
-    		.catch(err => console.error('Error in loadWishlist:', err));
+    		.catch(err => {
+            console.error('Error in loadWishlist:', err);
+            dispatch(emptyWishlist());
+            Actions.wishlist(); 
+          });
             	
         } else {
             // dispatch(authFail());
@@ -58,7 +69,7 @@ const loadWishlistSuccess = (wishlistData) => {
 
 export const updateWishlist = (userData) => {
   return dispatch => {
-    dispatch(updateWishlistRequest());      // presents spinner
+    dispatch(updateWishlistRequest());      
     AsyncStorage.getItem("beerme-token").then((token) => {
         if(token){
             //dispatch(authSuccess());
@@ -192,6 +203,12 @@ export const removeWishlistItem = (userData) => {
             Actions.login();
         }
     }).done();
+  }
+}
+
+const emptyWishlist = () => {
+  return {
+    type: EMPTY_WISHLIST
   }
 }
 

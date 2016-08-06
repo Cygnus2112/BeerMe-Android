@@ -47,7 +47,8 @@ class Styles extends React.Component {
     this.state = {
       styleChoice: "",
       actionText: "",
-      isLoadingWishlist: false
+      isLoadingWishlist: false,
+      username: ""
     }
   }
 

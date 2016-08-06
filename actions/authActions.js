@@ -53,7 +53,7 @@ export const signup = (info) => {
 const signupRequest = (info) => {
   return {
     type: SIGNUP_REQUEST,
-    info
+    username: info.username
   }
 }
 
@@ -67,7 +67,7 @@ const signupError = (err) => {
 const signupSuccess = (info) => {
   return {
     type: SIGNUP_SUCCESS,
-    info
+    username: info.username
   }
 }
 
