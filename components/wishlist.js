@@ -96,6 +96,10 @@ class Wishlist extends React.Component {
     Actions.styles();
   }
 
+  emptyLoadStyles = () => {
+    Actions.styles();
+  }
+
   openDrawer = () => {
     this.refs['DRAWER'].openDrawer()
   }
@@ -132,8 +136,33 @@ class Wishlist extends React.Component {
           </View>
       </View>
     );
+    if(!Object.keys(this.props.wishlist).length){
+      return (
+        <DrawerLayoutAndroid
+        ref={'DRAWER'}
+        drawerWidth={200}
+        drawerPosition={DrawerLayoutAndroid.positions.Left}
+        renderNavigationView={() => navigationView}>
+        <ToolbarAndroid
+          navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
+          onIconClicked={() => this.openDrawer() }
+          style={styles.toolbar}
+          logo={require('../assets/logo_white_30.png')}/>
+          <Text style={styles.choose}>
+            You {"haven't"} added any beers to your wishlist!
+          </Text>
+          <TouchableNativeFeedback onPress={ this.emptyLoadStyles} >
+              <View>
+                  <Text style={styles.choose}>
+                    Find your brew
+                  </Text>
+              </View>
+          </TouchableNativeFeedback>
+ 
+        </DrawerLayoutAndroid>
 
-    if(this.props.isFetching){
+        )
+    } else if(this.props.isFetching){
       return (
         <View style={styles.main}>
           <ActivityIndicator
@@ -142,22 +171,10 @@ class Wishlist extends React.Component {
             size="large"/>
         </View>
         );
-    } else if(this.props.wishlist.length < 1){
-      return (
-        <View style={styles.main}>
-          <Text style={styles.choose}>
-            You {"haven't"} added any beers to your wishlist!
-          </Text>
-          <Text style={styles.choose}>
-            Find your brew
-          </Text>
-        </View>
-
-        )
     } else {
+      //console.log('this.state.dataSource.length: ', this.state.dataSource.length);
 
       let beerIcon;
-       //         console.log("selectedBeer.icon: ", selectedBeer.icon);
       return (
       <DrawerLayoutAndroid
         ref={'DRAWER'}
@@ -193,12 +210,6 @@ class Wishlist extends React.Component {
     }
   }
 }
-
- 
-
-const toolbarActions = [
-  {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
-];
 
 let styles = StyleSheet.create({
   header: {

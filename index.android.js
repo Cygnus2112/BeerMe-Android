@@ -40,6 +40,8 @@ import Main from './components/main'
 import Wishlist from './components/wishlist'
 import BeerDetail from './components/beerdetail'
 import Browser from './components/webview'
+import Forgot from './components/forgot'
+import Whatever from './components/whatever'
 
 let width = Dimensions.get('window').width;
 
@@ -64,6 +66,8 @@ class BeerMeAndroid extends Component {
             <Scene key="wishlist" component={ Wishlist } type='reset' />
             <Scene key="beerdetail" component={ BeerDetail } direction='vertical' />
             <Scene key="webview" component={ Browser} />
+            <Scene key="forgot" component={ Forgot } hideNavBar={false}/>
+            <Scene key="whatever" component={ Whatever } hideNavBar={false} />
           </Scene>
         </Router>
       </Provider>

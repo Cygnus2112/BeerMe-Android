@@ -29,9 +29,10 @@ let width = Dimensions.get('window').width;
 class Login extends React.Component {
 	constructor(props) {
 		super(props);
-		this.logToConsole = this.logToConsole.bind(this);
+
 		this.loadSignup = this.loadSignup.bind(this);
 		this.submitLogin = this.submitLogin.bind(this);
+    this.forgotPassword = this.forgotPassword.bind(this);
 
 		this.state = {
 			username: "",
@@ -39,10 +40,6 @@ class Login extends React.Component {
       errorMsg: ""
 		}
 
-	}
-
-	logToConsole(e) {
-		console.log('this.props in LOGIN', this.props);
 	}
 
   componentWillReceiveProps(newProps){
@@ -75,19 +72,23 @@ class Login extends React.Component {
 		Actions.signup();
 	}
 
+  forgotPassword() {
+    Actions.forgot();
+
+  }
+
 	render() {
 		return (
 		<View style={styles.main}>
-  
         <View style={{margin: 10, flex: 1.5, flexDirection: 'column', justifyContent: 'center'}}>
         		<Image source={require('../assets/logo_outline.png')} />
         </View>
-        <View style={{flex: 1,flexDirection: 'row',justifyContent: 'center', backgroundColor:'white', margin:5, borderRadius: 4}}>
+        <View style={{height: 50,flexDirection: 'row',justifyContent: 'center', backgroundColor:'white', margin:5, borderRadius: 4}}>
             <TextInput placeholder="Username" style={styles.textInput} 
             	onChangeText={(username) => this.setState({username})}
             	value={this.state.username} />
         </View>
-        <View style={{flex: 1, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white', margin:5, borderRadius: 4}}>
+        <View style={{height: 50, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white', margin:5, borderRadius: 4}}>
             <TextInput placeholder="Password" 
               style={styles.textInput} 
             	secureTextEntry={true}
@@ -105,7 +106,14 @@ class Login extends React.Component {
             <Text style={ styles.errorMsg }>
               {this.state.errorMsg}
             </Text>
-        </View>   		
+        </View>
+        <TouchableNativeFeedback onPress={ this.forgotPassword } style={styles.button} >
+            <View style={ styles.header }>
+              <Text style={styles.forgot} >
+                Forgot your password?
+              </Text>
+            </View>
+        </TouchableNativeFeedback>   		
         <View style={ styles.signup }> 
           	<Text style={styles.instructions} >
           		{ "Don't" } have an account?
@@ -182,6 +190,12 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 16,
     fontWeight: 'bold'
+  },
+  forgot: {
+    textAlign: 'center',
+    color: '#333333',
+   // marginBottom: 5,
+    fontSize: 14
   },
   textInput: {
     backgroundColor: 'white', 

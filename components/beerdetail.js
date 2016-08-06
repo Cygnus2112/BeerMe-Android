@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import Drawer from 'react-native-drawer'
 
 import {
   ActivityIndicator,
