@@ -76,11 +76,11 @@ class Login extends React.Component {
     Actions.forgot();
 
   }
-
+//flex: 1.5, 
 	render() {
 		return (
 		<View style={styles.main}>
-        <View style={{margin: 10, flex: 1.5, flexDirection: 'column', justifyContent: 'center'}}>
+        <View style={{margin: 10, height: 75, flexDirection: 'column', justifyContent: 'center'}}>
         		<Image source={require('../assets/logo_outline.png')} />
         </View>
         <View style={{height: 50,flexDirection: 'row',justifyContent: 'center', backgroundColor:'white', margin:5, borderRadius: 4}}>

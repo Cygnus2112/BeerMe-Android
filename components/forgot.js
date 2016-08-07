@@ -31,9 +31,6 @@ class Forgot extends React.Component {
 			<View style={styles.container}>
 			  <View style={styles.top}>
 				<Text style={{fontSize: 18,textAlign: 'center'}}>
-					Ugh.
-				</Text>
-				<Text style={{fontSize: 18,textAlign: 'center'}}>
 					Coding password resets is a nightmare.
 				</Text>
 				<TouchableNativeFeedback onPress={ this.loadSignup }>

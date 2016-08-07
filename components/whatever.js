@@ -27,7 +27,7 @@ class Whatever extends React.Component {
 		<View style={styles.container}>
 			<View style={styles.bottom}>
 				<Text style={{fontSize: 18, textAlign: 'center'}}>
-				Seriously? This is a freaking beer app.
+				Ugh. Seriously? This is a freaking beer app.
 				</Text>
 				<Text style={{fontSize: 18, textAlign: 'center'}}>
 				It's not like you've got nuclear launch
