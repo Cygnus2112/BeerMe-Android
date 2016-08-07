@@ -73,29 +73,30 @@ class Signup extends React.Component {
 	loadLogin() {
     Actions.login();
 	}
-
+ // flex: 1.25, 
+//flex: .85, 
   render() {
     return (
     <View style={styles.main}>
-        <View style={{flex: 1.25, margin: 10, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{height: 75, margin: 10, justifyContent: 'center', alignItems: 'center'}}>
             <Image source={require('../assets/logo_outline.png')} />
         </View>
             <View style={styles.container} >
-                <View style={{flex: .85, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
+                <View style={{height: 45, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
                   <TextInput placeholder="Email" style={styles.input} 
                     autoCorrect={false}
                     onChangeText={(email) => this.setState({email})}
                     value={this.state.email} 
                     returnKeyType='next'/>
                 </View>
-                <View style={{flex: .85, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
+                <View style={{height: 45, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
                   <TextInput placeholder="Username" style={styles.input} 
                     ref="username"
                     onChangeText={(username) => this.setState({username})}
                     value={this.state.username} 
                     returnKeyType='next'/>
                 </View>
-                <View style={{flex: .85, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
+                <View style={{height: 45, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
                   <TextInput placeholder="Password" style={styles.input}
                     ref='password' 
                     secureTextEntry={true}
