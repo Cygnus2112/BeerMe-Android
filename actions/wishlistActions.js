@@ -28,13 +28,7 @@ export const loadWishlist = (userData) => {
       			}
     		})
     		.then(response => {
-            // if(!response['_bodyText']){
-            //   dispatch(emptyWishlist());
-            //   Actions.wishlist(); 
-            //   return response.json();
-            // } else{
       			  return response.json();
-            //}
     		})
     		.then(response => {
       			dispatch(loadWishlistSuccess(response));
@@ -42,8 +36,6 @@ export const loadWishlist = (userData) => {
     		})
     		.catch(err => {
             console.error('Error in loadWishlist:', err);
-            dispatch(emptyWishlist());
-            Actions.wishlist(); 
           });
             	
         } else {
