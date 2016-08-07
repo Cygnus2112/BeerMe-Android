@@ -142,13 +142,18 @@ class Browser extends Component {
       </View>
     );
 
-    if (this.state.isLoadingWishlist) {
-       return (
       <DrawerLayoutAndroid
         ref={'DRAWER'}
         drawerWidth={200}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={() => navigationView}>
+        </DrawerLayoutAndroid>
+
+
+
+    if (this.state.isLoadingWishlist) {
+       return (
+      <View>
         <ToolbarAndroid
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
@@ -164,7 +169,8 @@ class Browser extends Component {
             style={[styles.centering, {height: 80}]}
             size="large"/>
         </View>
-      </DrawerLayoutAndroid>
+      </View>
+      
         )
     } else {
       return (

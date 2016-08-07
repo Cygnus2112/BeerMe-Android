@@ -30,6 +30,7 @@ class Signup extends React.Component {
 		super(props);
 		this.submitSignup = this.submitSignup.bind(this);
 		this.loadLogin = this.loadLogin.bind(this);
+    this._validateEmail = this._validateEmail.bind(this);
 
 		this.state = {
 			username: "",
@@ -47,6 +48,11 @@ class Signup extends React.Component {
     }
   }
 
+  _validateEmail() {
+    let regExString = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return regExString.test(this.state.email);
+  }
+
 	submitSignup() {
     if(!this.state.username || !this.state.password || !this.state.email){
       this.setState({
@@ -55,7 +61,11 @@ class Signup extends React.Component {
     } else if(this.state.password.length < 6){
       this.setState({
         errorMsg: "Password must be at least six characters in length."
-      }) 
+      })   
+    } else if (!this._validateEmail()) {
+      this.setState({
+        errorMsg: "Please enter a properly formatted email address."
+      })
     } else {
       const { signup } = this.props.authActions;
       const userInfo = {
