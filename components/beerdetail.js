@@ -37,6 +37,8 @@ class BeerDetail extends React.Component {
     this.wishlist = this.wishlist.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
     this.loadStyles = this.loadStyles.bind(this);
+    this.loadAbout = this.loadAbout.bind(this);
+
     this.toggleWishlist = this.toggleWishlist.bind(this);
     this.drizlyClicked = this.drizlyClicked.bind(this);
     this.websiteClicked = this.websiteClicked.bind(this);
@@ -180,6 +182,11 @@ class BeerDetail extends React.Component {
     Actions.styles();
   }
 
+  loadAbout = () => {
+    this.refs['DRAWER'].closeDrawer();
+    Actions.about();
+  }
+
   openDrawer = () => {
     this.refs['DRAWER'].openDrawer()
   }
@@ -191,7 +198,7 @@ class BeerDetail extends React.Component {
   render() {
 
     let navigationView = (
-      <View style={styles.drawermain}>
+     <View style={styles.drawermain}>
           <View style={styles.drawer}>
             <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#F5FCFF', padding: 5, borderBottomColor: '#b5b5b5', borderBottomWidth: 1, paddingTop: 15, paddingBottom: 15}}>
               <Image source={require('../assets/logo_amber.png')} style={{width: 294*.65, height: 70*.65}} />
@@ -216,6 +223,14 @@ class BeerDetail extends React.Component {
               <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
                 <Image source={require('../assets/ic_account_circle_black_24dp_sm.png')} style={{margin: 10}}  />
                 <Text style={{fontSize: 18, textAlign: 'left'}}>Sign Out</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={{flexDirection: 'column', justifyContent: 'center', flex: .075,backgroundColor: '#F5FCFF'}}>
+            <TouchableOpacity onPress={ this.loadAbout }>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderTopColor: '#b5b5b5', borderTopWidth: 1}}>
+                <Image source={require('../assets/ic_info_black_24dp.png')} style={{width: 24, height: 24,margin: 10}}  />
+                <Text style={{fontSize: 18, textAlign: 'left'}}>About</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -331,7 +346,7 @@ class BeerDetail extends React.Component {
                     { heartView }
                     <View style={ styles.icon }>
                       <TouchableOpacity onPress={ this.websiteClicked } >
-                        <Image source={require('../assets/ic_public_black_24dp.png') } style={{width: 60, height: 60, marginLeft:20, marginRight: 20}}/>
+                        <Image source={require('../assets/ic_language_black_24dp.png') } style={{width: 60, height: 60, marginLeft:20, marginRight: 20}}/>
                       </TouchableOpacity >
                       <Text style={{fontSize: 10, textAlign: 'center'}}>Brewer</Text>
                       <Text style={{fontSize: 10, textAlign: 'center'}}>Website</Text>
@@ -393,6 +408,7 @@ const styles = StyleSheet.create({
   toolbar: {
     backgroundColor: '#ffbf00',
     //height: 50,
+    flexDirection: 'column',
     justifyContent: 'center',
     height: screenHeight * .092,
   },
@@ -401,15 +417,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     //alignItems: 'center',
     backgroundColor: '#F5FCFF',
-    borderColor: 'black',
-    borderWidth: 2    
   },
   drawermain: {
+    flexDirection: 'column',
     flex: 1,
     backgroundColor: '#ddd',
-    alignItems: 'center',
-    //justifyContent: 'space-around',
+    //alignItems: 'center',
+    justifyContent: 'space-between',
     //backgroundColor: '#F5FCFF'
+    borderColor: 'black',
+    borderWidth: 2
   },
   main: {
     flex: 1,

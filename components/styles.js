@@ -40,9 +40,9 @@ class Styles extends React.Component {
     this.signoutUser = this.signoutUser.bind(this);
     this.wishlist = this.wishlist.bind(this);
 
-   // this.onActionSelected = this.onActionSelected.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
     this.loadStyles = this.loadStyles.bind(this);
+    this.loadAbout = this.loadAbout.bind(this);
 
     this.state = {
       styleChoice: "",
@@ -89,11 +89,10 @@ class Styles extends React.Component {
     Actions.styles();
   }
 
-  // onActionSelected = (position) => {
-  //   if (position === 0) { // index of 'Settings'
-  //     //showSettings();
-  //   }
-  // }
+  loadAbout = () => {
+    this.refs['DRAWER'].closeDrawer();
+    Actions.about();
+  }
 
   openDrawer = () => {
     this.refs['DRAWER'].openDrawer()
@@ -101,7 +100,7 @@ class Styles extends React.Component {
 
   render() {
     let navigationView = (
-      <View style={styles.main}>
+      <View style={styles.drawermain}>
           <View style={styles.drawer}>
             <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#F5FCFF', padding: 5, borderBottomColor: '#b5b5b5', borderBottomWidth: 1, paddingTop: 15, paddingBottom: 15}}>
               <Image source={require('../assets/logo_amber.png')} style={{width: 294*.65, height: 70*.65}} />
@@ -126,6 +125,14 @@ class Styles extends React.Component {
               <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
                 <Image source={require('../assets/ic_account_circle_black_24dp_sm.png')} style={{margin: 10}}  />
                 <Text style={{fontSize: 18, textAlign: 'left'}}>Sign Out</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={{flexDirection: 'column', justifyContent: 'center', flex: .075,backgroundColor: '#F5FCFF'}}>
+            <TouchableOpacity onPress={ this.loadAbout }>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderTopColor: '#b5b5b5', borderTopWidth: 1}}>
+                <Image source={require('../assets/ic_info_black_24dp.png')} style={{width: 24, height: 24,margin: 10}}  />
+                <Text style={{fontSize: 18, textAlign: 'left'}}>About</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -178,20 +185,31 @@ class Styles extends React.Component {
                 </Text>
               </View>
               <View style={{flexDirection: 'row',justifyContent: 'space-around'}}>
-                <TouchableOpacity onPress={ () => this.openSwipe("Ale") } >
-                  <Image source={require('../assets/Ale-125.png') } style={{width: 108*.65, height: 254*.65}}/>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={ () => this.openSwipe("Lager") } >
-                  <Image source={require('../assets/Lager-125.png') } style={{width: 108*.65, height: 252*.65}}/>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={ () => this.openSwipe("Pilsner") } >
-                  <Image source={require('../assets/Pilsner-125.png') } style={{width: 125*.65, height: 247*.665}}/>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={ () => this.openSwipe("Stout") } >
-                  <Image source={require('../assets/Stout-125.png') } style={{width: 108*.65, height: 252*.66}}/>
-                </TouchableOpacity>
+                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                    <TouchableOpacity onPress={ () => this.openSwipe("Ale") } >
+                      <Image source={require('../assets/Ale-125.png') } style={{width: 108*.65, height: 254*.65}}/>
+                      <Text style={styles.welcome}>Ale</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                    <TouchableOpacity onPress={ () => this.openSwipe("Lager") } >
+                      <Image source={require('../assets/Lager-125.png') } style={{width: 108*.65, height: 252*.65}}/>
+                      <Text style={styles.welcome}>Lager</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                    <TouchableOpacity onPress={ () => this.openSwipe("Pilsner") } >
+                      <Image source={require('../assets/Pilsner-125.png') } style={{width: 125*.65, height: 247*.665}}/>
+                      <Text style={styles.welcome}>Pilsner</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                    <TouchableOpacity onPress={ () => this.openSwipe("Stout") } >
+                      <Image source={require('../assets/Stout-125.png') } style={{width: 108*.65, height: 252*.66}}/>
+                      <Text style={styles.welcome}>Stout</Text>
+                    </TouchableOpacity>
+                </View>
               </View>
-              <Text style={styles.welcome}>  Ale         Lager        Pilsner       Stout</Text>
           </View>
           <View style={styles.footer} />
         </View>
@@ -200,15 +218,12 @@ class Styles extends React.Component {
   }
 }
 
-// const toolbarActions = [
-//   {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
-// ];
-
 const styles = StyleSheet.create({
   toolbar: {
    // backgroundColor: '#e9eaed',
     backgroundColor: '#ffbf00',
     //height: 50,
+    flexDirection: 'column',
     height: screenHeight * .092,
     justifyContent: 'center',
   },
@@ -248,6 +263,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     //alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  drawermain: {
+    flexDirection: 'column',
+    flex: 1,
+    backgroundColor: '#ddd',
+    //alignItems: 'center',
+    justifyContent: 'space-between',
+    //backgroundColor: '#F5FCFF'
+    borderColor: 'black',
+    borderWidth: 2
   },
   container: {
     flex: .7,
