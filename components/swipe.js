@@ -44,6 +44,7 @@ class Swipe extends React.Component {
     this.signoutUser = this.signoutUser.bind(this);
     this.wishlist = this.wishlist.bind(this);
     this.loadStyles = this.loadStyles.bind(this);
+    this.loadAbout = this.loadAbout.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
 
     this.state = {
@@ -236,6 +237,11 @@ class Swipe extends React.Component {
     Actions.styles();
   }
 
+  loadAbout = () => {
+    this.refs['DRAWER'].closeDrawer();
+    Actions.about();
+  }
+
   openDrawer = () => {
     this.refs['DRAWER'].openDrawer()
   }
@@ -264,7 +270,7 @@ class Swipe extends React.Component {
 
 
     let navigationView = (
-      <View style={styles.maindrawer}>
+     <View style={styles.drawermain}>
           <View style={styles.drawer}>
             <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#F5FCFF', padding: 5, borderBottomColor: '#b5b5b5', borderBottomWidth: 1, paddingTop: 15, paddingBottom: 15}}>
               <Image source={require('../assets/logo_amber.png')} style={{width: 294*.65, height: 70*.65}} />
@@ -289,6 +295,14 @@ class Swipe extends React.Component {
               <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
                 <Image source={require('../assets/ic_account_circle_black_24dp_sm.png')} style={{margin: 10}}  />
                 <Text style={{fontSize: 18, textAlign: 'left'}}>Sign Out</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={{flex: .075,backgroundColor: '#F5FCFF'}}>
+            <TouchableOpacity onPress={ this.loadAbout }>
+              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderTopColor: '#b5b5b5', borderTopWidth: 1}}>
+                <Image source={require('../assets/ic_info_black_24dp.png')} style={{width: 24, height: 24,margin: 10}}  />
+                <Text style={{fontSize: 18, textAlign: 'left'}}>About</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -397,6 +411,16 @@ const styles = StyleSheet.create({
     //alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+  drawermain: {
+    flexDirection: 'column',
+    flex: 1,
+    backgroundColor: '#ddd',
+    //alignItems: 'center',
+    justifyContent: 'space-between',
+    //backgroundColor: '#F5FCFF'
+    borderColor: 'black',
+    borderWidth: 2
+  },
   like: {
     textAlign: 'center',
     color: 'red',
@@ -429,7 +453,7 @@ const styles = StyleSheet.create({
     borderTopColor: 'white',
     paddingTop: 20
   },
-  maindrawer: {
+  drawermain: {
     flex: 1,
     backgroundColor: '#ddd',
     alignItems: 'center',

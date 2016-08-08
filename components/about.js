@@ -2,15 +2,11 @@ import React from 'react';
 
 import {
   ActivityIndicator,
-  ListView,
-  Platform,
   StyleSheet,
   Text,
   View,
   Image,
-  TextInput,
   Dimensions,
-  AsyncStorage,
   TouchableNativeFeedback,
   TouchableOpacity,
   DrawerLayoutAndroid,
@@ -27,48 +23,24 @@ import * as wishlistActions from '../actions/wishlistActions';
 
 import { Actions } from 'react-native-router-flux';
 let screenHeight = Dimensions.get('window').height;
-
-import Button from 'react-native-button';
 let width = Dimensions.get('window').width;
 
-class Styles extends React.Component {
+class About extends React.Component {
   constructor(props) {
     super(props);
 
-    this.fetchBeers = this.fetchBeers.bind(this);
-    this.openSwipe = this.openSwipe.bind(this);
     this.signoutUser = this.signoutUser.bind(this);
     this.wishlist = this.wishlist.bind(this);
-
-   // this.onActionSelected = this.onActionSelected.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
     this.loadStyles = this.loadStyles.bind(this);
     this.loadAbout = this.loadAbout.bind(this);
 
+    this.goBack = this.goBack.bind(this);
+
     this.state = {
-      styleChoice: "",
-      actionText: "",
-      isLoadingWishlist: false,
-      username: ""
+      isLoadingWishlist: false
     }
   }
-
-  fetchBeers = (style) => {         
-    const { loadBeers } = this.props.beerActions;
-    let userData = {
-      username: this.props.username,
-      style: style                                 
-    }
-    loadBeers(userData); 
-    Actions.swipe({styleChoice: style});        
-  }
-
-  openSwipe = (styleChoice) => {
-    const { clearFrontBeer } = this.props.beerActions;
-    clearFrontBeer(); 
-
-    this.fetchBeers(styleChoice); 
-  } 
 
   signoutUser = () => {
     this.refs['DRAWER'].closeDrawer();
@@ -97,6 +69,10 @@ class Styles extends React.Component {
 
   openDrawer = () => {
     this.refs['DRAWER'].openDrawer()
+  }
+
+  goBack = () => {
+    Actions.pop();
   }
 
   render() {
@@ -142,17 +118,12 @@ class Styles extends React.Component {
 
     if (this.state.isLoadingWishlist) {
        return (
-      <DrawerLayoutAndroid
-        ref={'DRAWER'}
-        drawerWidth={200}
-        drawerPosition={DrawerLayoutAndroid.positions.Left}
-        renderNavigationView={() => navigationView}>
+      <View style={{flex: 1}}>
         <ToolbarAndroid
-          navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
-          onIconClicked={() => this.openDrawer() }
+          navIcon={require('../assets/ic_navigate_before_black_24dp.png')}
+          onIconClicked={() => this.goBack() }
           logo={require('../assets/logo_white_30.png')}
-          style={styles.toolbar}
-          onActionSelected={ this.onActionSelected } />
+          style={styles.toolbar}/>
         <View style={styles.loading}>
           <View style={{flex:.5, flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
             <Text style={{fontSize: 27, textAlign: 'center'}}>Loading wishlist...</Text>
@@ -162,66 +133,42 @@ class Styles extends React.Component {
             style={[styles.centering, {height: 80}]}
             size="large"/>
         </View>
-      </DrawerLayoutAndroid>
+      </View>
         )
     } else {
 
     return (
-      <DrawerLayoutAndroid
-        ref={'DRAWER'}
-        drawerWidth={200}
-        drawerPosition={DrawerLayoutAndroid.positions.Left}
-        renderNavigationView={() => navigationView}>
-        <ToolbarAndroid
-          navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
-          onIconClicked={() => this.openDrawer() }
+      <View style={{flex: 1}}>
+         <ToolbarAndroid
+          navIcon={require('../assets/ic_navigate_before_black_24dp.png')}
+          onIconClicked={() => this.goBack() }
           logo={require('../assets/logo_white_30.png')}
-          style={styles.toolbar}
-          onActionSelected={ this.onActionSelected } />
+          style={styles.toolbar}/>
         <View style={styles.main}>
+          <View style={{flex: 1, margin: 10, height: 75, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+        		<Image source={require('../assets/logo_outline.png')} />
+          </View>
           <View style={styles.container}>
-              <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-                <Text style={styles.choose}>
-                What are you thirsty {"for"}?
+              <View style={{flex: 2, flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{fontSize: 22, textAlign: 'center'}}>
+                Version 1.0
                 </Text>
               </View>
-              <View style={{flexDirection: 'row',justifyContent: 'space-around'}}>
-                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <TouchableOpacity onPress={ () => this.openSwipe("Ale") } >
-                      <Image source={require('../assets/Ale-125.png') } style={{width: 108*.65, height: 254*.65}}/>
-                      <Text style={styles.welcome}>Ale</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <TouchableOpacity onPress={ () => this.openSwipe("Lager") } >
-                      <Image source={require('../assets/Lager-125.png') } style={{width: 108*.65, height: 252*.65}}/>
-                      <Text style={styles.welcome}>Lager</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <TouchableOpacity onPress={ () => this.openSwipe("Pilsner") } >
-                      <Image source={require('../assets/Pilsner-125.png') } style={{width: 125*.65, height: 247*.665}}/>
-                      <Text style={styles.welcome}>Pilsner</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <TouchableOpacity onPress={ () => this.openSwipe("Stout") } >
-                      <Image source={require('../assets/Stout-125.png') } style={{width: 108*.65, height: 252*.66}}/>
-                      <Text style={styles.welcome}>Stout</Text>
-                    </TouchableOpacity>
-                </View>
+              <View style={{flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center'}}>
+              	<Text style={{fontSize: 16, textAlign: 'center'}}>
+                <Image source={require('../assets/ic_copyright_black_24dp.png')} style={{height:20,width:20}} /> 2016 Thomas Leupp
+                </Text>
+                <Text></Text>
+                <Text style={{fontSize: 14, textAlign: 'center'}}>
+                Beer data courtesy of BreweryDB
+                </Text>
               </View>
           </View>
-          <View style={styles.footer} />
         </View>
-    </DrawerLayoutAndroid>)
+    </View>)
     }
   }
 }
-
-// const toolbarActions = [
-//   {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
-// ];
 
 const styles = StyleSheet.create({
   toolbar: {
@@ -240,27 +187,14 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: 'white'
   },
-  centering: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 2,
-  },
   main: {
     flex: 1,
-    backgroundColor: '#ddd'
-  },
-  header: {
-    flex: .1,
-    justifyContent: 'center',
+    backgroundColor: '#ddd',
+    flexDirection: 'column', 
+    justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  divider: {
-    flex: .1
-  },
-  footer: {
-    flex: .1,
+    borderTopWidth: 1,
+    borderTopColor: 'white'
   },
   drawer: {
     flex: .7,
@@ -279,12 +213,8 @@ const styles = StyleSheet.create({
     borderWidth: 2
   },
   container: {
-    flex: .7,
-    justifyContent: 'center',
-    //alignItems: 'center',
-    //backgroundColor: '#F5FCFF',
-    borderTopWidth: 1,
-    borderTopColor: 'white'
+    flex: 4,
+    justifyContent: 'center'
   },
   choose: {
     fontSize: 27,
@@ -300,18 +230,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  centering: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 2,
   }
 });
 
 const mapStateToProps = (state) => {
   return {
-    username: state.authReducer.username,
-    isLoggedIn: state.authReducer.isLoggedIn,
-    isSearching: state.beerReducer.isSearching,
-    beerData: state.beerReducer.beerData,
-    beerToView: state.beerReducer.beerToView,
-    wishlist: state.wishlistReducer.wishlist,
-    dislikes: state.wishlistReducer.dislikes  
+    username: state.authReducer.username
   }
 }
 
@@ -323,4 +253,69 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Styles);
+export default connect(mapStateToProps, mapDispatchToProps)(About);
+
+
+
+
+// import React from 'react';
+
+// import {
+// 	View,
+// 	Text,
+// 	Modal,
+// 	StyleSheet,
+// 	TouchableHighlight
+
+// } from 'react-native';
+
+// class About extends React.Component {
+// 	constructor(props) {
+// 		super(props);
+
+// 		this.toggleModal = this.toggleModal.bind(this);
+
+// 		this.state = {
+// 			modalVisible: false
+// 		};
+// 	}
+
+// 	toggleModal() {
+// 		this.setState({
+// 			modalVisible: !this.state.modalVisible
+// 		})
+// 	}
+
+
+// 	render() {
+// 	  <View style={{marginTop: 22}}>
+//         <Modal
+//           animationType={"none"}
+//           transparent={true}
+//           visible={this.state.modalVisible}
+//           onRequestClose={() => {alert("Modal has been closed.")}}>
+//          <View style={{marginTop: 22}}>
+//           <View>
+//             <Text>BeerMe!</Text>
+//             <Text>Copyright 2016 Thomas Leupp</Text>
+//             <Text>All rights reserved.</Text>
+
+//             <TouchableHighlight onPress={() => {
+//               this.setModalVisible(!this.state.modalVisible)
+//             }}>
+//               <Text>Hide Modal</Text>
+//             </TouchableHighlight>
+
+//           </View>
+//          </View>
+//         </Modal>
+
+//         <TouchableHighlight onPress={() => {
+//           this.setModalVisible(true)
+//         }}>
+//           <Text>Show Modal</Text>
+//         </TouchableHighlight>
+
+//       </View>
+// 	}
+// }
