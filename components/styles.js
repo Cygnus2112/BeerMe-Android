@@ -40,7 +40,6 @@ class Styles extends React.Component {
     this.signoutUser = this.signoutUser.bind(this);
     this.wishlist = this.wishlist.bind(this);
 
-   // this.onActionSelected = this.onActionSelected.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
     this.loadStyles = this.loadStyles.bind(this);
     this.loadAbout = this.loadAbout.bind(this);
@@ -129,7 +128,7 @@ class Styles extends React.Component {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{flex: .075,backgroundColor: '#F5FCFF'}}>
+          <View style={{flexDirection: 'column', justifyContent: 'center', flex: .075,backgroundColor: '#F5FCFF'}}>
             <TouchableOpacity onPress={ this.loadAbout }>
               <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderTopColor: '#b5b5b5', borderTopWidth: 1}}>
                 <Image source={require('../assets/ic_info_black_24dp.png')} style={{width: 24, height: 24,margin: 10}}  />
@@ -219,15 +218,12 @@ class Styles extends React.Component {
   }
 }
 
-// const toolbarActions = [
-//   {title: 'Create', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
-// ];
-
 const styles = StyleSheet.create({
   toolbar: {
    // backgroundColor: '#e9eaed',
     backgroundColor: '#ffbf00',
     //height: 50,
+    flexDirection: 'column',
     height: screenHeight * .092,
     justifyContent: 'center',
   },

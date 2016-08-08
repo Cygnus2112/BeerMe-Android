@@ -141,38 +141,6 @@ class Browser extends Component {
           </View>
       </View>
     );
-
-      <DrawerLayoutAndroid
-        ref={'DRAWER'}
-        drawerWidth={200}
-        drawerPosition={DrawerLayoutAndroid.positions.Left}
-        renderNavigationView={() => navigationView}>
-        </DrawerLayoutAndroid>
-
-
-
-    if (this.state.isLoadingWishlist) {
-       return (
-      <View>
-        <ToolbarAndroid
-          navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
-          onIconClicked={() => this.openDrawer() }
-          logo={require('../assets/logo_white_30.png')}
-          style={styles.toolbar}
-          onActionSelected={ this.onActionSelected } />
-        <View style={styles.loading}>
-          <View style={{flex:.5, flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
-            <Text style={{fontSize: 27, textAlign: 'center'}}>Loading wishlist...</Text>
-          </View>
-          <ActivityIndicator
-            animating={ true }
-            style={[styles.centering, {height: 80}]}
-            size="large"/>
-        </View>
-      </View>
-      
-        )
-    } else {
       return (
     <DrawerLayoutAndroid
         ref={'DRAWER'}
@@ -220,7 +188,7 @@ class Browser extends Component {
       </View>
     </DrawerLayoutAndroid>
     );
-    }
+    
     
   }
 }
@@ -235,7 +203,8 @@ const styles = StyleSheet.create({
   toolbar: {
     backgroundColor: '#ffbf00',
     justifyContent: 'center',
-    height: screenHeight * .092
+    height: screenHeight * .092,
+    flexDirection: 'column'
   },
   drawer: {
     flex: .7,

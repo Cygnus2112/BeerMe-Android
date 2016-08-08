@@ -298,7 +298,7 @@ class Swipe extends React.Component {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{flex: .075,backgroundColor: '#F5FCFF'}}>
+          <View style={{flexDirection: 'column', justifyContent: 'center', flex: .075,backgroundColor: '#F5FCFF'}}>
             <TouchableOpacity onPress={ this.loadAbout }>
               <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderTopColor: '#b5b5b5', borderTopWidth: 1}}>
                 <Image source={require('../assets/ic_info_black_24dp.png')} style={{width: 24, height: 24,margin: 10}}  />
@@ -375,13 +375,16 @@ class Swipe extends React.Component {
               <Text style={styles.choose}>
                 {this.props.beerToView.name}
               </Text>
+              <Text style={{fontSize: 16}}>
+                {this.props.beerToView.brewery}
+              </Text>
           </Animated.View>
           <View style={ styles.thumbs }>
               <TouchableOpacity onPress={ () => this.dislikeBeer(this.props.beerToView) } >
-                <Image source={require('../assets/thumbdown_outline2.png') } style={{width: 72, height: 72, marginRight:35}}/>
+                <Image source={require('../assets/thumbdown_outline2.png') } style={{width: 72, height: 72, marginRight: width*.1}}/>
               </TouchableOpacity >
               <TouchableOpacity onPress={ () => this.likeBeer(this.props.beerToView) } >
-                <Image source={require('../assets/thumbup_outline.png') } style={{width: 72, height: 72, marginLeft:35}}/>
+                <Image source={require('../assets/thumbup_outline.png') } style={{width: 72, height: 72, marginLeft: width*.1}}/>
               </TouchableOpacity >
           </View>
           <View style={ styles.footer }>
@@ -396,13 +399,12 @@ class Swipe extends React.Component {
       );
     } 
   }
-
 }
-
 const styles = StyleSheet.create({
   toolbar: {
     backgroundColor: '#ffbf00',
     height: screenHeight * .092,
+    flexDirection: 'column',
     justifyContent: 'center',
   },
   drawer: {
@@ -445,6 +447,7 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
+    flexDirection: 'column',
     backgroundColor: '#ddd',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -452,15 +455,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: 'white',
     paddingTop: 20
-  },
-  drawermain: {
-    flex: 1,
-    backgroundColor: '#ddd',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    //backgroundColor: '#F5FCFF'
-    borderColor: 'black',
-    borderWidth: 2
   },
   card: {
     flex: 1,
@@ -477,27 +471,16 @@ const styles = StyleSheet.create({
   thumbs: {
     flex: .2,
     flexDirection: 'row',
-    margin: 10,
-    //width: width*.8,
-    //justifyContent: 'space-between'
-  },
-  header: {
-    flex: .1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  divider: {
-    flex: .1
+    margin: 5,
+    justifyContent: 'center'
   },
   footer: {
     flex: .1,
   },
   choose: {
-    fontSize: 27,
+    fontSize: 24,
     textAlign: 'center',
-   // justifyContent: 'center',
-    margin: 10,
+    margin: 2,
   }
 });
 

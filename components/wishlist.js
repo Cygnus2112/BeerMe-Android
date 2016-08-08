@@ -140,7 +140,7 @@ class Wishlist extends React.Component {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{flex: .075,backgroundColor: '#F5FCFF'}}>
+          <View style={{flexDirection: 'column', justifyContent: 'center', flex: .075,backgroundColor: '#F5FCFF'}}>
             <TouchableOpacity onPress={ this.loadAbout }>
               <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderTopColor: '#b5b5b5', borderTopWidth: 1}}>
                 <Image source={require('../assets/ic_info_black_24dp.png')} style={{width: 24, height: 24,margin: 10}}  />
@@ -234,6 +234,7 @@ let styles = StyleSheet.create({
   },
   toolbar: {
     backgroundColor: '#ffbf00',
+    flexDirection: 'column',
     justifyContent: 'center',
     //height: 50
     height: screenHeight * .092
