@@ -122,7 +122,7 @@ class About extends React.Component {
         <ToolbarAndroid
           navIcon={require('../assets/ic_navigate_before_black_24dp.png')}
           onIconClicked={() => this.goBack() }
-          logo={require('../assets/logo_white_30.png')}
+          logo={require('../assets/logo_white_40.png')}
           style={styles.toolbar}/>
         <View style={styles.loading}>
           <View style={{flex:.5, flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
@@ -142,7 +142,7 @@ class About extends React.Component {
          <ToolbarAndroid
           navIcon={require('../assets/ic_navigate_before_black_24dp.png')}
           onIconClicked={() => this.goBack() }
-          logo={require('../assets/logo_white_30.png')}
+          logo={require('../assets/logo_white_40.png')}
           style={styles.toolbar}/>
         <View style={styles.main}>
           <View style={{flex: 1, margin: 10, height: 75, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
@@ -174,8 +174,8 @@ const styles = StyleSheet.create({
   toolbar: {
    // backgroundColor: '#e9eaed',
     backgroundColor: '#ffbf00',
-    //height: 50,
-    height: screenHeight * .092,
+    height: 57,
+    //height: screenHeight * .092,
     flexDirection: 'column',
     justifyContent: 'center',
   },

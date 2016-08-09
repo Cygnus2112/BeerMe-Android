@@ -76,7 +76,6 @@ class Swipe extends React.Component {
   }
 
   componentWillMount() {
-    console.log('componentWill MOUNT called');
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
@@ -319,7 +318,7 @@ class Swipe extends React.Component {
         <ToolbarAndroid
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
-          logo={require('../assets/logo_white_30.png')}
+          logo={require('../assets/logo_white_40.png')}
           style={styles.toolbar} />
         <View style={styles.loading}>
           <View style={{flex:.5,flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
@@ -342,7 +341,7 @@ class Swipe extends React.Component {
         <ToolbarAndroid
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
-          logo={require('../assets/logo_white_30.png')}
+          logo={require('../assets/logo_white_40.png')}
           style={styles.toolbar} />
         <View style={styles.loading}>
           <View style={{flex:.5, flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
@@ -365,7 +364,7 @@ class Swipe extends React.Component {
         <ToolbarAndroid
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
-          logo={require('../assets/logo_white_30.png')}
+          logo={require('../assets/logo_white_40.png')}
           style={styles.toolbar} />
       <View style={styles.main} >
           <Animated.View style={[styles.card, animatedCardstyles]} {...this._panResponder.panHandlers}>
@@ -403,7 +402,8 @@ class Swipe extends React.Component {
 const styles = StyleSheet.create({
   toolbar: {
     backgroundColor: '#ffbf00',
-    height: screenHeight * .092,
+    //height: screenHeight * .092,
+    height: 57,
     flexDirection: 'column',
     justifyContent: 'center',
   },
@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
     //backgroundColor: '#F5FCFF'
     borderTopWidth: 1,
     borderTopColor: 'white',
-    paddingTop: 20
+    paddingTop: 10
   },
   card: {
     flex: 1,
@@ -471,8 +471,9 @@ const styles = StyleSheet.create({
   thumbs: {
     flex: .2,
     flexDirection: 'row',
-    margin: 5,
-    justifyContent: 'center'
+    margin: 7,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   footer: {
     flex: .1,

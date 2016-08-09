@@ -149,7 +149,7 @@ class Styles extends React.Component {
         <ToolbarAndroid
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
-          logo={require('../assets/logo_white_30.png')}
+          logo={require('../assets/logo_white_40.png')}
           style={styles.toolbar}
           onActionSelected={ this.onActionSelected } />
         <View style={styles.loading}>
@@ -174,7 +174,7 @@ class Styles extends React.Component {
         <ToolbarAndroid
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
-          logo={require('../assets/logo_white_30.png')}
+          logo={require('../assets/logo_white_40.png')}
           style={styles.toolbar}
           onActionSelected={ this.onActionSelected } />
         <View style={styles.main}>
@@ -222,9 +222,9 @@ const styles = StyleSheet.create({
   toolbar: {
    // backgroundColor: '#e9eaed',
     backgroundColor: '#ffbf00',
-    //height: 50,
+    height: 57,
     flexDirection: 'column',
-    height: screenHeight * .092,
+    //height: screenHeight * .092,
     justifyContent: 'center',
   },
   loading: {
