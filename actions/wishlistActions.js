@@ -19,7 +19,6 @@ export const loadWishlist = (userData) => {
         if(token){
             //dispatch(authSuccess());
             return fetch(utils.wishlistURL+"?username="+userData.username, {
-            //return fetch("http://localhost:8080/wishlist?username="+userData.username, {
       			method: 'GET',
       			headers: {
         			'Accept': 'application/json',
@@ -100,7 +99,7 @@ export const updateWishlist = (userData) => {
 
 export const updateAndLoadWishlist = (userData) => {
   return dispatch => {
-    dispatch(loadWishlistRequest());      // presents spinner
+    dispatch(loadWishlistRequest());      
     AsyncStorage.getItem("beerme-token").then((token) => {
         if(token){
             //dispatch(authSuccess());
@@ -121,12 +120,9 @@ export const updateAndLoadWishlist = (userData) => {
             }   
         )
         .then(response => {
-            //return response.json();
             return response;
         })
         .then(response => {
-            //dispatch(updateWishlistSuccess(response));              
-            //dispatch(authSuccess());
             return fetch(utils.wishlistURL+"?username="+userData.username, {
                 method: 'GET',
                 headers: {
@@ -158,11 +154,10 @@ export const updateAndLoadWishlist = (userData) => {
 
 export const removeWishlistItem = (userData) => {
   return dispatch => {
-    dispatch(removeWishlistItemRequest());      // presents spinner
+    dispatch(removeWishlistItemRequest());      
 
     AsyncStorage.getItem("beerme-token").then((token) => {
         if(token){
-            //console.log('token: ', token);
             //dispatch(authSuccess());
             return axios({
               url: utils.wishlistURL,
@@ -185,7 +180,6 @@ export const removeWishlistItem = (userData) => {
             return response;
         })
         .then(response => {
-           // console.log('userData.wishlist[0] ', userData.wishlist[0]);
             dispatch(removeWishlistItemSuccess(userData.wishlist[0]));
         })
         .catch(err => console.error('Error in UPDATEWishlist:', err));

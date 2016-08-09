@@ -2,16 +2,12 @@ import React, { PropTypes } from 'react';
 
 import {
   ActivityIndicator,
-  ListView,
-  Platform,
   StyleSheet,
   Text,
   View,
   Image,
-  TextInput,
   Dimensions,
   TouchableNativeFeedback,
-  AsyncStorage,
   DrawerLayoutAndroid,
   ToolbarAndroid,
   TouchableOpacity 
@@ -123,15 +119,11 @@ class BeerDetail extends React.Component {
       this.setState({
         actionMessage: 'Removed From Wishlist',
         toggled: !this.state.toggled,
-       // dislikeToAdd: this.props.selectedBeer,
-      //  dislikeID: this.props.rowID
       })
     } else {
       this.setState({
         actionMessage: 'Added to Wishlist',
         toggled: !this.state.toggled,
-      //  dislikeToAdd: null,
-      //  dislikeID: null
       })
     }
     setTimeout(() => {this.setState({
@@ -296,19 +288,6 @@ class BeerDetail extends React.Component {
         </View>
       )
 
-      // <DrawerLayoutAndroid
-      //   ref={'DRAWER'}
-      //   drawerWidth={200}
-      //   drawerPosition={DrawerLayoutAndroid.positions.Left}
-      //   renderNavigationView={() => navigationView}>
-      //          <ToolbarAndroid
-      //     navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
-      //     onIconClicked={() => this.openDrawer() }
-      //     logo={require('../assets/logo_white_30.png')}
-      //     style={styles.toolbar}
-      //     onActionSelected={ this.onActionSelected } />
-      // </DrawerLayoutAndroid>
-
     if (this.state.isLoadingWishlist) {
        return (
         <View style={styles.loading}>
@@ -373,11 +352,6 @@ class BeerDetail extends React.Component {
     }
   }
 }
-
-const toolbarActions = [
-  {title: 'BrowseBeers', icon: require('../assets/beer-icon.png'), show: 'always'},
-  {title: 'Wishlist', icon: require('../assets/ic_favorite_filled_3x.png'), show: 'always'}
-];
 
 const styles = StyleSheet.create({
   loading: {

@@ -42,7 +42,7 @@ export const signup = (info) => {
           dispatch(signupError(response));
         }
       } catch(e){
-        console.log('error response in SIGNUP: ', e);
+       // console.log('error response in SIGNUP: ', e);
         dispatch(signupError(e));
       }
     })
@@ -105,12 +105,10 @@ export const login = (info) => {
 
           Actions.styles();
         } else {
-          console.log('initial error response in LOGIN: ', response);
           dispatch(loginError());
           
         }
       } catch(e) {
-        console.log('error response #2 in LOGIN: ', e);
         dispatch(loginError());
       };
     })

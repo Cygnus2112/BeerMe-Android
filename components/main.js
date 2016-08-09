@@ -2,16 +2,12 @@ import React from 'react';
 
 import {
   ActivityIndicator,
-  ListView,
-  Platform,
   StyleSheet,
   Text,
   View,
   Image,
-  TextInput,
   Dimensions,
-  TouchableNativeFeedback,
-  AsyncStorage
+  TouchableNativeFeedback
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
@@ -52,12 +48,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ddd'
   },
-  centering: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 8,
-  },
   header: {
     flex: .2,
     justifyContent: 'center',
@@ -72,42 +62,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ddd',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  input: {
-    backgroundColor: '#dddddd', 
-    margin: 10, 
-    padding: 10,
-    height: 50, 
-    width: width*.7,
-    fontSize: 18,
-    textAlign: 'center'
-  },
-  buttonBox: {
-  	padding:10, 
-  	margin: 10,
-  	height:50, 
-  	width: width*.7, 
-  	overflow:'hidden', 
-  	borderRadius:4, 
-  	backgroundColor: 'blue'
-  },
-  button: {
-    textAlign: 'center',
-    //color: '#ffffff',
-    color: '#333333',
-    marginBottom: 7,
-    width: width*.7,
-
   }
 });
 

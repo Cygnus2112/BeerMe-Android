@@ -1,6 +1,4 @@
-import {
-  AsyncStorage
-} from 'react-native';
+import { AsyncStorage } from 'react-native';
 
 let utils = require('../utils');
 
@@ -11,11 +9,10 @@ export const LOAD_FRONT_BEER = 'LOAD_FRONT_BEER';
 export const CLEAR_BEER_DATA = 'CLEAR_BEER_DATA';
 export const CLEAR_FRONT_BEER = 'CLEAR_FRONT_BEER';
 
-export const loadBeers = (userData={style: "Ale"}) => {				// remember to remove
+export const loadBeers = (userData={style: "Ale"}) => {	
   return dispatch => {
     dispatch(loadBeersRequest());
 
-   // return fetch('http://localhost:8080/fetchbeers?username='+userData.username+"&style="+userData.style, {
     return fetch(utils.fetchbeersURL+"?username="+userData.username+"&style="+userData.style, {
       method: 'GET',
       headers: {

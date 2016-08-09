@@ -2,15 +2,12 @@ import React from 'react';
 
 import {
   ActivityIndicator,
-  ListView,
   StyleSheet,
   Text,
   View,
   Image,
-  TextInput,
   Dimensions,
   TouchableNativeFeedback,
-  AsyncStorage,
   TouchableOpacity,
   DrawerLayoutAndroid,
   ToolbarAndroid,
@@ -40,7 +37,6 @@ class Swipe extends React.Component {
     this.likeBeer = this.likeBeer.bind(this);
     this.dislikeBeer = this.dislikeBeer.bind(this);
 
-   // this.onActionSelected = this.onActionSelected.bind(this);
     this.signoutUser = this.signoutUser.bind(this);
     this.wishlist = this.wishlist.bind(this);
     this.loadStyles = this.loadStyles.bind(this);
