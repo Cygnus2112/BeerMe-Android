@@ -2,16 +2,8 @@ import React, { Component } from 'react';
 
 import {
   AppRegistry,
-  StyleSheet,
-  Text,
   BackAndroid,
-  Navigator,
-  ToolbarAndroid,
-  View,
-  Image,
-  TextInput,
-  Dimensions,
-  TouchableNativeFeedback
+  Navigator
 } from 'react-native';
 
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
@@ -43,8 +35,6 @@ import Browser from './components/webview'
 import Forgot from './components/forgot'
 import Whatever from './components/whatever'
 import About from './components/about'
-
-let width = Dimensions.get('window').width;
 
 BackAndroid.addEventListener('hardwareBackPress', () => {
     Actions.pop();

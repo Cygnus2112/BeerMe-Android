@@ -8,7 +8,6 @@ import {
   View,
   Image,
   Dimensions,
-  AsyncStorage,
   TouchableNativeFeedback,
   TouchableOpacity,
   TouchableHighlight,
@@ -65,19 +64,6 @@ class Wishlist extends React.Component {
     return(
       <View style={styles.header}><Text style={{textAlign: 'center', color: 'white', fontSize: 20, fontWeight: 'bold'}} >Wishlist</Text></View>
       );
-  }
-
-  pressRow(rowData){
-
-    // this.setState({
-    //   dataSource: this.state.dataSource.cloneWithRows(newDs)
-    // })
-  }
-
-  onActionSelected = (position) => {
-    if (position === 0) { // index of 'Settings'
-      //showSettings();
-    }
   }
 
   signoutUser = () => {
@@ -186,7 +172,6 @@ class Wishlist extends React.Component {
         </View>
         );
     } else {
-      //console.log('this.state.dataSource.length: ', this.state.dataSource.length);
 
       let beerIcon;
       return (

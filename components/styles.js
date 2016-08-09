@@ -2,13 +2,10 @@ import React from 'react';
 
 import {
   ActivityIndicator,
-  ListView,
-  Platform,
   StyleSheet,
   Text,
   View,
   Image,
-  TextInput,
   Dimensions,
   AsyncStorage,
   TouchableNativeFeedback,
@@ -246,15 +243,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ddd'
   },
-  header: {
-    flex: .1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  divider: {
-    flex: .1
-  },
   footer: {
     flex: .1,
   },
@@ -291,11 +279,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   }
 });
 
@@ -306,8 +289,8 @@ const mapStateToProps = (state) => {
     isSearching: state.beerReducer.isSearching,
     beerData: state.beerReducer.beerData,
     beerToView: state.beerReducer.beerToView,
-    wishlist: state.wishlistReducer.wishlist,
-    dislikes: state.wishlistReducer.dislikes  
+    dislikes: state.wishlistReducer.dislikes,
+    wishlist: state.wishlistReducer.wishlist  
   }
 }
 
