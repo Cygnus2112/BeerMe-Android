@@ -327,7 +327,7 @@ class BeerDetail extends React.Component {
         <ToolbarAndroid
           navIcon={require('../assets/ic_navigate_before_black_24dp.png')}
           onIconClicked={() => this.goBack() }
-          logo={require('../assets/logo_white_30.png')}
+          logo={require('../assets/logo_white_40.png')}
           style={styles.toolbar}/>
         <View style={styles.main}>
           <View style={styles.card}>
@@ -407,10 +407,10 @@ const styles = StyleSheet.create({
   },
   toolbar: {
     backgroundColor: '#ffbf00',
-    //height: 50,
+    height: 57,
     flexDirection: 'column',
     justifyContent: 'center',
-    height: screenHeight * .092,
+    //height: screenHeight * .092,
   },
   drawer: {
     flex: .7,

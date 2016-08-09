@@ -150,7 +150,7 @@ class Browser extends Component {
         <ToolbarAndroid
           navIcon={require('../assets/ic_navigate_before_black_24dp.png')}
           onIconClicked={() => this.quitWeb() }
-          logo={require('../assets/logo_white_30.png')}
+          logo={require('../assets/logo_white_40.png')}
           style={styles.toolbar} />
       <View style={styles.container}>	
       	<View style={styles.addressBarRow}>
@@ -203,7 +203,8 @@ const styles = StyleSheet.create({
   toolbar: {
     backgroundColor: '#ffbf00',
     justifyContent: 'center',
-    height: screenHeight * .092,
+   // height: screenHeight * .092,
+    height: 57,
     flexDirection: 'column'
   },
   drawer: {

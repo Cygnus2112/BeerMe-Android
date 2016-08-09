@@ -161,7 +161,7 @@ class Wishlist extends React.Component {
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
           style={styles.toolbar}
-          logo={require('../assets/logo_white_30.png')}/>
+          logo={require('../assets/logo_white_40.png')}/>
           <Text style={styles.choose}>
             You {"haven't"} added any beers to your wishlist!
           </Text>
@@ -199,7 +199,7 @@ class Wishlist extends React.Component {
           navIcon={require('../assets/ic_menu_black_24dp_sm.png')}
           onIconClicked={() => this.openDrawer() }
           style={styles.toolbar}
-          logo={require('../assets/logo_white_30.png')}/>
+          logo={require('../assets/logo_white_40.png')}/>
         <ScrollView style={{ borderTopWidth: 1, borderTopColor: 'white'}}>
         <ListView
           dataSource = {this.state.dataSource}
@@ -236,8 +236,8 @@ let styles = StyleSheet.create({
     backgroundColor: '#ffbf00',
     flexDirection: 'column',
     justifyContent: 'center',
-    //height: 50
-    height: screenHeight * .092
+    height: 57,
+    //height: screenHeight * .092
   },
   drawer: {
     flex: .7,
