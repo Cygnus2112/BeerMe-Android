@@ -25,6 +25,7 @@ import * as authActions from '../actions/authActions';
 
 import Button from 'react-native-button';
 let width = Dimensions.get('window').width;
+let screenHeight = Dimensions.get('window').height;
 
 class Login extends React.Component {
 	constructor(props) {
@@ -80,6 +81,7 @@ class Login extends React.Component {
 	render() {
 		return (
 		<View style={styles.main}>
+      <View style={{height: 325, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center'}}>
         <View style={{margin: 10, height: 75, flexDirection: 'column', justifyContent: 'center'}}>
         		<Image source={require('../assets/logo_outline.png')} />
         </View>
@@ -107,13 +109,14 @@ class Login extends React.Component {
               {this.state.errorMsg}
             </Text>
         </View>
-        <TouchableNativeFeedback onPress={ this.forgotPassword } style={styles.button} >
+          <TouchableNativeFeedback onPress={ this.forgotPassword } style={styles.button} >
             <View style={ styles.header }>
               <Text style={styles.forgot} >
                 Forgot your password?
               </Text>
             </View>
-        </TouchableNativeFeedback>   		
+          </TouchableNativeFeedback> 
+      </View>
         <View style={ styles.signup }> 
           	<Text style={styles.instructions} >
           		{ "Don't" } have an account?
@@ -135,13 +138,14 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     backgroundColor: '#ddd', 
-    flexDirection: 'column',
+   // flexDirection: 'column',
   //  justifyContent: 'flex-start',
-    justifyContent: 'space-around',
-    alignItems: 'center'
+  //  justifyContent: 'space-around',
+   // alignItems: 'center'
   },
   signup: {
-    flex: 5,
+    height: screenHeight - 325,
+    //flex: 2,
     flexDirection: 'column',
     justifyContent: 'center',
 

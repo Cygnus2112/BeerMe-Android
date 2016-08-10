@@ -11,7 +11,8 @@ import {
   AsyncStorage,
   TouchableNativeFeedback,
   findNodeHandle,
-  ScrollView
+  ScrollView,
+  Keyboard,
 } from 'react-native';
 
 /* Redux stuff...      */
@@ -36,9 +37,35 @@ class Signup extends React.Component {
 			username: "",
 			password: "",
       email: "",
-      errorMsg: ""
+      errorMsg: "",
+     // visibleHeight: Dimensions.get('window').height
 		}
 	}
+
+  // componentWillMount() {
+  //   this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow.bind(this));
+  //   this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide.bind(this));
+  // }
+
+  // componentWillUnmount() {
+  //   this.keyboardDidShowListener.remove();
+  //   this.keyboardDidHideListener.remove();
+  // }
+
+  // keyboardDidShow (e) {
+  //   let newSize = Dimensions.get('window').height - e.endCoordinates.height
+  //   this.setState({
+  //     //topLogo: {width: 100, height: 70},
+  //     visibleHeight: newSize
+  //   })
+  // }
+
+  // keyboardDidHide (e) {
+  //   this.setState({
+  //    // topLogo: {width: Dimensions.get('window').width},
+  //     visibleHeight: Dimensions.get('window').height
+  //   })
+  // }  
 
   componentWillReceiveProps(newProps){
     if(newProps.authErrorMsg.ERROR) {
@@ -127,7 +154,7 @@ class Signup extends React.Component {
                   </Text>
                 </View>
             </View>
-            <View style={{flex: 4, flexDirection: 'column', justifyContent: 'center'}}> 
+            <View style={{flex: 2, flexDirection: 'column', justifyContent: 'center'}}> 
                 <Text style={styles.instructions} >
                     Already have an account?
                 </Text>
@@ -163,7 +190,10 @@ const styles = StyleSheet.create({
     marginBottom: 5
   },
   container: {
-    flex: 3.5,
+    //flex: 3.5,
+    //flex: 5.5,
+    height: 250,
+    flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#ddd',
