@@ -142,11 +142,7 @@ class Browser extends Component {
       </View>
     );
       return (
-    <DrawerLayoutAndroid
-        ref={'DRAWER'}
-        drawerWidth={200}
-        drawerPosition={DrawerLayoutAndroid.positions.Left}
-        renderNavigationView={() => navigationView}>
+    <View style={{flex: 1, backgroundColor: HEADER}}>
         <ToolbarAndroid
           navIcon={require('../assets/ic_navigate_before_black_24dp.png')}
           onIconClicked={() => this.quitWeb() }
@@ -186,7 +182,7 @@ class Browser extends Component {
             decelerationRate="normal"
         		style={{marginTop: 1}}/>
       </View>
-    </DrawerLayoutAndroid>
+    </View>
     );
     
     

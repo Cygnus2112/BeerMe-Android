@@ -123,10 +123,12 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+            manifestPlaceholders = [permissionName: "android.permission.SYSTEM_ALERT_WINDOW"]
         }
 
         debug {
             debuggable true
+            manifestPlaceholders = [permissionName: "android.permission.ACCESS_FINE_LOCATION"]
         }
 
     }
