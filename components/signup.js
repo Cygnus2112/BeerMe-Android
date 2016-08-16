@@ -23,6 +23,9 @@ import * as authActions from '../actions/authActions';
 /* ---------------------- */
 import { Actions } from 'react-native-router-flux';
 import Button from 'react-native-button';
+import { gradientColors } from '../utils';
+
+import LinearGradient from 'react-native-linear-gradient';
 
 let width = Dimensions.get('window').width;
 
@@ -114,26 +117,27 @@ class Signup extends React.Component {
 //flex: .85, 
   render() {
     return (
-    <View style={styles.main}>
+    <LinearGradient colors={gradientColors} style={{flex:1}}>
+      <View style={styles.main}>
         <View style={{height: 75, margin: 10, justifyContent: 'center', alignItems: 'center'}}>
             <Image source={require('../assets/logo_outline.png')} />
         </View>
             <View style={styles.container} >
-                <View style={{height: 45, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
+                <View style={{elevation:3, height: 45, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
                   <TextInput placeholder="Email" style={styles.input} 
                     autoCorrect={false}
                     onChangeText={(email) => this.setState({email})}
                     value={this.state.email} 
                     returnKeyType='next'/>
                 </View>
-                <View style={{height: 45, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
+                <View style={{elevation:3,height: 45, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
                   <TextInput placeholder="Username" style={styles.input} 
                     ref="username"
                     onChangeText={(username) => this.setState({username})}
                     value={this.state.username} 
                     returnKeyType='next'/>
                 </View>
-                <View style={{height: 45, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
+                <View style={{elevation:3,height: 45, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
                   <TextInput placeholder="Password" style={styles.input}
                     ref='password' 
                     secureTextEntry={true}
@@ -166,8 +170,9 @@ class Signup extends React.Component {
                   </View>
                 </TouchableNativeFeedback>
             </View> 
-      
-    </View>)
+        </View>
+    </LinearGradient>
+    )
   }
 }
 
@@ -175,7 +180,7 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
    // alignItems: 'flex-start',
-    backgroundColor: '#ddd'
+   // backgroundColor: '#ddd'
   },
   errorBox: {
     flex: .3,
@@ -196,7 +201,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#ddd',
+    //backgroundColor: '#ddd',
   },
   welcome: {
     fontSize: 20,
@@ -227,6 +232,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   buttonBox: {
+    elevation:3,
     //flex: 1, 
   	padding:10, 
   	margin: 3,

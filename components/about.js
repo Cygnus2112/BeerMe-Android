@@ -25,6 +25,9 @@ import { Actions } from 'react-native-router-flux';
 let screenHeight = Dimensions.get('window').height;
 let width = Dimensions.get('window').width;
 
+import LinearGradient from 'react-native-linear-gradient';
+import { gradientColors } from '../utils';
+
 class About extends React.Component {
   constructor(props) {
     super(props);
@@ -144,6 +147,7 @@ class About extends React.Component {
           onIconClicked={() => this.goBack() }
           logo={require('../assets/logo_white_40.png')}
           style={styles.toolbar}/>
+      <LinearGradient colors={gradientColors} style={{flex:1}}>
         <View style={styles.main}>
           <View style={{flex: 1, margin: 10, height: 75, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
         		<Image source={require('../assets/logo_outline.png')} />
@@ -165,6 +169,7 @@ class About extends React.Component {
               </View>
           </View>
         </View>
+      </LinearGradient >
     </View>)
     }
   }
@@ -172,6 +177,7 @@ class About extends React.Component {
 
 const styles = StyleSheet.create({
   toolbar: {
+    elevation: 3,
    // backgroundColor: '#e9eaed',
     backgroundColor: '#ffbf00',
     height: 57,
@@ -190,12 +196,12 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: '#ddd',
+   // backgroundColor: '#ddd',
     flexDirection: 'column', 
     justifyContent: 'space-around',
     alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: 'white'
+    //borderTopWidth: 1,
+    //borderTopColor: 'white'
   },
   drawer: {
     flex: .7,

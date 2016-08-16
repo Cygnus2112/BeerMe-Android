@@ -3,7 +3,8 @@ import * as ActionTypes from '../actions/beerActions';
 const initialState = {
   isSearching: false,
   beerData: [],
-  beerToView: {}
+  beerToView: {},
+  nextBeer: {},
 }
 export default function beerReducer(state = initialState, action){
   switch(action.type){
@@ -16,6 +17,7 @@ export default function beerReducer(state = initialState, action){
         return Object.assign({}, state, {
           isSearching: false,
           beerToView: action.beerData.pop(),
+          nextBeer: action.beerData.pop(),
           beerData: [...(new Set( [...state.beerData, ...action.beerData ]))] 
         })
       } else {
@@ -33,8 +35,9 @@ export default function beerReducer(state = initialState, action){
       })
     case ActionTypes.LOAD_FRONT_BEER:
       return Object.assign({}, state, {
-        beerToView: state.beerData[0] || {},
-        beerData: state.beerData.slice(1)
+        beerToView: state.nextBeer,
+        nextBeer: state.beerData[0] || {},
+        beerData: state.beerData.slice(1),
       })
 
     case ActionTypes.CLEAR_BEER_DATA:

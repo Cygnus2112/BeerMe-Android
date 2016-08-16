@@ -193,10 +193,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: HEADER,
-    borderTopWidth: 1,
-    borderTopColor: 'white'
+   // borderTopWidth: 1,
+    //borderTopColor: 'white'
   },
   toolbar: {
+    elevation:3,
     backgroundColor: '#ffbf00',
     justifyContent: 'center',
    // height: screenHeight * .092,

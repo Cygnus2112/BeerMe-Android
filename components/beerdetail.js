@@ -22,6 +22,10 @@ import * as authActions from '../actions/authActions';
 /* End redux stuff...      */ 
 
 import { Actions } from 'react-native-router-flux';
+
+import LinearGradient from 'react-native-linear-gradient';
+import { gradientColors } from '../utils';
+
 let screenWidth = Dimensions.get('window').width;
 let screenHeight = Dimensions.get('window').height;
 
@@ -308,6 +312,7 @@ class BeerDetail extends React.Component {
           onIconClicked={() => this.goBack() }
           logo={require('../assets/logo_white_40.png')}
           style={styles.toolbar}/>
+      <LinearGradient colors={gradientColors} style={{flex:1}}>
         <View style={styles.main}>
           <View style={styles.card}>
                 <View style={{marginTop:2, flex: 1.3, flexDirection: 'row',justifyContent: 'flex-start',borderBottomColor: 'black',borderBottomWidth: 5, backgroundColor: 'white'}}>
@@ -347,6 +352,7 @@ class BeerDetail extends React.Component {
                 </View>
             </View>
         </View>
+      </LinearGradient>
       </View>
       )
     }
@@ -380,6 +386,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   toolbar: {
+    elevation: 3,
     backgroundColor: '#ffbf00',
     height: 57,
     flexDirection: 'column',
@@ -404,16 +411,17 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: '#ddd',
+  //  backgroundColor: '#ddd',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     //backgroundColor: '#F5FCFF'
-    borderTopWidth: 1,
-    borderTopColor: 'white',
+   // borderTopWidth: 1,
+    //borderTopColor: 'white',
     paddingTop: 15
   },
   card: {
+    elevation:5,
     flex: 1.1,
  //   justifyContent: 'center',
     width: screenWidth*.90,
@@ -421,7 +429,7 @@ const styles = StyleSheet.create({
     //alignItems: 'center',
     backgroundColor: '#F5FCFF',
     borderColor: 'black',
-    borderWidth: 3,
+    borderWidth: 2,
     borderRadius: 5,
   },
   abvtitle: {
@@ -454,6 +462,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   icons: {
+    elevation:3,
     alignItems: 'center',
     //justifyContent: 'center',
     justifyContent: 'space-around',
