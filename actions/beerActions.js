@@ -70,15 +70,15 @@ const loadBeersFailure = (errorMessage) => {
   }
 }
 
-const loadFrontBeerSuccess = () => {
-  return {
-    type: LOAD_FRONT_BEER
-  }
-}
-
 export const loadFrontBeer = () => {
   return dispatch => {
     dispatch(loadFrontBeerSuccess())
+  }
+}
+
+const loadFrontBeerSuccess = () => {
+  return {
+    type: LOAD_FRONT_BEER
   }
 }
 

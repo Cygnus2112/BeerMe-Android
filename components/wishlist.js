@@ -185,7 +185,7 @@ class Wishlist extends React.Component {
           onIconClicked={() => this.openDrawer() }
           style={styles.toolbar}
           logo={require('../assets/logo_white_40.png')}/>
-        <ScrollView style={{ borderTopWidth: 1, borderTopColor: 'white'}}>
+        <ScrollView >
         <ListView
           dataSource = {this.state.dataSource}
           renderHeader={this.renderHeader}
@@ -213,11 +213,13 @@ class Wishlist extends React.Component {
 let styles = StyleSheet.create({
   header: {
     backgroundColor: 'brown',
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    height: 30
+   // borderBottomColor: 'black',
+   // borderBottomWidth: 1,
+    height: 30,
+    elevation: 3
   },
   toolbar: {
+    elevation: 3,
     backgroundColor: '#ffbf00',
     flexDirection: 'column',
     justifyContent: 'center',

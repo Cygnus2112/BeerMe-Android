@@ -11,6 +11,9 @@ import {
 
 import { Actions } from 'react-native-router-flux';
 
+import LinearGradient from 'react-native-linear-gradient';
+import { gradientColors } from '../utils';
+
 class Whatever extends React.Component {
 	constructor(props) {
 		super(props);
@@ -24,7 +27,8 @@ class Whatever extends React.Component {
 
 	render(){
 		return (
-		<View style={styles.container}>
+		<LinearGradient colors={gradientColors} style={{flex:1}}>
+		  <View style={styles.container}>
 			<View style={styles.bottom}>
 				<Text style={{fontSize: 18, textAlign: 'center'}}>
 				Seriously? This is a freaking beer app.
@@ -56,7 +60,8 @@ class Whatever extends React.Component {
 					</View>
 				</TouchableOpacity>
 			</View>
-		</View>
+		  </View>
+		</LinearGradient>
 			)
 
 	}

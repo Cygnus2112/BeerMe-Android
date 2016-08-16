@@ -24,6 +24,8 @@ import * as authActions from '../actions/authActions';
 /* End redux stuff...      */ 
 
 import { Actions } from 'react-native-router-flux';
+import LinearGradient from 'react-native-linear-gradient';
+import { gradientColors } from '../utils';
 let width = Dimensions.get('window').width;
 let screenHeight = Dimensions.get('window').height;
 
@@ -43,6 +45,8 @@ class Swipe extends React.Component {
     this.loadAbout = this.loadAbout.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
 
+    this._loadFrontBeer = this._loadFrontBeer.bind(this);
+
     this.state = {
       likeMessage: "",
       wishlistToAdd: [],
@@ -52,6 +56,9 @@ class Swipe extends React.Component {
       pan: new Animated.ValueXY(),
       //enter: new Animated.Value(0.5),
       enter: new Animated.Value(1),
+      beerLabel: this.props.beerToView.label,
+      nextLabel: null,
+      mountTime: new Date(),
     }
   }
 
@@ -59,6 +66,16 @@ class Swipe extends React.Component {
    * https://github.com/meteor-factory/react-native-tinder-swipe-cards, which was 
    * gratefully copied from https://github.com/brentvatne/react-native-animated-demo-tinder
    */
+
+  componentWillReceiveProps(newProps) {
+    console.log('newProps.nextBeer.label');
+    console.log(newProps.nextBeer.label);
+      Image.prefetch(newProps.nextBeer.label).then(() => {
+        //Image.getSize(newProps.nextBeer.label, (width, height) => {
+          console.log("PREFETCH PROMISE RESOLVED");
+        //});
+      })
+  }
 
   componentDidMount() {
     this._animateEntrance();
@@ -72,6 +89,7 @@ class Swipe extends React.Component {
   }
 
   componentWillMount() {
+
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
@@ -172,11 +190,26 @@ class Swipe extends React.Component {
     }
   }
 
+  _loadFrontBeer = () => {
+    const { loadFrontBeer } = this.props.beerActions;
+    loadFrontBeer();
+
+    // this.setState({
+    //  // beerLabel: this.state.nextLabel,
+    //   nextLabel: Image.prefetch(this.props.nextBeer.label).then(() => {
+    //     Image.getSize(this.props.nextBeer.label, (width, height) => {
+    //       console.log("Image.getSize called");
+    //     });
+    //   })
+    // })
+
+  }
+
   likeBeer = (beer) => {
     Actions.beerdetail({selectedBeer: beer, rowID: beer.id, isAlreadyInWishlist: false});
 
-    const { loadFrontBeer } = this.props.beerActions;
-    setTimeout(loadFrontBeer, 200);
+    //const { loadFrontBeer } = this.props.beerActions;
+    setTimeout(this._loadFrontBeer, 300);
 
     if(this.props.beerData.length < 5 && !this.props.isSearching){
       const { loadBeers } = this.props.beerActions;
@@ -189,8 +222,10 @@ class Swipe extends React.Component {
   }
 
   dislikeBeer = (beer) => {
-    const { loadFrontBeer } = this.props.beerActions;
-    loadFrontBeer();
+        console.log("LABEL");
+    console.log(this.props.beerToView.label);
+   // const { loadFrontBeer } = this.props.beerActions;
+    this._loadFrontBeer();
 
     this.setState({
       likeMessage: "You disliked " + beer.name,
@@ -362,10 +397,18 @@ class Swipe extends React.Component {
           onIconClicked={() => this.openDrawer() }
           logo={require('../assets/logo_white_40.png')}
           style={styles.toolbar} />
+      <LinearGradient colors={gradientColors} style={{flex:1}}>
       <View style={styles.main} >
           <Animated.View style={[styles.card, animatedCardstyles]} {...this._panResponder.panHandlers}>
-              <View style={{flexDirection: 'row',justifyContent: 'center', borderColor: 'black', borderWidth: 1, width: 258, height: 258}}>
-                <Image source={{uri: this.props.beerToView.label}} style={{width: 256, height: 256}}/>
+              <View style={{elevation:3,flexDirection: 'row',justifyContent: 'center', borderColor: 'black', borderWidth: 1, width: 258, height: 258}}>
+                <Image source={{uri: this.props.beerToView.label}} style={{width: 256, height: 256}}
+                onLoadStart={() => {
+                  this.setState({
+                    mountTime: new Date()
+                  })
+                  console.log("onLoadStart")}}
+                onLoad={() => console.log("onLoad " + (new Date() - this.state.mountTime) +" ms")}
+                onLoadEnd={() => console.log("onLoadEnd "+ (new Date() - this.state.mountTime) +" ms")}/>
               </View>
               <Text style={styles.choose}>
                 {this.props.beerToView.name}
@@ -390,6 +433,7 @@ class Swipe extends React.Component {
             </View>
           </View>
         </View>
+      </LinearGradient>
       </DrawerLayoutAndroid>
       );
     } 
@@ -397,6 +441,7 @@ class Swipe extends React.Component {
 }
 const styles = StyleSheet.create({
   toolbar: {
+    elevation: 3,
     backgroundColor: '#ffbf00',
     //height: screenHeight * .092,
     height: 57,
@@ -444,15 +489,16 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#ddd',
+   // backgroundColor: '#ddd',
     alignItems: 'center',
     justifyContent: 'space-around',
     //backgroundColor: '#F5FCFF'
-    borderTopWidth: 1,
-    borderTopColor: 'white',
+   // borderTopWidth: 1,
+   // borderTopColor: 'white',
     paddingTop: 10
   },
   card: {
+    elevation:5,
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
@@ -492,8 +538,9 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     username: state.authReducer.username,
-    beerToView: state.beerReducer.beerToView,
     beerData: state.beerReducer.beerData,
+    beerToView: state.beerReducer.beerToView,
+    nextBeer: state.beerReducer.nextBeer,
     isSearching: state.beerReducer.isSearching,
     isFetching: state.wishlistReducer.isFetching,
     isUpdating: state.wishlistReducer.isUpdating,

@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
+import LinearGradient from 'react-native-linear-gradient';
+import { gradientColors } from '../utils';
 
 class Forgot extends React.Component {
 	constructor(props){
@@ -28,6 +30,7 @@ class Forgot extends React.Component {
 
 	render() {
 		return (
+		<LinearGradient colors={gradientColors} style={{flex:1}}>
 			<View style={styles.container}>
 			  <View style={styles.top}>
 				<Text style={{fontSize: 18,textAlign: 'center'}}>
@@ -41,6 +44,7 @@ class Forgot extends React.Component {
 					</View>
 				</TouchableNativeFeedback>
 			  </View>
+
 			  <View style={styles.bottom}>
 			  		<TouchableNativeFeedback onPress={ this.whatever }>
 						<View>
@@ -51,7 +55,7 @@ class Forgot extends React.Component {
 					</TouchableNativeFeedback>
 			  </View>
 			</View>
-
+		</LinearGradient> 
 			)
 	}
 }

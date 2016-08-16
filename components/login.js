@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
+import LinearGradient from 'react-native-linear-gradient';
 
 /* Redux stuff...      */
 import { connect } from 'react-redux'
@@ -22,7 +23,7 @@ import { bindActionCreators } from 'redux'
 import * as authActions from '../actions/authActions';
 
 /* ---------------------- */
-
+import { gradientColors } from '../utils';
 import Button from 'react-native-button';
 let width = Dimensions.get('window').width;
 let screenHeight = Dimensions.get('window').height;
@@ -80,17 +81,18 @@ class Login extends React.Component {
 //flex: 1.5, 
 	render() {
 		return (
+  <LinearGradient colors={gradientColors} style={{flex:1}}>
 		<View style={styles.main}>
       <View style={{height: 325, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center'}}>
         <View style={{margin: 10, height: 75, flexDirection: 'column', justifyContent: 'center'}}>
         		<Image source={require('../assets/logo_outline.png')} />
         </View>
-        <View style={{height: 50,flexDirection: 'row',justifyContent: 'center', backgroundColor:'white', margin:5, borderRadius: 4}}>
+        <View style={{elevation:3,height: 50,flexDirection: 'row',justifyContent: 'center', backgroundColor:'white', margin:5, borderRadius: 4}}>
             <TextInput placeholder="Username" style={styles.textInput} 
             	onChangeText={(username) => this.setState({username})}
             	value={this.state.username} />
         </View>
-        <View style={{height: 50, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white', margin:5, borderRadius: 4}}>
+        <View style={{elevation:3,height: 50, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white', margin:5, borderRadius: 4}}>
             <TextInput placeholder="Password" 
               style={styles.textInput} 
             	secureTextEntry={true}
@@ -129,15 +131,15 @@ class Login extends React.Component {
           			</View>
           	</TouchableNativeFeedback>
         </View>
-	
-    </View>)
+    </View>
+  </LinearGradient>)
 	}
 }
 //{flexDirection: 'row',justifyContent: 'center'}
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: '#ddd', 
+  //  backgroundColor: '#ddd', 
    // flexDirection: 'column',
   //  justifyContent: 'flex-start',
   //  justifyContent: 'space-around',
@@ -154,7 +156,7 @@ const styles = StyleSheet.create({
    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ddd'
+   // backgroundColor: '#ddd'
   },
   footer: {
     flex: .2,
@@ -212,6 +214,7 @@ const styles = StyleSheet.create({
    // borderRadius: 5
   },
   buttonBox: {
+    elevation:3,
    // flex: 1,
   	padding:10, 
   	margin: 5,

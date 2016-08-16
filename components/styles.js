@@ -27,6 +27,8 @@ let screenHeight = Dimensions.get('window').height;
 
 import Button from 'react-native-button';
 let width = Dimensions.get('window').width;
+import LinearGradient from 'react-native-linear-gradient';
+import { gradientColors } from '../utils';
 
 class Styles extends React.Component {
   constructor(props) {
@@ -174,6 +176,7 @@ class Styles extends React.Component {
           logo={require('../assets/logo_white_40.png')}
           style={styles.toolbar}
           onActionSelected={ this.onActionSelected } />
+      <LinearGradient colors={gradientColors} style={{flex:1}}>
         <View style={styles.main}>
           <View style={styles.container}>
               <View style={{flexDirection: 'row',justifyContent: 'center'}}>
@@ -210,6 +213,7 @@ class Styles extends React.Component {
           </View>
           <View style={styles.footer} />
         </View>
+      </LinearGradient>
     </DrawerLayoutAndroid>)
     }
   }
@@ -218,6 +222,7 @@ class Styles extends React.Component {
 const styles = StyleSheet.create({
   toolbar: {
    // backgroundColor: '#e9eaed',
+    elevation: 3,
     backgroundColor: '#ffbf00',
     height: 57,
     flexDirection: 'column',
@@ -241,7 +246,7 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: '#ddd'
+   // backgroundColor: '#ddd'
   },
   footer: {
     flex: .1,
@@ -267,8 +272,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     //alignItems: 'center',
     //backgroundColor: '#F5FCFF',
-    borderTopWidth: 1,
-    borderTopColor: 'white'
+    //borderTopWidth: 1,
+    //borderTopColor: 'white'
   },
   choose: {
     fontSize: 27,
