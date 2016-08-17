@@ -25,3 +25,5 @@ The BeerMe! for Android tech stack includes the following languages and framewor
 
 Code for Tinder functionality was swiped (ha!) from [Brent Vatne's demo](https://github.com/brentvatne/react-native-animated-demo-tinder).
 
+Beer and brewery data courtesy of the very awesome [BreweryDB](http://www.brewerydb.com).
+
