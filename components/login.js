@@ -99,13 +99,15 @@ class Login extends React.Component {
             	onChangeText={(password) => this.setState({password})}
             	value={this.state.password} />
         </View>
+        <LinearGradient colors={['blue','blue','mediumblue']} style={styles.buttonBox}>
         <Button
-          	containerStyle={ styles.buttonBox }
+          	
         		style={{fontSize: 18, color: 'white'}}
         		styleDisabled={{color: 'red'}}
         		onPress={ this.submitLogin }>
         		Login
       	</Button> 
+        </LinearGradient>
         <View style={ styles.error } >  
             <Text style={ styles.errorMsg }>
               {this.state.errorMsg}
@@ -135,7 +137,7 @@ class Login extends React.Component {
   </LinearGradient>)
 	}
 }
-//{flexDirection: 'row',justifyContent: 'center'}
+
 const styles = StyleSheet.create({
   main: {
     flex: 1,
@@ -222,7 +224,7 @@ const styles = StyleSheet.create({
   	width: width*.7, 
   	overflow:'hidden', 
   	borderRadius:4, 
-  	backgroundColor: 'blue'
+  //	backgroundColor: 'blue'
   },
   button: {
     textAlign: 'center',

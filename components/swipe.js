@@ -54,7 +54,8 @@ class Swipe extends React.Component {
       actionText: "",
       isLoadingWishlist: false,
       pan: new Animated.ValueXY(),
-      //enter: new Animated.Value(0.5),
+      //enter: new Animated.Value(0),
+      // enter: new Animated.Value(0.5),
       enter: new Animated.Value(1),
       beerLabel: this.props.beerToView.label,
       nextLabel: null,
@@ -68,11 +69,11 @@ class Swipe extends React.Component {
    */
 
   componentWillReceiveProps(newProps) {
-    console.log('newProps.nextBeer.label');
-    console.log(newProps.nextBeer.label);
+    //console.log('newProps.nextBeer.label');
+    //console.log(newProps.nextBeer.label);
       Image.prefetch(newProps.nextBeer.label).then(() => {
         //Image.getSize(newProps.nextBeer.label, (width, height) => {
-          console.log("PREFETCH PROMISE RESOLVED");
+         // console.log("PREFETCH PROMISE RESOLVED");
         //});
       })
   }
@@ -135,7 +136,7 @@ class Swipe extends React.Component {
 
   _resetState() {
     this.state.pan.setValue({x: 0, y: 0});
-    this.state.enter.setValue(0);
+    this.state.enter.setValue(1);
   //  this._goToNextCard();
     this._animateEntrance();
   }
@@ -222,8 +223,6 @@ class Swipe extends React.Component {
   }
 
   dislikeBeer = (beer) => {
-        console.log("LABEL");
-    console.log(this.props.beerToView.label);
    // const { loadFrontBeer } = this.props.beerActions;
     this._loadFrontBeer();
 

@@ -164,6 +164,7 @@ class Styles extends React.Component {
         )
     } else {
 
+//<LinearGradient colors={['#ffcb32', '#ffc519','#ffbf00','#ffbf00']} style={styles.toolbar}>
     return (
       <DrawerLayoutAndroid
         ref={'DRAWER'}
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: '#ffbf00',
     height: 57,
-    flexDirection: 'column',
+    //flexDirection: 'column',
     //height: screenHeight * .092,
     justifyContent: 'center',
   },

@@ -264,7 +264,7 @@ let styles = StyleSheet.create({
     alignItems: 'center',
     padding:5,
     borderBottomWidth: 1,
-    borderColor: '#d7d7d7',
+    borderColor: 'darkgrey',
   },
   selectionText:{
     fontSize:15,
