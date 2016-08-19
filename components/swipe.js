@@ -207,10 +207,11 @@ class Swipe extends React.Component {
   }
 
   likeBeer = (beer) => {
-    Actions.beerdetail({selectedBeer: beer, rowID: beer.id, isAlreadyInWishlist: false});
-
-    //const { loadFrontBeer } = this.props.beerActions;
-    setTimeout(this._loadFrontBeer, 300);
+    Image.prefetch(this.props.beerToView.icon).then(() => {
+      Actions.beerdetail({selectedBeer: beer, rowID: beer.id, isAlreadyInWishlist: false});
+          //const { loadFrontBeer } = this.props.beerActions;
+      setTimeout(this._loadFrontBeer, 300);
+    })
 
     if(this.props.beerData.length < 5 && !this.props.isSearching){
       const { loadBeers } = this.props.beerActions;
@@ -219,7 +220,7 @@ class Swipe extends React.Component {
         style: this.props.styleChoice
       }
       loadBeers(userData);
-    }    
+    }  
   }
 
   dislikeBeer = (beer) => {

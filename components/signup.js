@@ -15,6 +15,8 @@ import {
   Keyboard,
 } from 'react-native';
 
+import { styles } from '../css/stylesheet';
+
 /* Redux stuff...      */
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -113,8 +115,7 @@ class Signup extends React.Component {
 	loadLogin() {
     Actions.login();
 	}
- // flex: 1.25, 
-//flex: .85, 
+
   render() {
     return (
     <LinearGradient colors={gradientColors} style={{flex:1}}>
@@ -145,7 +146,7 @@ class Signup extends React.Component {
                     value={this.state.password}
                     returnKeyType='next' />
                 </View>
-                <LinearGradient colors={['blue', 'blue', 'mediumblue']} style={styles.buttonBox}>
+                <LinearGradient colors={['blue', 'blue', 'mediumblue']} style={styles.signupbuttonBox}>
                   <Button
                     style={{fontSize: 18, color: 'white'}}
                     styleDisabled={{color: 'red'}}
@@ -176,82 +177,6 @@ class Signup extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-   // alignItems: 'flex-start',
-   // backgroundColor: '#ddd'
-  },
-  errorBox: {
-    flex: .3,
-    margin: 2,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'flex-start'
-  },
-  errorMsg: {
-    textAlign: 'center',
-    color: 'red',
-    marginBottom: 5
-  },
-  container: {
-    //flex: 3.5,
-    //flex: 5.5,
-    height: 250,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    //backgroundColor: '#ddd',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  iambold: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-    fontSize: 16,
-    fontWeight: 'bold'
-  },
-  input: {
-    backgroundColor: 'white', 
-    margin: 3, 
-    // padding: 10,
-    padding: 5,
-   // height: 45, 
-    width: width*.7,
-    fontSize: 18,
-    textAlign: 'center'
-  },
-  buttonBox: {
-    elevation:3,
-    //flex: 1, 
-  	padding:10, 
-  	margin: 3,
-  	height:45, 
-  	width: width*.7, 
-  	overflow:'hidden', 
-  	borderRadius:4, 
-  	//backgroundColor: 'blue'
-  },
-  button: {
-    textAlign: 'center',
-    //color: '#ffffff',
-    color: '#333333',
-    marginBottom: 7,
-    width: width*.7,
-
-  }
-});
 
 const mapStateToProps = (state) => {
   return {

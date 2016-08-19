@@ -18,9 +18,11 @@ import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
 
 /* Redux stuff...      */
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as authActions from '../actions/authActions';
+
+import { styles } from '../css/stylesheet';
 
 /* ---------------------- */
 import { gradientColors } from '../utils';
@@ -101,7 +103,6 @@ class Login extends React.Component {
         </View>
         <LinearGradient colors={['blue','blue','mediumblue']} style={styles.buttonBox}>
         <Button
-          	
         		style={{fontSize: 18, color: 'white'}}
         		styleDisabled={{color: 'red'}}
         		onPress={ this.submitLogin }>
@@ -137,104 +138,6 @@ class Login extends React.Component {
   </LinearGradient>)
 	}
 }
-
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  //  backgroundColor: '#ddd', 
-   // flexDirection: 'column',
-  //  justifyContent: 'flex-start',
-  //  justifyContent: 'space-around',
-   // alignItems: 'center'
-  },
-  signup: {
-    height: screenHeight - 325,
-    //flex: 2,
-    flexDirection: 'column',
-    justifyContent: 'center',
-
-  },
-  header: {
-   // flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-   // backgroundColor: '#ddd'
-  },
-  footer: {
-    flex: .2,
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
-  container: {
-    flex: .8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ddd',
-  },
-  error: {
-    flex: .5,
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
-  errorMsg: {
-    textAlign: 'center',
-    color: 'red',
-    marginBottom: 5
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    fontSize: 16,
-    marginBottom: 5
-  },
-  iambold: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-    fontSize: 16,
-    fontWeight: 'bold'
-  },
-  forgot: {
-    textAlign: 'center',
-    color: '#333333',
-   // marginBottom: 5,
-    fontSize: 14
-  },
-  textInput: {
-    backgroundColor: 'white', 
-    margin: 5, 
-    padding: 5,
-   // height: 45, 
-    width: width*.7,
-    fontSize: 18,
-    textAlign: 'center',
-   // borderRadius: 5
-  },
-  buttonBox: {
-    elevation:3,
-   // flex: 1,
-  	padding:10, 
-  	margin: 5,
-    height:45, 
-  	width: width*.7, 
-  	overflow:'hidden', 
-  	borderRadius:4, 
-  //	backgroundColor: 'blue'
-  },
-  button: {
-    textAlign: 'center',
-    //color: '#ffffff',
-    color: '#333333',
-    marginBottom: 7,
-    width: width*.7,
-
-  }
-});
 
 const mapStateToProps = (state) => {
   return {
