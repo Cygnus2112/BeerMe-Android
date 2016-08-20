@@ -11,8 +11,6 @@ import {
   Image,
   TextInput,
   Dimensions,
-  DrawerLayoutAndroid,
-  ToolbarAndroid,
   TouchableOpacity 
 } from 'react-native';
 
@@ -20,6 +18,8 @@ import { Actions } from 'react-native-router-flux';
 
 import * as wishlistActions from '../actions/wishlistActions';
 import * as authActions from '../actions/authActions';
+
+import Toolbar from '../components/Toolbar';
 
 const HEADER = '#3b5998';
 const BGWASH = 'rgba(255,255,255,0.8)';
@@ -38,10 +38,6 @@ class Browser extends Component {
     //this.goForward = this.goForward.bind(this);
     this.reload = this.reload.bind(this);
 
-    this.signoutUser = this.signoutUser.bind(this);
-    this.wishlist = this.wishlist.bind(this);
-    this.loadStyles = this.loadStyles.bind(this);
-    this.openDrawer = this.openDrawer.bind(this);
     this.quitWeb = this.quitWeb.bind(this);
 
     this.state = {
@@ -81,73 +77,14 @@ class Browser extends Component {
     this.pressGoButton();
   }
 
-  signoutUser = () => {
-    this.refs['DRAWER'].closeDrawer();
-    const { logout } = this.props.authActions;
-    logout();
-  }
-
-  loadStyles = () => {
-    this.refs['DRAWER'].closeDrawer();
-    Actions.styles();
-  }
-
-  wishlist = () => {
-    this.setState({
-      isLoadingWishlist: true
-    })
-    this.refs['DRAWER'].closeDrawer();
-    const { loadWishlist } = this.props.wishlistActions;
-    loadWishlist({"username": this.props.username});
-  }
-
-  openDrawer = () => {
-    this.refs['DRAWER'].openDrawer()
-  }
-
   quitWeb = () => {
     Actions.pop()
   }
 
-  render() {
-    let navigationView = (
-      <View style={styles.main}>
-          <View style={styles.drawer}>
-            <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#F5FCFF', padding: 5, borderBottomColor: '#b5b5b5', borderBottomWidth: 1, paddingTop: 15, paddingBottom: 15}}>
-              <Image source={require('../assets/logo_amber.png')} style={{width: 294*.65, height: 70*.65}} />
-            </View>
-            <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
-              <Image source={require('../assets/ic_person_black_24dp.png') } style={{margin: 10}} />
-              <Text style={{fontSize: 18, textAlign: 'left'}}>{ this.props.username }</Text>
-            </View>
-            <TouchableOpacity onPress={ this.wishlist  }>
-              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
-                <Image source={require('../assets/ic_favorite_filled_3x.png')} style={{width: 24, height: 24,margin: 10}} />
-                <Text style={{fontSize: 18, textAlign: 'left'}}>Wishlist</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={ this.loadStyles }>
-              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
-                <Image source={require('../assets/beer-icon.png')} style={{width: 24, height: 24, margin: 10}}/>
-                <Text style={{fontSize: 18, textAlign: 'left'}}>Browse Beers</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={ this.signoutUser }>
-              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
-                <Image source={require('../assets/ic_account_circle_black_24dp_sm.png')} style={{margin: 10}}  />
-                <Text style={{fontSize: 18, textAlign: 'left'}}>Sign Out</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-      </View>
-    );
+  render() {      
       return (
-    <View style={{flex: 1, backgroundColor: HEADER}}>
-        <ToolbarAndroid
-          navIcon={require('../assets/ic_navigate_before_black_24dp.png')}
-          onIconClicked={() => this.quitWeb() }
-          logo={require('../assets/logo_white_40.png')}
-          style={styles.toolbar} />
+      <View style={{flex: 1, backgroundColor: HEADER}}>
+      <Toolbar iconAction={'back'} />  
       <View style={styles.container}>	
       	<View style={styles.addressBarRow}>
           <TouchableOpacity
@@ -195,29 +132,6 @@ const styles = StyleSheet.create({
     backgroundColor: HEADER,
    // borderTopWidth: 1,
     //borderTopColor: 'white'
-  },
-  toolbar: {
-    elevation:3,
-    backgroundColor: '#ffbf00',
-    justifyContent: 'center',
-   // height: screenHeight * .092,
-    height: 57,
-    flexDirection: 'column'
-  },
-  drawer: {
-    flex: .7,
-    justifyContent: 'flex-start',
-    //alignItems: 'center',
-    backgroundColor: '#F5FCFF', 
-  },
-  drawermain: {
-    flex: 1,
-    backgroundColor: '#ddd',
-    alignItems: 'center',
-    borderColor: 'black',
-    borderWidth: 2,   
-    //justifyContent: 'space-around',
-    //backgroundColor: '#F5FCFF'
   },
   addressBarRow: {
     flexDirection: 'row',
