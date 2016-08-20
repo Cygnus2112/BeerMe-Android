@@ -187,6 +187,12 @@ class Swipe extends React.Component {
     const { loadFrontBeer } = this.props.beerActions;
     loadFrontBeer();
 
+    Image.prefetch(this.props.beerToView.icon).then(() => {
+      // Actions.beerdetail({selectedBeer: beer, rowID: beer.id, isAlreadyInWishlist: false});
+      //     //const { loadFrontBeer } = this.props.beerActions;
+      // setTimeout(this._loadFrontBeer, 300);
+    })
+
     // this.setState({
     //  // beerLabel: this.state.nextLabel,
     //   nextLabel: Image.prefetch(this.props.nextBeer.label).then(() => {
@@ -199,11 +205,11 @@ class Swipe extends React.Component {
   }
 
   likeBeer = (beer) => {
-    Image.prefetch(this.props.beerToView.icon).then(() => {
+   // Image.prefetch(this.props.beerToView.icon).then(() => {
       Actions.beerdetail({selectedBeer: beer, rowID: beer.id, isAlreadyInWishlist: false});
           //const { loadFrontBeer } = this.props.beerActions;
       setTimeout(this._loadFrontBeer, 300);
-    })
+   // })
 
     if(this.props.beerData.length < 5 && !this.props.isSearching){
       const { loadBeers } = this.props.beerActions;
@@ -297,14 +303,7 @@ class Swipe extends React.Component {
       <View style={styles.main} >
           <Animated.View style={[styles.card, animatedCardstyles]} {...this._panResponder.panHandlers}>
               <View style={{elevation:3,flexDirection: 'row',justifyContent: 'center', borderColor: 'black', borderWidth: 1, width: 258, height: 258}}>
-                <Image source={{uri: this.props.beerToView.label}} style={{width: 256, height: 256}}
-                onLoadStart={() => {
-                  this.setState({
-                    mountTime: new Date()
-                  })
-                  console.log("onLoadStart")}}
-                onLoad={() => console.log("onLoad " + (new Date() - this.state.mountTime) +" ms")}
-                onLoadEnd={() => console.log("onLoadEnd "+ (new Date() - this.state.mountTime) +" ms")}/>
+                <Image source={{uri: this.props.beerToView.label}} style={{width: 256, height: 256}} />
               </View>
               <Text style={styles.choose}>
                 {this.props.beerToView.name}
