@@ -8,8 +8,13 @@ import {
   Image,
   Dimensions,
   TouchableNativeFeedback,
-  TouchableOpacity 
+  TouchableOpacity, 
+  Linking,
+  Modal,
+  TouchableHighlight
 } from 'react-native';
+
+import Button from 'react-native-button';
 
 /* Redux stuff...      */
 import { bindActionCreators } from 'redux';
@@ -21,6 +26,7 @@ import * as authActions from '../actions/authActions';
 
 import { Actions } from 'react-native-router-flux';
 import Toolbar from '../components/Toolbar';
+//import OrderModal from '../components/Order';
 
 import LinearGradient from 'react-native-linear-gradient';
 import { gradientColors } from '../utils';
@@ -33,8 +39,16 @@ class BeerDetail extends React.Component {
     super(props);
 
     this.toggleWishlist = this.toggleWishlist.bind(this);
-    this.drizlyClicked = this.drizlyClicked.bind(this);
+    this.openShoppingModal = this.openShoppingModal.bind(this);
     this.websiteClicked = this.websiteClicked.bind(this);
+    this.setModalVisible = this.setModalVisible.bind(this);
+    this.totalWineClicked = this.totalWineClicked.bind(this);
+    this.bevMoClicked = this.bevMoClicked.bind(this);
+    this.craftshackClicked = this.craftshackClicked.bind(this);
+   // this.bringBeerClicked = this.bringBeerClicked.bind(this);
+    this.kingsClicked = this.kingsClicked.bind(this);
+    this.craftCityClicked = this.craftCityClicked.bind(this);
+    this.beerTempleClicked = this.beerTempleClicked.bind(this);
 
    // this.goBack = this.goBack.bind(this);
 
@@ -43,8 +57,13 @@ class BeerDetail extends React.Component {
       actionMessage: "",
       wishlistMessage: "Remove From Wishlist",
       heartUri: '../assets/ic_favorite_filled_3x.png',
-      wishlistClicked: false
+      wishlistClicked: false,
+      modalVisible: false
     }
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
   componentWillUnmount() {
@@ -91,17 +110,62 @@ class BeerDetail extends React.Component {
     }
   }
 
-  drizlyClicked = () => {
-    this.setState({
-      actionMessage: 'Drizly Feature Coming Soon!'
-    })
-    setTimeout(() => {this.setState({
-      actionMessage: ""
-    });}, 2000);
+  openShoppingModal = () => {
+    this.setModalVisible(true)
+   // let url = ('http://www.totalwine.com/search/all?text=' + this.props.selectedBeer.brewery+"%20"+this.props.selectedBeer.name +'&tab=fullcatalog').replace(/ /gi, "%20").replace(/brewery/gi, "").replace(/brewing/gi, "").replace(/company/gi, "").replace("Co.", "");
+    //Linking.openURL(url).catch(err => console.error('An error occurred', err));
+
+   // let url = ("http://shop.bevmo.com/search?w="+this.props.selectedBeer.brewery+"%20"+this.props.selectedBeer.name).replace(/ /g, "%20");
+  }
+
+  totalWineClicked() {
+    this.setModalVisible(false)
+    let url = ('http://www.totalwine.com/search/all?text='+this.props.selectedBeer.brewery.replace(" Ales","").replace(" Lagers", "").replace(" and", "")+" "+this.props.selectedBeer.name +'&tab=fullcatalog').replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "");
+    Linking.openURL(url).catch(err => console.error('An error occurred', err));
+  }
+
+  bevMoClicked() {
+    this.setModalVisible(false)
+    let url = ('http://shop.bevmo.com/search?w='+this.props.selectedBeer.brewery.replace(" Ales","").replace(" Lagers", "").replace(" and", "")+' '+this.props.selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "");
+    Linking.openURL(url).catch(err => console.error('An error occurred', err));
+
+   // let url = ("http://shop.bevmo.com/search?w="+this.props.selectedBeer.brewery+"%20"+this.props.selectedBeer.name).replace(/ /g, "%20");
+  }
+  
+  beerTempleClicked(){
+    this.setModalVisible(false)
+    let url = ('http://store2.craftbeertemple.com/search.php?search_query='+this.props.selectedBeer.brewery.replace(" Beer", "").replace(" Ales","").replace(" Lagers", "").replace(" and", "")+"+"+this.props.selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "").replace(/ /gi, "+");
+    Linking.openURL(url).catch(err => console.error('An error occurred', err));
+  }
+
+  // bringBeerClicked(){
+  //   this.setModalVisible(false)
+  //   let url = ('http://www.bringonthebeer.com/search_result.html?q='+this.props.selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "");
+  //   Linking.openURL(url).catch(err => console.error('An error occurred', err));
+  // }
+
+  craftshackClicked() {
+    this.setModalVisible(false)
+    let url = ('https://craftshack.com/search?type=product&q='+this.props.selectedBeer.brewery.replace(" Beer", "").replace(" Ales","").replace(" Lagers", "").replace(" and", "")+"+"+this.props.selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "").replace(/ /gi, "+");
+    Linking.openURL(url).catch(err => console.error('An error occurred', err));
+  }
+
+  kingsClicked() {
+    this.setModalVisible(false)
+    let url = ('http://www.craftbeerkings.com/index.php?route=product/search&filter_name='+ this.props.selectedBeer.brewery.replace(" Beer", "").replace(" Ales","").replace(" Lagers", "").replace(" and", "")+' '+this.props.selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "");
+    Linking.openURL(url).catch(err => console.error('An error occurred', err));
+   // console.log('url: ', url);
+  }
+
+  craftCityClicked() {
+    this.setModalVisible(false)
+    let url = ('https://www.craftcity.com/index.php?route=product/search&search='+this.props.selectedBeer.brewery.replace(" Beer", "").replace(" Ales","").replace(" Lagers", "").replace(" and", "")+' '+this.props.selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "");
+    Linking.openURL(url).catch(err => console.error('An error occurred', err));
+   // console.log('CRAFT CITY url: ', url);
   }
 
   websiteClicked = () => {
-    Actions.webview({website: this.props.selectedBeer.website})
+    Actions.webview({website: this.props.selectedBeer.website, url:this.props.selectedBeer.website})
   }
 
   toggleWishlist = () => {
@@ -239,18 +303,68 @@ class BeerDetail extends React.Component {
                       <TouchableOpacity onPress={ this.websiteClicked } >
                         <Image source={require('../assets/ic_language_black_24dp.png') } style={{width: 60, height: 60, marginLeft:20, marginRight: 20}}/>
                       </TouchableOpacity >
-                      <Text style={{fontSize: 10, textAlign: 'center'}}>Brewer</Text>
+                      <Text style={{fontSize: 10, textAlign: 'center'}}>Brewery</Text>
                       <Text style={{fontSize: 10, textAlign: 'center'}}>Website</Text>
                     </View>
                     <View style={ styles.icon }>
-                      <TouchableOpacity onPress={ this.drizlyClicked } >
-                          <Image source={require('../assets/drizly_logo.jpeg') } style={{width: 60, height: 60}}/>
+                      <TouchableOpacity onPress={ this.openShoppingModal } >
+                          <Image source={require('../assets/ic_shopping_cart_black_24dp.png') } style={{width: 60, height: 60}}/>
                       </TouchableOpacity >
-                      <Text style={{fontSize: 10, textAlign: 'center'}}>Order</Text>
-                      <Text style={{fontSize: 10, textAlign: 'center'}}>Online</Text>
+                      <Text style={{fontSize: 10, textAlign: 'center'}}>Order Online</Text>
+                      <Text style={{fontSize: 10, textAlign: 'center'}}><Text style={{color: 'red'}}>(Beta)</Text></Text>
                     </View>
                 </View>
             </View>
+            <Modal
+              animationType={"slide"}
+              transparent={true}
+              visible={this.state.modalVisible}
+              onRequestClose={() => {this.setModalVisible(!this.state.modalVisible)}}>
+              <View style={ styles.modal }>
+                <View style={{flex:0.8, justifyContent: 'flex-start', marginTop: 10}} >
+                  <Text style={{ fontSize:16 }}>Select a merchant to search its inventory</Text>
+                </View>
+                <View style={{flex:6, justifyContent: 'space-between'}} >
+                    <View style={ styles.icon }>
+                      <TouchableOpacity onPress={ this.totalWineClicked } >
+                          <Image source={require('../assets/total_wine_logo.png') } style={{width: 200, height: 54}}/>
+                      </TouchableOpacity >
+                    </View>
+                    <View style={ styles.icon }>
+                      <TouchableOpacity onPress={ this.bevMoClicked } >
+                          <Image source={require('../assets/bevmo_logo.png') } style={{width: 150, height: 47}}/>
+                      </TouchableOpacity >
+                    </View>
+                    <View style={ styles.icon }>
+                      <TouchableOpacity onPress={ this.craftCityClicked } >
+                          <Image source={require('../assets/craft_city_logo.png') } style={{width: 150, height: 66}}/>
+                      </TouchableOpacity >
+                    </View>
+                    <View style={ styles.icon }>
+                      <TouchableOpacity onPress={ this.kingsClicked } >
+                          <Image source={require('../assets/craft_beer_kings_logo.png') } style={{width: 180, height: 50}}/>
+                      </TouchableOpacity >
+                    </View>
+                    <View style={ styles.twoicon }>
+                      <TouchableOpacity onPress={ this.beerTempleClicked } >
+                          <Image source={require('../assets/beer_temple_logo.jpg') } style={{width: 80, height: 76}}/>
+                      </TouchableOpacity >
+                      <TouchableOpacity onPress={ this.craftshackClicked } >
+                          <Image source={require('../assets/craftshack_logo.png') } style={{width: 115, height: 67}}/>
+                      </TouchableOpacity >
+                    </View>
+                </View>
+                <View style={{flex:1, justifyContent: 'flex-end', marginBottom: 10}} >
+                  <Button 
+                    style={{fontSize:16}}
+                    onPress={() => {
+                      this.setModalVisible(!this.state.modalVisible)
+                    }}>
+                    Dismiss
+                  </Button>
+                </View>
+              </View>
+            </Modal>
             <View style={ styles.footer }>
                 <View style={{flexDirection: 'row',justifyContent: 'center'}}>
                     <Text style={styles.like} >
@@ -266,6 +380,20 @@ class BeerDetail extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  modal: {
+    elevation: 50,
+    flex:1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    borderRadius: 10, 
+    borderColor: 'white',
+    borderWidth: 2,
+    marginTop: 25,
+    marginBottom: 25,
+    marginRight: 25,
+    marginLeft: 25, 
+    backgroundColor: '#ffbf00'
+  },
   like: {
     textAlign: 'center',
     color: 'red',
@@ -277,7 +405,7 @@ const styles = StyleSheet.create({
   //  backgroundColor: '#ddd',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     //backgroundColor: '#F5FCFF'
    // borderTopWidth: 1,
     //borderTopColor: 'white',
@@ -341,6 +469,11 @@ const styles = StyleSheet.create({
   icon: {
     flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center'
+  },
+  twoicon: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     alignItems: 'center'
   },
   footer: {

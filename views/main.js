@@ -16,6 +16,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as authActions from '../actions/authActions';
+import * as wishlistActions from '../actions/wishlistActions';
 
 /* ---------------------- */
 

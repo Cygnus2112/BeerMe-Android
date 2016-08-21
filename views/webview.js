@@ -41,7 +41,7 @@ class Browser extends Component {
     this.quitWeb = this.quitWeb.bind(this);
 
     this.state = {
-      url: this.props.website,
+      url: this.props.url,
       status: 'No Page Loaded',
       backButtonEnabled: false,
       forwardButtonEnabled: false,
@@ -81,7 +81,22 @@ class Browser extends Component {
     Actions.pop()
   }
 
+  pressGoButton () {
+    var url = this.inputText.toLowerCase();
+    if (url === this.state.url) {
+      this.reload();
+    } else {
+      this.setState({
+        url: url,
+      });
+    }
+    // dismiss keyboard
+    this.refs[TEXT_INPUT_REF].blur();
+  }
+
   render() {      
+      this.inputText = this.state.url;
+
       return (
       <View style={{flex: 1, backgroundColor: HEADER}}>
       <Toolbar iconAction={'back'} />  
@@ -97,7 +112,7 @@ class Browser extends Component {
           <TextInput
             ref={TEXT_INPUT_REF}
             autoCapitalize="none"
-            defaultValue={this.props.website}
+            defaultValue={this.props.url}
             onSubmitEditing={this.onSubmitEditing}
             onChange={this.handleTextInputChange}
             clearButtonMode="while-editing"
@@ -112,8 +127,9 @@ class Browser extends Component {
         </View>
       	<WebView
             ref={WEBVIEW_REF}
+            scalesPageToFit={true}
             automaticallyAdjustContentInsets={false}
-        		source={{uri: this.props.website}}
+        		source={{uri: this.state.url}}
             javaScriptEnabled={true}
             domStorageEnabled={true}
             decelerationRate="normal"
