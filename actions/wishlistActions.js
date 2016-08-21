@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 let utils = require('../utils');
@@ -30,6 +30,14 @@ export const loadWishlist = (userData) => {
       			  return response.json();
     		})
     		.then(response => {
+            // console.log('response in wishlist actions: ');
+            // console.log(response);
+
+            for(var beer in response) {
+              Image.prefetch(response[beer].icon)
+              //console.log(response[beer].icon);
+            }
+
       			dispatch(loadWishlistSuccess(response));
       			Actions.wishlist();							
     		})
