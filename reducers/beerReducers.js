@@ -33,6 +33,10 @@ export default function beerReducer(state = initialState, action){
         beerData: [{name: action.errorMessage}],
         isSearching: false
       })
+    // case ActionTypes.IMAGE_LOAD_SUCCESS:
+    //   return Object.assign({}, state, {
+    //     isSearching: false
+    //   })
     case ActionTypes.LOAD_FRONT_BEER:
       return Object.assign({}, state, {
         beerToView: state.nextBeer,

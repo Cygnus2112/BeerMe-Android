@@ -56,6 +56,7 @@ class Swipe extends React.Component {
       beerLabel: this.props.beerToView.label,
       nextLabel: null,
       mountTime: new Date(),
+      firstImageLoaded: false,
     }
   }
 
@@ -65,9 +66,18 @@ class Swipe extends React.Component {
    */
 
   componentWillReceiveProps(newProps) {
-      Image.prefetch(newProps.nextBeer.label).then(() => {
-        //
-      })
+      if(newProps.nextBeer.label) {
+        Image.prefetch(newProps.nextBeer.label).then(() => {
+        // console.log('IMAGE PREFETCHED')
+        })
+      }
+      if(!this.state.firstImageLoaded && newProps.beerToView.label ){
+        Image.prefetch(newProps.beerToView.label).then(() => {
+          this.setState({
+            firstImageLoaded: true
+          })
+        })
+      }
   }
 
   componentDidMount() {
@@ -192,16 +202,6 @@ class Swipe extends React.Component {
       //     //const { loadFrontBeer } = this.props.beerActions;
       // setTimeout(this._loadFrontBeer, 300);
     })
-
-    // this.setState({
-    //  // beerLabel: this.state.nextLabel,
-    //   nextLabel: Image.prefetch(this.props.nextBeer.label).then(() => {
-    //     Image.getSize(this.props.nextBeer.label, (width, height) => {
-    //       console.log("Image.getSize called");
-    //     });
-    //   })
-    // })
-
   }
 
   likeBeer = (beer) => {
@@ -303,7 +303,9 @@ class Swipe extends React.Component {
       <View style={styles.main} >
           <Animated.View style={[styles.card, animatedCardstyles]} {...this._panResponder.panHandlers}>
               <View style={{elevation:3,flexDirection: 'row',justifyContent: 'center', borderColor: 'black', borderWidth: 1, width: 258, height: 258}}>
-                <Image source={{uri: this.props.beerToView.label}} style={{width: 256, height: 256}} />
+                <Image 
+                  source={{uri: this.props.beerToView.label}} 
+                  style={{width: 256, height: 256}}/>
               </View>
               <Text style={styles.choose}>
                 {this.props.beerToView.name}
@@ -329,8 +331,7 @@ class Swipe extends React.Component {
           </View>
         </View>
       </LinearGradient>);
-
-    if(this.props.isSearching && !this.props.beerToView.label) {
+    if((this.props.isSearching && !this.props.beerToView.label) || !this.state.firstImageLoaded) {
       return ( <Drawer view={searchingView} wishlistFunc={this.wishlist} /> )
     } else if (this.state.isLoadingWishlist) {
        return ( <Drawer view={loadingView} wishlistFunc={this.wishlist} /> )
