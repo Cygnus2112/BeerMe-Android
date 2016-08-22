@@ -111,11 +111,11 @@ class BeerDetail extends React.Component {
   }
 
   openShoppingModal = () => {
-    this.setModalVisible(true)
-   // let url = ('http://www.totalwine.com/search/all?text=' + this.props.selectedBeer.brewery+"%20"+this.props.selectedBeer.name +'&tab=fullcatalog').replace(/ /gi, "%20").replace(/brewery/gi, "").replace(/brewing/gi, "").replace(/company/gi, "").replace("Co.", "");
-    //Linking.openURL(url).catch(err => console.error('An error occurred', err));
+    console.log('this.props.selectedBeer.abv:')
+    console.log(!this.props.selectedBeer.abv)
 
-   // let url = ("http://shop.bevmo.com/search?w="+this.props.selectedBeer.brewery+"%20"+this.props.selectedBeer.name).replace(/ /g, "%20");
+
+    this.setModalVisible(true);
   }
 
   totalWineClicked() {
@@ -271,7 +271,7 @@ class BeerDetail extends React.Component {
                 <Text style={{fontSize: 12,textAlign: 'left'}}>ABV: </Text>
                   <View style={{ flexDirection: 'column', justifyContent:'flex-start',alignItems: 'center', paddingLeft:3, paddingRight:3, borderColor: 'black',borderWidth: 1, backgroundColor: abvColor}}>
                         <Text style={styles.abv}>
-                            {this.props.selectedBeer.abv}%
+                            {this.props.selectedBeer.abv ? this.props.selectedBeer.abv+"%" : "N/A"}
                         </Text>
                   </View>
               </View>
@@ -294,7 +294,7 @@ class BeerDetail extends React.Component {
                 </View>
                 <View style={{flex: 2.5,flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
                         <Text numberOfLines={12} style={{margin:10}} >
-                          {this.props.selectedBeer.descript}
+                          {this.props.selectedBeer.descript ? this.props.selectedBeer.descript : this.props.selectedBeer.brewery+" has not provided a description provided for this beer."}
                         </Text>
                 </View>
                 <View style={ styles.icons }>
