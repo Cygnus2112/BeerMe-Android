@@ -30,7 +30,8 @@ let width = Dimensions.get('window').width;
 let screenHeight = Dimensions.get('window').height;
 
 import clamp from 'clamp';
-const SWIPE_THRESHOLD = 120;
+//const SWIPE_THRESHOLD = 120;
+const SWIPE_THRESHOLD = 105;
 
 class Swipe extends React.Component {
   constructor(props){
