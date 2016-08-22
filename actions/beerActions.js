@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Image } from 'react-native';
 
 let utils = require('../utils');
 
@@ -8,6 +8,7 @@ export const LOAD_BEERS_FAILURE = 'LOAD_BEERS_FAILURE';
 export const LOAD_FRONT_BEER = 'LOAD_FRONT_BEER';
 export const CLEAR_BEER_DATA = 'CLEAR_BEER_DATA';
 export const CLEAR_FRONT_BEER = 'CLEAR_FRONT_BEER';
+//export const IMAGE_LOAD_SUCCESS = 'IMAGE_LOAD_SUCCESS';
 
 export const loadBeers = (userData={style: "Ale"}) => {	
   return dispatch => {
@@ -32,6 +33,11 @@ export const loadBeers = (userData={style: "Ale"}) => {
       }
       let beerArr = [];
       for(var key in response){
+        if(!beerArr.length < 2){
+          Image.prefetch(response[key].label).then(() => {
+             console.log('IMAGE PREFETCHED for ', response[key].name)
+          })
+        }
         beerArr.push({
           id: key,
           name: response[key].name,
@@ -69,6 +75,18 @@ const loadBeersFailure = (errorMessage) => {
     errorMessage
   }
 }
+
+// export const imageLoadSuccess = () => {
+//   return dispatch => {
+//     dispatch(_imageLoadSuccess())
+//   }
+// }
+
+// const _imageLoadSuccess = () => {
+//   return {
+//     type: IMAGE_LOAD_SUCCESS
+//   }
+// }
 
 export const loadFrontBeer = () => {
   return dispatch => {
