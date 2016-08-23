@@ -22,9 +22,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as authActions from '../actions/authActions';
 
-import { styles } from '../css/stylesheet';
-
 /* ---------------------- */
+import { styles } from '../css/stylesheet';
+import Drawer from '../components/Drawer'
 import { gradientColors } from '../utils';
 import Button from 'react-native-button';
 let width = Dimensions.get('window').width;
@@ -81,33 +81,33 @@ class Login extends React.Component {
 
   }
 //flex: 1.5, 
+        // <View style={{margin: 10, height: 75, flexDirection: 'column', justifyContent: 'center'}}>
+        //     <Image source={require('../assets/logo_outline.png')} />
+        // </View>
 	render() {
-		return (
+    let mainView = (
   <LinearGradient colors={gradientColors} style={{flex:1}}>
-		<View style={styles.main}>
+    <View style={styles.main}>
       <View style={{height: 325, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center'}}>
-        <View style={{margin: 10, height: 75, flexDirection: 'column', justifyContent: 'center'}}>
-        		<Image source={require('../assets/logo_outline.png')} />
-        </View>
-        <View style={{elevation:3,height: 50,flexDirection: 'row',justifyContent: 'center', backgroundColor:'white', margin:5, borderRadius: 4}}>
+        <View style={{elevation:3,height: 50,flexDirection: 'row',justifyContent: 'center', backgroundColor:'white', margin:5, marginTop:50, borderRadius: 4}}>
             <TextInput placeholder="Username" style={styles.textInput} 
-            	onChangeText={(username) => this.setState({username})}
-            	value={this.state.username} />
+              onChangeText={(username) => this.setState({username})}
+              value={this.state.username} />
         </View>
         <View style={{elevation:3,height: 50, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white', margin:5, borderRadius: 4}}>
             <TextInput placeholder="Password" 
               style={styles.textInput} 
-            	secureTextEntry={true}
-            	onChangeText={(password) => this.setState({password})}
-            	value={this.state.password} />
+              secureTextEntry={true}
+              onChangeText={(password) => this.setState({password})}
+              value={this.state.password} />
         </View>
         <LinearGradient colors={['blue','blue','mediumblue']} style={styles.buttonBox}>
         <Button
-        		style={{fontSize: 18, color: 'white'}}
-        		styleDisabled={{color: 'red'}}
-        		onPress={ this.submitLogin }>
-        		Login
-      	</Button> 
+            style={{fontSize: 18, color: 'white'}}
+            styleDisabled={{color: 'red'}}
+            onPress={ this.submitLogin }>
+            Sign In
+        </Button> 
         </LinearGradient>
         <View style={ styles.error } >  
             <Text style={ styles.errorMsg }>
@@ -123,19 +123,23 @@ class Login extends React.Component {
           </TouchableNativeFeedback> 
       </View>
         <View style={ styles.signup }> 
-          	<Text style={styles.instructions} >
-          		{ "Don't" } have an account?
-          	</Text>
-          	<TouchableNativeFeedback onPress={ this.loadSignup } style={styles.button} >
-          			<View style={ styles.header }>
-               		<Text style={styles.iambold} >
-          					Sign up!
-          				</Text>
-          			</View>
-          	</TouchableNativeFeedback>
+            <Text style={styles.instructions} >
+              { "Don't" } have an account?
+            </Text>
+            <TouchableNativeFeedback onPress={ this.loadSignup } style={styles.button} >
+                <View style={ styles.header }>
+                  <Text style={styles.iambold} >
+                    Sign up!
+                  </Text>
+                </View>
+            </TouchableNativeFeedback>
         </View>
     </View>
-  </LinearGradient>)
+  </LinearGradient>
+      );
+
+		return (<Drawer view={ mainView } />)
+
 	}
 }
 

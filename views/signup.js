@@ -26,6 +26,7 @@ import * as authActions from '../actions/authActions';
 import { Actions } from 'react-native-router-flux';
 import Button from 'react-native-button';
 import { gradientColors } from '../utils';
+import Drawer from '../components/Drawer'
 
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -116,15 +117,16 @@ class Signup extends React.Component {
     Actions.login();
 	}
 
+    // <View style={{height: 75, margin: 10, justifyContent: 'center', alignItems: 'center'}}>
+    //         <Image source={require('../assets/logo_outline.png')} />
+    //     </View>
+
   render() {
-    return (
-    <LinearGradient colors={gradientColors} style={{flex:1}}>
-      <View style={styles.main}>
-        <View style={{height: 75, margin: 10, justifyContent: 'center', alignItems: 'center'}}>
-            <Image source={require('../assets/logo_outline.png')} />
-        </View>
+    let mainView = (
+      <LinearGradient colors={gradientColors} style={{flex:1}}>
+      <View style={styles.main}>  
             <View style={styles.container} >
-                <View style={{elevation:3, height: 45, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2}}>
+                <View style={{elevation:3, height: 45, flexDirection: 'row',justifyContent: 'center',backgroundColor:'white',borderRadius: 4, margin:2, marginTop: 30}}>
                   <TextInput placeholder="Email" style={styles.input} 
                     autoCorrect={false}
                     onChangeText={(email) => this.setState({email})}
@@ -174,7 +176,10 @@ class Signup extends React.Component {
             </View> 
         </View>
     </LinearGradient>
-    )
+      );
+
+    return ( <Drawer view={ mainView } /> )
+
   }
 }
 

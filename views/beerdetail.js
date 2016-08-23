@@ -169,16 +169,23 @@ class BeerDetail extends React.Component {
   }
 
   toggleWishlist = () => {
-    if(this.state.toggled){
+    if(!this.props.username){
       this.setState({
-        actionMessage: 'Removed From Wishlist',
-        toggled: !this.state.toggled,
+        actionMessage: 'Please sign in to save beers to wishlist'
       })
+
     } else {
-      this.setState({
-        actionMessage: 'Added to Wishlist',
-        toggled: !this.state.toggled,
-      })
+      if(this.state.toggled){
+        this.setState({
+          actionMessage: 'Removed From Wishlist',
+          toggled: !this.state.toggled,
+        })
+      } else {
+        this.setState({
+          actionMessage: 'Added to Wishlist',
+          toggled: !this.state.toggled,
+        })
+      }
     }
     setTimeout(() => {this.setState({
       actionMessage: ""

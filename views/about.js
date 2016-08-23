@@ -34,7 +34,7 @@ class About extends React.Component {
           <View style={styles.container}>
               <View style={{flex: 2, flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
                 <Text style={{fontSize: 22, textAlign: 'center'}}>
-                Version 1.01
+                Version 1.03
                 </Text>
               </View>
               <View style={{flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center'}}>
