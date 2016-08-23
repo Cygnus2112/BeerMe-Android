@@ -9,7 +9,8 @@ import {
   Dimensions,
   AsyncStorage,
   TouchableOpacity,
-  DrawerLayoutAndroid
+  DrawerLayoutAndroid,
+  BackAndroid
 } from 'react-native';
 
 /* Redux stuff...      */
@@ -40,10 +41,14 @@ class Drawer extends React.Component {
     this.loadStyles = this.loadStyles.bind(this);
     this.loadAbout = this.loadAbout.bind(this);
 
+    this.DRAWER;
+
     this.state = {
       styleChoice: "",
       actionText: "",
-      username: ""
+      username: "",
+      wishlistError: "", 
+      drawerOpen: false
     }
   }
 
@@ -58,6 +63,8 @@ class Drawer extends React.Component {
   }
 
   openSwipe = (styleChoice) => {
+        // because for some reason onDrawerClose doesn't always work
+    this.setState({ drawerOpen: false })
     const { clearFrontBeer } = this.props.beerActions;
     clearFrontBeer(); 
 
@@ -65,47 +72,113 @@ class Drawer extends React.Component {
   } 
 
   signoutUser = () => {
-    this.refs['DRAWER'].closeDrawer();
+        // because for some reason onDrawerClose doesn't always work
+    this.setState({ drawerOpen: false })
+    //this.refs['DRAWER'].closeDrawer();
+    this.DRAWER.closeDrawer();
     const { logout } = this.props.authActions;
     logout();
   }
 
   wishlist = () => {
-    this.refs['DRAWER'].closeDrawer();
+    if(!this.props.username) {
+      this.setState({
+        wishlistError: "You must be signed in to access your wishlist"
+      });
+      setTimeout(() => 
+        {this.setState({
+          wishlistError: ""
+        });}, 3000);
+    } else {
+          // because for some reason onDrawerClose doesn't always work
+    this.setState({ drawerOpen: false })
 
+ // this.refs['DRAWER'].closeDrawer();
+ this.DRAWER.closeDrawer();
     if(this.props.wishlistFunc){
       this.props.wishlistFunc();
     } else {
       const { loadWishlist } = this.props.wishlistActions;
       loadWishlist({"username": this.props.username});
     }
+
+    }
   }
 
   loadStyles = () => {
-    this.refs['DRAWER'].closeDrawer();
+    // because for some reason onDrawerClose doesn't always work
+    this.setState({ drawerOpen: false })
+    //this.refs['DRAWER'].closeDrawer();
+    this.DRAWER.closeDrawer();
     Actions.styles();
   }
 
   loadAbout = () => {
-    this.refs['DRAWER'].closeDrawer();
+        // because for some reason onDrawerClose doesn't always work
+    this.setState({ drawerOpen: false })
+    //this.refs['DRAWER'].closeDrawer();
+    this.DRAWER.closeDrawer();
     Actions.about();
   }
 
   openDrawer = () => {
-    this.refs['DRAWER'].openDrawer()
+    //this.refs['DRAWER'].openDrawer()
+    this.DRAWER.openDrawer();
   }
 
   render() {
+      BackAndroid.addEventListener('hardwareBackPress', () => {
+        if(this.state.drawerOpen) {
+          if(this.DRAWER){
+          // this.refs['DRAWER'].closeDrawer();
+          this.DRAWER.closeDrawer();
+          this.setState({ drawerOpen: false })
+          // return true;
+          }
+        }
+        return true;
+      });
+    
+    let userView = (
+        <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
+          <Image source={require('../assets/ic_person_black_24dp.png') } style={{margin: 10}} />
+          <Text style={{fontSize: 18, textAlign: 'left'}}>{ this.props.username }</Text>
+        </View>);
+
+    let signoutView = (
+        <TouchableOpacity onPress={ this.signoutUser }>
+          <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
+            <Image source={require('../assets/ic_account_circle_black_24dp_sm.png')} style={{margin: 10}}  />
+            <Text style={{fontSize: 18, textAlign: 'left'}}>Sign Out</Text>
+          </View>
+        </TouchableOpacity>
+      );
+
+    let loginView = (
+        <TouchableOpacity onPress={ () => {
+            this.DRAWER.closeDrawer();
+            Actions.login(); 
+            }}>
+          <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
+            <Image source={require('../assets/ic_account_circle_black_24dp_sm.png')} style={{margin: 10}}  />
+            <Text style={{fontSize: 18, textAlign: 'left'}}>Sign In</Text>
+          </View>
+        </TouchableOpacity>
+      );
+
+    let errorView = (
+        <View style={{height: 150, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F5FCFF'}}>
+          <Text style={{fontSize: 16, textAlign: 'center', color: 'red'}}>{ this.state.wishlistError }</Text>
+        </View>
+      );
+
     let navigationView = (
       <View style={styles.drawermain}>
           <View style={styles.drawer}>
             <View style={{flexDirection: 'row', justifyContent: 'center', backgroundColor: '#F5FCFF', padding: 5, borderBottomColor: '#b5b5b5', borderBottomWidth: 1, paddingTop: 15, paddingBottom: 15}}>
               <Image source={require('../assets/logo_amber.png')} style={{width: 294*.65, height: 70*.65}} />
             </View>
-            <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
-              <Image source={require('../assets/ic_person_black_24dp.png') } style={{margin: 10}} />
-              <Text style={{fontSize: 18, textAlign: 'left'}}>{ this.props.username }</Text>
-            </View>
+            { this.props.username ? userView : null}
             <TouchableOpacity onPress={ this.wishlist  }>
               <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
                 <Image source={require('../assets/ic_favorite_filled_3x.png')} style={{width: 24, height: 24,margin: 10}} />
@@ -118,12 +191,8 @@ class Drawer extends React.Component {
                 <Text style={{fontSize: 18, textAlign: 'left'}}>Browse Beers</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={ this.signoutUser }>
-              <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
-                <Image source={require('../assets/ic_account_circle_black_24dp_sm.png')} style={{margin: 10}}  />
-                <Text style={{fontSize: 18, textAlign: 'left'}}>Sign Out</Text>
-              </View>
-            </TouchableOpacity>
+            { this.props.username ? signoutView : loginView }
+            { this.state.wishlistError ? errorView : null }
           </View>
           <View style={{flexDirection: 'column', justifyContent: 'center', flex: .075,backgroundColor: '#F5FCFF'}}>
             <TouchableOpacity onPress={ this.loadAbout }>
@@ -147,11 +216,22 @@ class Drawer extends React.Component {
               size="large"/>
           </View>
       )
-
+//ref={'DRAWER'}
       return (
         <DrawerLayoutAndroid
-          ref={'DRAWER'}
+          ref={(c) => {
+            this.DRAWER = c
+          }}
           drawerWidth={200}
+          keyboardDismissMode={'on-drag'}
+          onDrawerOpen={() => {
+            this.setState({drawerOpen: true})
+            console.log('drawer opened');}
+          }
+          onDrawerClose={() => {
+            this.setState({drawerOpen: false})
+            console.log('drawer closed')}
+          }
           drawerPosition={DrawerLayoutAndroid.positions.Left}
           renderNavigationView={() => navigationView}>
           <Toolbar openDrawer={this.openDrawer} />

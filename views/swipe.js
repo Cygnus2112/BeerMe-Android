@@ -207,7 +207,7 @@ class Swipe extends React.Component {
 
   likeBeer = (beer) => {
    // Image.prefetch(this.props.beerToView.icon).then(() => {
-      Actions.beerdetail({selectedBeer: beer, rowID: beer.id, isAlreadyInWishlist: false});
+      Actions.beerdetail({selectedBeer: beer, rowID: beer.id, isAlreadyInWishlist: false, direction: 'vertical' });
           //const { loadFrontBeer } = this.props.beerActions;
       setTimeout(this._loadFrontBeer, 300);
    // })

@@ -174,7 +174,8 @@ export const checkForToken = () => {
             	}).done();
             } else {
             	// dispatch(authFail());
-            	Actions.login();
+            	//Actions.login();
+              Actions.styles(hideNavBar={true});
             }
 
         }).done();

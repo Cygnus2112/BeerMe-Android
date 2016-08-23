@@ -29,7 +29,8 @@ class Main extends React.Component {
 
 	componentDidMount() {
     const { checkForToken } = this.props.authActions;
-    checkForToken();
+    setTimeout(() => {
+      checkForToken();} ,1500) // Because I spent a long time working on the main logo 
   }
 
 	render() {
