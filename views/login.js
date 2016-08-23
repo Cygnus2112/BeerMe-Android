@@ -11,6 +11,7 @@ import {
   TextInput,
   Dimensions,
   TouchableNativeFeedback,
+  TouchableOpacity,
   AsyncStorage
 } from 'react-native';
 
@@ -123,11 +124,11 @@ class Login extends React.Component {
           </TouchableNativeFeedback> 
       </View>
         <View style={ styles.signup }> 
-            <Text style={styles.instructions} >
-              { "Don't" } have an account?
-            </Text>
             <TouchableNativeFeedback onPress={ this.loadSignup } style={styles.button} >
                 <View style={ styles.header }>
+                  <Text style={styles.instructions} >
+                    { "Don't" } have an account?
+                  </Text>
                   <Text style={styles.iambold} >
                     Sign up!
                   </Text>
