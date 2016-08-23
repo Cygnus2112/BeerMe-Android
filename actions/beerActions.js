@@ -35,7 +35,7 @@ export const loadBeers = (userData={style: "Ale"}) => {
       for(var key in response){
         if(!beerArr.length < 2){
           Image.prefetch(response[key].label).then(() => {
-             console.log('IMAGE PREFETCHED for ', response[key].name)
+            // console.log('IMAGE PREFETCHED for ', response[key].name)
           })
         }
         beerArr.push({

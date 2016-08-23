@@ -225,12 +225,10 @@ class Drawer extends React.Component {
           drawerWidth={200}
           keyboardDismissMode={'on-drag'}
           onDrawerOpen={() => {
-            this.setState({drawerOpen: true})
-            console.log('drawer opened');}
+            this.setState({drawerOpen: true})}
           }
           onDrawerClose={() => {
-            this.setState({drawerOpen: false})
-            console.log('drawer closed')}
+            this.setState({drawerOpen: false})}
           }
           drawerPosition={DrawerLayoutAndroid.positions.Left}
           renderNavigationView={() => navigationView}>

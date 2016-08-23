@@ -163,11 +163,11 @@ class Signup extends React.Component {
                 </View>
             </View>
             <View style={{flex: 2, flexDirection: 'column', justifyContent: 'center'}}> 
-                <Text style={styles.instructions} >
-                    Already have an account?
-                </Text>
                 <TouchableNativeFeedback onPress={ this.loadLogin } style={styles.button} >
                   <View style={ styles.header }>
+                    <Text style={styles.instructions} >
+                      Already have an account?
+                    </Text>
                     <Text style={styles.iambold} >
                       Sign {"in"}
                     </Text>
