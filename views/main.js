@@ -36,7 +36,6 @@ class Main extends React.Component {
 	render() {
 		return (
 		  <View style={styles.main}>
-        <View style={styles.header} />
           <View style={styles.container}>
               <Image source={require('../assets/logo_outline.png')} />
           </View> 
