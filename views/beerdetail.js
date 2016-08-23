@@ -67,54 +67,52 @@ class BeerDetail extends React.Component {
   }
 
   componentWillUnmount() {
-    const { removeWishlistItem } = this.props.wishlistActions;
-    //if(this.state.dislikeToAdd) {
-    if(!this.state.toggled && this.props.isAlreadyInWishlist) {
-      let a = {
-        "id": this.props.rowID,
-        "name": this.props.selectedBeer.name,
-        "style": this.props.selectedBeer.style,
-        "labelUrl": this.props.selectedBeer.label,
-        "icon": this.props.selectedBeer.icon,
-        "descript": this.props.selectedBeer.descript,
-        "abv": this.props.selectedBeer.abv,
-        "brewery": this.props.selectedBeer.brewery,
-        "website": this.props.selectedBeer.website
+    if(this.props.username){
+      const { removeWishlistItem } = this.props.wishlistActions;
+      //if(this.state.dislikeToAdd) {
+      if(!this.state.toggled && this.props.isAlreadyInWishlist) {
+        let a = {
+          "id": this.props.rowID,
+          "name": this.props.selectedBeer.name,
+          "style": this.props.selectedBeer.style,
+          "labelUrl": this.props.selectedBeer.label,
+          "icon": this.props.selectedBeer.icon,
+          "descript": this.props.selectedBeer.descript,
+          "abv": this.props.selectedBeer.abv,
+          "brewery": this.props.selectedBeer.brewery,
+          "website": this.props.selectedBeer.website
+        }
+        removeWishlistItem ({
+          "username": this.props.username,
+          "wishlist": [a],
+          "dislikes": [a]
+        });
       }
-      removeWishlistItem ({
-        "username": this.props.username,
-        "wishlist": [a],
-        "dislikes": [a]
-      });
-    }
-    if(this.state.toggled && !this.props.isAlreadyInWishlist && !this.state.wishlistClicked){
-      //add to wishlist
-      const { updateWishlist } = this.props.wishlistActions;
-      let a = {
-        "id": this.props.rowID,
-        "name": this.props.selectedBeer.name,
-        "style": this.props.selectedBeer.style,
-        "labelUrl": this.props.selectedBeer.label,
-        "icon": this.props.selectedBeer.icon,
-        "descript": this.props.selectedBeer.descript,
-        "abv": this.props.selectedBeer.abv,
-        "brewery": this.props.selectedBeer.brewery,
-        "website": this.props.selectedBeer.website
-      }
+      if(this.state.toggled && !this.props.isAlreadyInWishlist && !this.state.wishlistClicked){
+        //add to wishlist
+        const { updateWishlist } = this.props.wishlistActions;
+        let a = {
+          "id": this.props.rowID,
+          "name": this.props.selectedBeer.name,
+          "style": this.props.selectedBeer.style,
+          "labelUrl": this.props.selectedBeer.label,
+          "icon": this.props.selectedBeer.icon,
+          "descript": this.props.selectedBeer.descript,
+          "abv": this.props.selectedBeer.abv,
+          "brewery": this.props.selectedBeer.brewery,
+          "website": this.props.selectedBeer.website
+        }
 
-      updateWishlist({
-        "username": this.props.username,
-        "wishlistToAdd": [a],
-        "dislikesToAdd": []
-      });
+        updateWishlist({
+          "username": this.props.username,
+          "wishlistToAdd": [a],
+          "dislikesToAdd": []
+        });
+      }
     }
   }
 
   openShoppingModal = () => {
-    console.log('this.props.selectedBeer.abv:')
-    console.log(!this.props.selectedBeer.abv)
-
-
     this.setModalVisible(true);
   }
 

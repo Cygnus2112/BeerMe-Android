@@ -149,13 +149,15 @@ class Swipe extends React.Component {
   componentWillUnmount() {
     const { clearBeerData } = this.props.beerActions;
     clearBeerData();
-    const { updateWishlist } = this.props.wishlistActions;
-    if(this.state.wishlistToAdd.length || this.state.dislikesToAdd.length) {
-      updateWishlist({
-        "username": this.props.username,
-        "wishlistToAdd": this.state.wishlistToAdd,
-        "dislikesToAdd": this.state.dislikesToAdd
-      });
+    if(this.props.username){
+      const { updateWishlist } = this.props.wishlistActions;
+      if(this.state.wishlistToAdd.length || this.state.dislikesToAdd.length) {
+        updateWishlist({
+          "username": this.props.username,
+          "wishlistToAdd": this.state.wishlistToAdd,
+          "dislikesToAdd": this.state.dislikesToAdd
+        });
+      }
     }
   }
 
