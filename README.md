@@ -33,7 +33,7 @@ Beer and brewery data courtesy of the very awesome [BreweryDB](http://www.brewer
 
 * User
 * Wishlist
-* Dislike
+* Dislikes
 * Beer
 
 ![BeerMe_ERD](assets/BeerMe_ERD.png)
