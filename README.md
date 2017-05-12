@@ -2,7 +2,7 @@
 
 Swipe your way to craft-beer nirvana with BeerMe!, a fun way to expand your beer-drinking palette.
 
-#### How It Works
+### How It Works
 
 Log in, choose a style, and swipe through a continuously reloading assortment of beers, Tinder-style. 
 
@@ -13,6 +13,8 @@ If a brew catches your eye, swipe right to learn more about it. Check out the br
 ![beerme_android_pics4](assets/beerme_android_pics4.png) 
 
 BeerMe! is available on the Google Play Store or at [play.google.com/store/apps/details?id=com.beermeandroid](https://play.google.com/store/apps/details?id=com.beermeandroid). 
+
+### Tech
 
 The BeerMe! for Android tech stack includes the following languages and frameworks ...
 
@@ -27,13 +29,11 @@ Code for Tinder functionality was swiped (ha!) from [Brent Vatne's demo](https:/
 
 Beer and brewery data courtesy of the very awesome [BreweryDB](http://www.brewerydb.com).
 
-#### Entities
+### Entities
 
 * User
 * Wishlist
 * Dislike
 * Beer
 
-
-
-
+![BeerMe_ERD](assets/BeerMe_ERD.png)
