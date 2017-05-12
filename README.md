@@ -2,7 +2,7 @@
 
 Swipe your way to craft-beer nirvana with BeerMe!, a fun way to expand your beer-drinking palette.
 
-####How It Works
+#### How It Works
 
 Log in, choose a style, and swipe through a continuously reloading assortment of beers, Tinder-style. 
 
@@ -26,4 +26,14 @@ The BeerMe! for Android tech stack includes the following languages and framewor
 Code for Tinder functionality was swiped (ha!) from [Brent Vatne's demo](https://github.com/brentvatne/react-native-animated-demo-tinder).
 
 Beer and brewery data courtesy of the very awesome [BreweryDB](http://www.brewerydb.com).
+
+#### Entities
+
+* User
+* Wishlist
+* Dislike
+* Beer
+
+
+
 
