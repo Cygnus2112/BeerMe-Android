@@ -88,7 +88,7 @@ class Swipe extends React.Component {
   _animateEntrance() {
     Animated.spring(
       this.state.enter,
-      { toValue: 1, friction: 8 }
+      { toValue: 1, friction: 8, useNativeDriver: false }
     ).start();
   }
 
@@ -104,8 +104,8 @@ class Swipe extends React.Component {
       },
 
       onPanResponderMove: Animated.event([
-        null, {dx: this.state.pan.x, dy: this.state.pan.y},
-      ]),
+        null, {dx: this.state.pan.x, dy: this.state.pan.y}
+      ], {useNativeDriver: false}),
 
       onPanResponderRelease: (e, {vx, vy}) => {
         this.state.pan.flattenOffset();
@@ -130,7 +130,8 @@ class Swipe extends React.Component {
         } else {
           Animated.spring(this.state.pan, {
             toValue: {x: 0, y: 0},
-            friction: 4
+            friction: 4,
+            useNativeDriver: false,
           }).start()
         }
       }

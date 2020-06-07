@@ -52,7 +52,9 @@ export const loadBeers = (userData={style: "Ale"}) => {
       }
       dispatch(loadBeersSuccess(beerArr));             
     })
-    .catch(err => console.error('Error in loadBeers:', err));
+    .catch(err => {
+      console.warn('Error in loadBeers:', err) 
+    });
   }
 }
 

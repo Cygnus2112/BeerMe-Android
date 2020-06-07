@@ -164,25 +164,7 @@ export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 // export const AUTH_FAIL = 'AUTH_FAIL';
 
-export const checkForToken = () => {
-    return dispatch => {
-    	AsyncStorage.getItem("beerme-token").then((value) => {
-            if(value){
-            	AsyncStorage.getItem("beerme-username").then((username) => {
-            		dispatch(authSuccess(username));
-                // Actions.styles(hideNavBar={true});
-                Actions.styles();
-            	}).done();
-            } else {
-            	// dispatch(authFail());
-            	//Actions.login();
-              // Actions.styles(hideNavBar={true});
-              Actions.styles();
-            }
 
-        }).done();
-    }
-}
 
 const authRequest = () => {
   return {

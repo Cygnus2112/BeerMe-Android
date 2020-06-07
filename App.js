@@ -8,20 +8,11 @@
 
 import React from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
 } from 'react-native';
 
 import {
-  Header,
-  LearnMoreLinks,
   Colors,
-  DebugInstructions,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
@@ -36,23 +27,14 @@ const reducer = combineReducers({
   beerReducer,
   authReducer,
   wishlistReducer
-})
+});
+
 const finalCreateStore = compose(
   applyMiddleware(thunk)
-)(createStore)
-const store = finalCreateStore(reducer)
+)(createStore);
 
-// import Login from './components/login'
-// import Signup from './components/signup'
-// import Styles from './components/styles'
-// import Swipe from './components/swipe'
-// import Main from './components/main'
-// import Wishlist from './components/wishlist'
-// import BeerDetail from './components/beerdetail'
-// import Browser from './components/webview'
-// import Forgot from './components/forgot'
-// import Whatever from './components/whatever'
-// import About from './components/about'
+const store = finalCreateStore(reducer);
+
 import Login from './views/login'
 import Signup from './views/signup'
 import Styles from './views/styles'
@@ -95,54 +77,6 @@ const App: () => React$Node = () => {
     </>
   );
 };
-
-// const App: () => React$Node = () => {
-//   return (
-//     <>
-//       <StatusBar barStyle="dark-content" />
-//       <SafeAreaView>
-//         <ScrollView
-//           contentInsetAdjustmentBehavior="automatic"
-//           style={styles.scrollView}>
-//           <Header />
-//           {global.HermesInternal == null ? null : (
-//             <View style={styles.engine}>
-//               <Text style={styles.footer}>Engine: Hermes</Text>
-//             </View>
-//           )}
-//           <View style={styles.body}>
-//             <View style={styles.sectionContainer}>
-//               <Text style={styles.sectionTitle}>Step One</Text>
-//               <Text style={styles.sectionDescription}>
-//                 Edit <Text style={styles.highlight}>App.js</Text> to change this
-//                 screen and then come back to see your edits.
-//               </Text>
-//             </View>
-//             <View style={styles.sectionContainer}>
-//               <Text style={styles.sectionTitle}>See Your Changes</Text>
-//               <Text style={styles.sectionDescription}>
-//                 <ReloadInstructions />
-//               </Text>
-//             </View>
-//             <View style={styles.sectionContainer}>
-//               <Text style={styles.sectionTitle}>Debug</Text>
-//               <Text style={styles.sectionDescription}>
-//                 <DebugInstructions />
-//               </Text>
-//             </View>
-//             <View style={styles.sectionContainer}>
-//               <Text style={styles.sectionTitle}>Learn More</Text>
-//               <Text style={styles.sectionDescription}>
-//                 Read the docs to discover what to do next:
-//               </Text>
-//             </View>
-//             <LearnMoreLinks />
-//           </View>
-//         </ScrollView>
-//       </SafeAreaView>
-//     </>
-//   );
-// };
 
 const styles = StyleSheet.create({
   scrollView: {
