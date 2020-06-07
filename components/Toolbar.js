@@ -2,8 +2,10 @@ import React from 'react';
 
 import {
   StyleSheet,
-  ToolbarAndroid
+  // ToolbarAndroid
 } from 'react-native';
+
+import ToolbarAndroid from '@react-native-community/toolbar-android';
 
 import { Actions } from 'react-native-router-flux';
 

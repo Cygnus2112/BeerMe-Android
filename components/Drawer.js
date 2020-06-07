@@ -10,7 +10,7 @@ import {
   AsyncStorage,
   TouchableOpacity,
   DrawerLayoutAndroid,
-  BackAndroid
+  // BackAndroid
 } from 'react-native';
 
 /* Redux stuff...      */
@@ -127,17 +127,17 @@ class Drawer extends React.Component {
   }
 
   render() {
-      BackAndroid.addEventListener('hardwareBackPress', () => {
-        if(this.state.drawerOpen) {
-          if(this.DRAWER){
-          // this.refs['DRAWER'].closeDrawer();
-          this.DRAWER.closeDrawer();
-          this.setState({ drawerOpen: false })
-          // return true;
-          }
-        }
-        return true;
-      });
+      // BackAndroid.addEventListener('hardwareBackPress', () => {
+      //   if(this.state.drawerOpen) {
+      //     if(this.DRAWER){
+      //     // this.refs['DRAWER'].closeDrawer();
+      //     this.DRAWER.closeDrawer();
+      //     this.setState({ drawerOpen: false })
+      //     // return true;
+      //     }
+      //   }
+      //   return true;
+      // });
     
     let userView = (
         <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
@@ -230,7 +230,7 @@ class Drawer extends React.Component {
           onDrawerClose={() => {
             this.setState({drawerOpen: false})}
           }
-          drawerPosition={DrawerLayoutAndroid.positions.Left}
+          drawerPosition={"left"}
           renderNavigationView={() => navigationView}>
           <Toolbar openDrawer={this.openDrawer} />
 

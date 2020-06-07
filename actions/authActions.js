@@ -170,12 +170,14 @@ export const checkForToken = () => {
             if(value){
             	AsyncStorage.getItem("beerme-username").then((username) => {
             		dispatch(authSuccess(username));
-            		Actions.styles(hideNavBar={true});
+                // Actions.styles(hideNavBar={true});
+                Actions.styles();
             	}).done();
             } else {
             	// dispatch(authFail());
             	//Actions.login();
-              Actions.styles(hideNavBar={true});
+              // Actions.styles(hideNavBar={true});
+              Actions.styles();
             }
 
         }).done();
