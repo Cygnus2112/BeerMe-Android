@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   ListView,
   StyleSheet,
@@ -9,17 +8,16 @@ import {
   Dimensions,
   TouchableNativeFeedback,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
 } from 'react-native';
-
-import { Actions } from 'react-native-router-flux';
-import Drawer from '../components/Drawer'
 
 /* Redux stuff...      */
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as wishlistActions from '../actions/wishlistActions';
 import * as authActions from '../actions/authActions';
+
+import Drawer from '../components/Drawer';
 
 let screenHeight = Dimensions.get('window').height;
 
@@ -53,13 +51,17 @@ class Wishlist extends React.Component {
   }
 
   renderHeader = () => {
-    return(
-      <View style={styles.header}><Text style={{textAlign: 'center', color: 'white', fontSize: 20, fontWeight: 'bold'}} >Wishlist</Text></View>
+    return (
+      <View style={styles.header}>
+        <Text style={{textAlign: 'center', color: 'white', fontSize: 20, fontWeight: 'bold'}}>
+          Wishlist
+        </Text>
+      </View>
     );
   }
 
   emptyLoadStyles = () => {
-    Actions.styles();
+    this.props.navigation.navigate('styles');
   }
     
   render() {
@@ -76,7 +78,7 @@ class Wishlist extends React.Component {
           </View>
         </TouchableNativeFeedback>
       </View>
-      );
+    );
 
     let wishlistView = (
       <ScrollView >
@@ -87,17 +89,24 @@ class Wishlist extends React.Component {
             return (
           <TouchableHighlight
             onPress={()=> {
-              Actions.beerdetail({ selectedBeer: selectedBeer, rowID: rowID, isAlreadyInWishlist: true })}
-            }
-            underlayColor = '#ddd'>
-
+              this.props.navigation.navigate(
+                'beerdetail',
+                {
+                  selectedBeer: selectedBeer,
+                  rowID: rowID,
+                  isAlreadyInWishlist: true,
+                }
+              );
+            }}
+            underlayColor='#ddd'
+          >
             <View style ={styles.row}>
               <Image source={{uri: selectedBeer.icon}} style={{height:34, width:34, borderColor: 'black', borderWidth: 1, marginLeft: 5, marginRight:5}} />
               <Text style={{fontSize:18}}>{selectedBeer.name}</Text>
             </View>
           </TouchableHighlight>  ) }} />
       </ScrollView>
-        )
+    );
 
     if(!Object.keys(this.props.wishlist).length){
       return ( <Drawer view={ emptyWishlistView } /> )

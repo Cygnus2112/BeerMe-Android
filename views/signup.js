@@ -1,10 +1,8 @@
 import React from 'react';
-
 import {
   Text,
   View,
   TextInput,
-  Dimensions,
   TouchableNativeFeedback,
 } from 'react-native';
 
@@ -99,7 +97,7 @@ class Signup extends React.Component {
       this.setState({
         errorMsg: ""
       }) 
-      signup(userInfo);
+      signup(userInfo, this.props.navigation);
     }
 	}
 
@@ -187,4 +185,5 @@ const mapDispatchToProps = (dispatch) => {
     authActions: bindActionCreators(authActions, dispatch)
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

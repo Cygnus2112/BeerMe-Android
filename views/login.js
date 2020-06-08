@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   Text,
   View,
@@ -53,12 +52,12 @@ class Login extends React.Component {
         const { login } = this.props.authActions;
           const userInfo = {
             username: this.state.username,
-            password: this.state.password
+            password: this.state.password,
           };
         this.setState({
           errorMsg: ""
         })
-        login(userInfo)
+        login(userInfo, this.props.navigation);
       }
   	}
 

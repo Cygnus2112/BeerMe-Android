@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   ActivityIndicator,
   StyleSheet,
@@ -7,7 +6,6 @@ import {
   View,
   Image,
   Dimensions,
-  TouchableNativeFeedback,
   TouchableOpacity,
   Animated,
   PanResponder
@@ -66,18 +64,17 @@ class Swipe extends React.Component {
    */
 
   componentWillReceiveProps(newProps) {
-      if(newProps.nextBeer.label) {
-        Image.prefetch(newProps.nextBeer.label).then(() => {
-        // console.log('IMAGE PREFETCHED')
+    if(newProps.nextBeer.label) {
+      Image.prefetch(newProps.nextBeer.label).then(() => {
+      })
+    }
+    if(!this.state.firstImageLoaded && newProps.beerToView.label ){
+      Image.prefetch(newProps.beerToView.label).then(() => {
+        this.setState({
+          firstImageLoaded: true
         })
-      }
-      if(!this.state.firstImageLoaded && newProps.beerToView.label ){
-        Image.prefetch(newProps.beerToView.label).then(() => {
-          this.setState({
-            firstImageLoaded: true
-          })
-        })
-      }
+      })
+    }
   }
 
   componentDidMount() {
@@ -156,7 +153,7 @@ class Swipe extends React.Component {
           "username": this.props.username,
           "wishlistToAdd": this.state.wishlistToAdd,
           "dislikesToAdd": this.state.dislikesToAdd
-        });
+        }, this.props.navigation);
       }
     }
   }
@@ -171,7 +168,7 @@ class Swipe extends React.Component {
         "username": this.props.username,
         "wishlistToAdd": this.state.wishlistToAdd,
         "dislikesToAdd": this.state.dislikesToAdd
-      });
+      }, this.props.navigation);
       this.setState({
         wishlistToAdd: [],
         dislikesToAdd: []
@@ -189,7 +186,7 @@ class Swipe extends React.Component {
         const { updateWishlistRequest } = this.props.wishlistActions;
         updateWishlistRequest();
         const { loadWishlist } = this.props.wishlistActions;
-        loadWishlist({"username": this.props.username});
+        loadWishlist({"username": this.props.username}, this.props.navigation);
         //setTimeout(() => loadWishlist({"username": this.props.username}), 500);
         loading = false;
       }
@@ -199,12 +196,6 @@ class Swipe extends React.Component {
   _loadFrontBeer = () => {
     const { loadFrontBeer } = this.props.beerActions;
     loadFrontBeer();
-
-    Image.prefetch(this.props.beerToView.icon).then(() => {
-      // Actions.beerdetail({selectedBeer: beer, rowID: beer.id, isAlreadyInWishlist: false});
-      //     //const { loadFrontBeer } = this.props.beerActions;
-      // setTimeout(this._loadFrontBeer, 300);
-    })
   }
 
   likeBeer = (beer) => {

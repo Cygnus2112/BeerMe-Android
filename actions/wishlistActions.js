@@ -1,5 +1,4 @@
 import { AsyncStorage, Image } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 let utils = require('../utils');
 
@@ -11,7 +10,7 @@ export const REMOVE_WISHLIST_ITEM_REQUEST = 'REMOVE_WISHLIST_ITEM_REQUEST';
 export const REMOVE_WISHLIST_ITEM_SUCCESS = 'REMOVE_WISHLIST_ITEM_SUCCESS';
 export const EMPTY_WISHLIST = 'EMPTY_WISHLIST';
 
-export const loadWishlist = (userData) => {
+export const loadWishlist = (userData, navigation) => {
   return dispatch => {
     dispatch(loadWishlistRequest());			
 
@@ -38,8 +37,8 @@ export const loadWishlist = (userData) => {
               //console.log(response[beer].icon);
             }
 
-      			dispatch(loadWishlistSuccess(response));
-      			Actions.wishlist();							
+            dispatch(loadWishlistSuccess(response));
+            navigation.navigate('wishlist');					
     		})
     		.catch(err => {
             console.error('Error in loadWishlist:', err);
@@ -47,7 +46,7 @@ export const loadWishlist = (userData) => {
             	
         } else {
             // dispatch(authFail());
-            Actions.login();
+            navigation.navigate('login');
         }
     }).done();
   }
@@ -66,7 +65,7 @@ const loadWishlistSuccess = (wishlistData) => {
   	}
 }
 
-export const updateWishlist = (userData) => {
+export const updateWishlist = (userData, navigation) => {
   return dispatch => {
     dispatch(updateWishlistRequest());      
     AsyncStorage.getItem("beerme-token").then((token) => {
@@ -99,68 +98,13 @@ export const updateWishlist = (userData) => {
               
         } else {
             // dispatch(authFail());
-            Actions.login();
+            navigation.navigate('login');
         }
     }).done();
   }
 }
 
-export const updateAndLoadWishlist = (userData) => {
-  return dispatch => {
-    dispatch(loadWishlistRequest());      
-    AsyncStorage.getItem("beerme-token").then((token) => {
-        if(token){
-            //dispatch(authSuccess());
-            return axios({
-              url: utils.wishlistURL,
-              method: 'post',
-              data: JSON.stringify({
-                username: userData.username,
-                wishlist: userData.wishlistToAdd,
-                dislikes: userData.dislikesToAdd
-              }),
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'x-access-token': token  
-              },
-              timeout: 30000
-            }   
-        )
-        .then(response => {
-            return response;
-        })
-        .then(response => {
-            return fetch(utils.wishlistURL+"?username="+userData.username, {
-                method: 'GET',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'x-access-token': token
-                }
-            })
-            .then(response => {
-                return response.json();
-            })
-            .then(response => {
-                dispatch(updateWishlistSuccess(response));  
-                dispatch(loadWishlistSuccess(response));
-                Actions.wishlist();             
-            })
-            .catch(err => console.error('Error in loadWishlist:', err));   
-
-        })
-        .catch(err => console.error('Error in UPDATEWishlist:', err));
-              
-        } else {
-            // dispatch(authFail());
-            Actions.login();
-        }
-    }).done();
-  }
-}
-
-export const removeWishlistItem = (userData) => {
+export const removeWishlistItem = (userData, navigation) => {
   return dispatch => {
     dispatch(removeWishlistItemRequest());      
 
@@ -194,7 +138,7 @@ export const removeWishlistItem = (userData) => {
               
         } else {
             // dispatch(authFail());
-            Actions.login();
+            navigation.navigate('login');
         }
     }).done();
   }

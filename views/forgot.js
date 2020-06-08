@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
 	View,
 	Text,
@@ -10,54 +9,43 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { gradientColors } from '../utils';
 
-class Forgot extends React.Component {
-	constructor(props){
-		super(props);
-
-		this.loadSignup = this.loadSignup.bind(this);
-		this.whatever = this.whatever.bind(this);
+const Forgot = (props) => {
+	loadSignup = () => {
+    props.navigation.navigate('signup');
 	}
 
-	loadSignup () {
-    this.props.navigation.navigate('signup');
+	whatever = () => {
+    props.navigation.navigate('whatever');
 	}
 
-	whatever () {
-    this.props.navigation.navigate('whatever');
-	}
-
-
-	render() {
-		return (
+	return (
 		<LinearGradient colors={gradientColors} style={{flex:1}}>
 			<View style={styles.container}>
 			  <View style={styles.top}>
-				<Text style={{fontSize: 18,textAlign: 'center'}}>
-					Ugh. Coding password resets is a nightmare.
-				</Text>
-				<TouchableNativeFeedback onPress={ this.loadSignup }>
-					<View>
-					<Text style={{fontSize: 18,textAlign: 'center'}}>
-						Can't you just <Text style={{fontWeight: 'bold'}}>create a new account?</Text>
-					</Text>
-					</View>
-				</TouchableNativeFeedback>
+          <Text style={{fontSize: 18,textAlign: 'center'}}>
+            Ugh. Coding password resets is a nightmare.
+          </Text>
+          <TouchableNativeFeedback onPress={ this.loadSignup }>
+            <View>
+              <Text style={{fontSize: 18,textAlign: 'center'}}>
+                Can't you just <Text style={{fontWeight: 'bold'}}>create a new account?</Text>
+              </Text>
+            </View>
+          </TouchableNativeFeedback>
 			  </View>
-
 			  <View style={styles.bottom}>
-			  		<TouchableNativeFeedback onPress={ this.whatever }>
+			  	<TouchableNativeFeedback onPress={ this.whatever }>
 						<View>
-			  				<Text style={{fontSize: 12,textAlign: 'center'}}>
-							No, I insist. <Text style={{fontWeight: 'bold'}}>Reset my password</Text>.
+			  			<Text style={{fontSize: 12,textAlign: 'center'}}>
+							  No, I insist. <Text style={{fontWeight: 'bold'}}>Reset my password</Text>.
 							</Text>
 						</View>
 					</TouchableNativeFeedback>
 			  </View>
 			</View>
 		</LinearGradient> 
-			)
-	}
-}
+	);
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -84,5 +72,5 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default Forgot
+export default Forgot;
 
