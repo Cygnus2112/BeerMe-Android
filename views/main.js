@@ -5,12 +5,11 @@ import {
   Image,
   AsyncStorage,
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 
 import store from '../reducers/rootStore';
 import { authSuccess } from '../actions/authActions';
 
-const checkForToken = async () => {
+const checkForToken = async (props) => {
   try {
     const token = await AsyncStorage.getItem("beerme-token");
     const username = await AsyncStorage.getItem("beerme-username");
@@ -18,14 +17,14 @@ const checkForToken = async () => {
   } catch(err) {
     console.warn('token err: ', err);
   } finally {
-    Actions.styles();
+    props.navigation.navigate('styles');
   }
 };
 
 const Main = (props) => {
   useEffect(() => {
     setTimeout(() => {
-      checkForToken();
+      checkForToken(props);
     } ,1500) // Because I spent a long time working on the main logo 
   }, []);
 

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  ActivityIndicator,
   ListView,
   StyleSheet,
   Text,
@@ -9,7 +8,6 @@ import {
   Image,
   Dimensions,
   TouchableNativeFeedback,
-  TouchableOpacity,
   TouchableHighlight,
   ScrollView
 } from 'react-native';
@@ -57,7 +55,7 @@ class Wishlist extends React.Component {
   renderHeader = () => {
     return(
       <View style={styles.header}><Text style={{textAlign: 'center', color: 'white', fontSize: 20, fontWeight: 'bold'}} >Wishlist</Text></View>
-      );
+    );
   }
 
   emptyLoadStyles = () => {

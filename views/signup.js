@@ -1,18 +1,11 @@
 import React from 'react';
 
 import {
-  ActivityIndicator,
-  StyleSheet,
   Text,
   View,
-  Image,
   TextInput,
   Dimensions,
-  AsyncStorage,
   TouchableNativeFeedback,
-  findNodeHandle,
-  ScrollView,
-  Keyboard,
 } from 'react-native';
 
 import { styles } from '../css/stylesheet';
@@ -28,8 +21,6 @@ import { gradientColors } from '../utils';
 import Drawer from '../components/Drawer'
 
 import LinearGradient from 'react-native-linear-gradient';
-
-let width = Dimensions.get('window').width;
 
 class Signup extends React.Component {
 	constructor(props) {

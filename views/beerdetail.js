@@ -21,7 +21,6 @@ import * as wishlistActions from '../actions/wishlistActions';
 import * as authActions from '../actions/authActions';
 /* End redux stuff...      */ 
 
-import { Actions } from 'react-native-router-flux';
 import Toolbar from '../components/Toolbar';
 //import OrderModal from '../components/Order';
 
@@ -156,11 +155,16 @@ class BeerDetail extends React.Component {
     this.setModalVisible(false)
     let url = ('https://www.craftcity.com/index.php?route=product/search&search='+this.props.selectedBeer.brewery.replace(" Beer", "").replace(" Ales","").replace(" Lagers", "").replace(" and", "")+' '+this.props.selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "");
     Linking.openURL(url).catch(err => console.error('An error occurred', err));
-   // console.log('CRAFT CITY url: ', url);
   }
 
   websiteClicked = () => {
-    Actions.webview({website: this.props.selectedBeer.website, url:this.props.selectedBeer.website})
+    this.props.navigation.navigate(
+      'webview',
+      {
+        website: this.props.selectedBeer.website,
+        url:this.props.selectedBeer.website
+      }
+    );
   }
 
   toggleWishlist = () => {

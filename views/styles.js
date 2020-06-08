@@ -1,17 +1,12 @@
 import React from 'react';
 
 import {
-  ActivityIndicator,
   StyleSheet,
   Text,
   View,
   Image,
   Dimensions,
-  AsyncStorage,
-  TouchableNativeFeedback,
   TouchableOpacity,
-  DrawerLayoutAndroid,
-  ToolbarAndroid
 } from 'react-native';
 
 /* Redux stuff...      */
