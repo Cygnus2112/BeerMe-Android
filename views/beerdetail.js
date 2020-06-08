@@ -1,17 +1,14 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 import {
-  ActivityIndicator,
   StyleSheet,
   Text,
   View,
   Image,
   Dimensions,
-  TouchableNativeFeedback,
   TouchableOpacity, 
   Linking,
   Modal,
-  TouchableHighlight
 } from 'react-native';
 
 import Button from 'react-native-button';

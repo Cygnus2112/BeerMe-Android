@@ -1,21 +1,12 @@
 import React from 'react';
 
 import {
-  ActivityIndicator,
-  ListView,
-  Platform,
-  StyleSheet,
   Text,
   View,
-  Image,
   TextInput,
-  Dimensions,
   TouchableNativeFeedback,
-  TouchableOpacity,
-  AsyncStorage
 } from 'react-native';
 
-import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
 
 /* Redux stuff...      */
@@ -28,8 +19,6 @@ import { styles } from '../css/stylesheet';
 import Drawer from '../components/Drawer'
 import { gradientColors } from '../utils';
 import Button from 'react-native-button';
-let width = Dimensions.get('window').width;
-let screenHeight = Dimensions.get('window').height;
 
 class Login extends React.Component {
 	constructor(props) {
@@ -74,12 +63,11 @@ class Login extends React.Component {
   	}
 
 	loadSignup() {
-		Actions.signup();
+    this.props.navigation.navigate('signup');
 	}
 
   forgotPassword() {
-    Actions.forgot();
-
+    this.props.navigation.navigate('forgot');
   }
 //flex: 1.5, 
         // <View style={{margin: 10, height: 75, flexDirection: 'column', justifyContent: 'center'}}>

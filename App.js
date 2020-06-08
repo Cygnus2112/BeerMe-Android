@@ -1,5 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux'
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
 
 import store from './reducers/rootStore';
 
@@ -20,13 +25,27 @@ import About from './views/about'
 //     return true;
 // });
 
-import {Scene, Router} from 'react-native-router-flux';
+// import {Scene, Router} from 'react-native-router-flux';
 
 const App: () => React$Node = () => {
   return (
     <>
       <Provider store={store}>
-        <Router>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="main" component={ Main } />
+            <Stack.Screen name="login" component={ Login } />
+            <Stack.Screen name="signup" component={ Signup } />
+            <Stack.Screen name="styles" component={ Styles} />
+            <Stack.Screen name="swipe" component={ Swipe} />
+            <Stack.Screen name="wishlist" component={ Wishlist } />
+            <Stack.Screen name="beerdetail" component={ BeerDetail } />
+            <Stack.Screen name="webview" component={ Browser} />
+            <Stack.Screen name="forgot" component={ Forgot } />
+            <Stack.Screen name="whatever" component={ Whatever } />
+            <Stack.Screen name="about" component={ About } />
+
+        {/* <Router>
           <Scene key="root" hideNavBar={true}>
             <Scene key="main" component={ Main } initial={ true } />
             <Scene key="login" component={ Login } type='reset'/>
@@ -40,7 +59,10 @@ const App: () => React$Node = () => {
             <Scene key="whatever" component={ Whatever } hideNavBar={false} />
             <Scene key="about" component={ About } />
           </Scene>
-        </Router>
+        </Router> */}
+
+          </Stack.Navigator>
+        </NavigationContainer>
       </Provider>
     </>
   );

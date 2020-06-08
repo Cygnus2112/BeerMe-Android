@@ -23,7 +23,6 @@ import { bindActionCreators } from 'redux'
 import * as authActions from '../actions/authActions';
 
 /* ---------------------- */
-import { Actions } from 'react-native-router-flux';
 import Button from 'react-native-button';
 import { gradientColors } from '../utils';
 import Drawer from '../components/Drawer'
@@ -114,7 +113,7 @@ class Signup extends React.Component {
 	}
 
 	loadLogin() {
-    Actions.login();
+    this.props.navigation.navigate('login');
 	}
 
     // <View style={{height: 75, margin: 10, justifyContent: 'center', alignItems: 'center'}}>

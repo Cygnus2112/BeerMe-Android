@@ -7,7 +7,6 @@ import {
 	TouchableNativeFeedback
 } from 'react-native';
 
-import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
 import { gradientColors } from '../utils';
 
@@ -20,11 +19,11 @@ class Forgot extends React.Component {
 	}
 
 	loadSignup () {
-		Actions.signup();
+    this.props.navigation.navigate('signup');
 	}
 
 	whatever () {
-		Actions.whatever();
+    this.props.navigation.navigate('whatever');
 	}
 
 

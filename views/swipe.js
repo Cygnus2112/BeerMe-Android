@@ -23,7 +23,6 @@ import * as authActions from '../actions/authActions';
 
 import Drawer from '../components/Drawer'
 
-import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
 import { gradientColors } from '../utils';
 let width = Dimensions.get('window').width;
@@ -209,11 +208,17 @@ class Swipe extends React.Component {
   }
 
   likeBeer = (beer) => {
-   // Image.prefetch(this.props.beerToView.icon).then(() => {
-      Actions.beerdetail({selectedBeer: beer, rowID: beer.id, isAlreadyInWishlist: false, direction: 'vertical' });
-          //const { loadFrontBeer } = this.props.beerActions;
-      setTimeout(this._loadFrontBeer, 300);
-   // })
+    this.props.navigation.navigate(
+      'beerdetail',
+      {
+        selectedBeer: beer,
+        rowID: beer.id,
+        isAlreadyInWishlist: false,
+        direction: 'vertical',
+      }
+    );
+
+    setTimeout(this._loadFrontBeer, 300);
 
     if(this.props.beerData.length < 5 && !this.props.isSearching){
       const { loadBeers } = this.props.beerActions;
