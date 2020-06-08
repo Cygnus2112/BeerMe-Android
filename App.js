@@ -1,39 +1,7 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import {
-  StyleSheet,
-} from 'react-native';
-
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
-
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
 
-import beerReducer from './reducers/beerReducers'
-import authReducer from './reducers/authReducers'
-import wishlistReducer from './reducers/wishlistReducers'
-
-const reducer = combineReducers({
-  beerReducer,
-  authReducer,
-  wishlistReducer
-});
-
-const finalCreateStore = compose(
-  applyMiddleware(thunk)
-)(createStore);
-
-const store = finalCreateStore(reducer);
+import store from './reducers/rootStore';
 
 import Login from './views/login'
 import Signup from './views/signup'
@@ -52,7 +20,7 @@ import About from './views/about'
 //     return true;
 // });
 
-import {Scene, Router, Actions } from 'react-native-router-flux';
+import {Scene, Router} from 'react-native-router-flux';
 
 const App: () => React$Node = () => {
   return (
@@ -77,44 +45,5 @@ const App: () => React$Node = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
 
 export default App;

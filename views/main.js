@@ -1,26 +1,26 @@
 import React, { useEffect } from 'react';
-
 import {
   StyleSheet,
   View,
   Image,
   AsyncStorage,
 } from 'react-native';
-
 import { Actions } from 'react-native-router-flux';
+
+import store from '../reducers/rootStore';
+import { authSuccess } from '../actions/authActions';
 
 const checkForToken = async () => {
   try {
     const token = await AsyncStorage.getItem("beerme-token");
     const username = await AsyncStorage.getItem("beerme-username");
-    // dispatch(authSuccess(username));
-
+    store.dispatch(authSuccess(username));
   } catch(err) {
     console.warn('token err: ', err);
   } finally {
     Actions.styles();
   }
-}
+};
 
 const Main = (props) => {
   useEffect(() => {
@@ -36,8 +36,8 @@ const Main = (props) => {
       </View> 
       <View style={styles.footer} />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   main: {
