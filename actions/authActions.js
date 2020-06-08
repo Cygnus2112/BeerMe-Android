@@ -1,8 +1,6 @@
-let utils = require('../utils');
+import AsyncStorage from '@react-native-community/async-storage';
 
-import {
-  AsyncStorage
-} from 'react-native';
+let utils = require('../utils');
 
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
 export const SIGNUP_ERROR = 'SIGNUP_ERROR';

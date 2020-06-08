@@ -1,4 +1,5 @@
-import { AsyncStorage, Image } from 'react-native';
+import { Image } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 let utils = require('../utils');
 

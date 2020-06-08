@@ -3,8 +3,8 @@ import {
   StyleSheet,
   View,
   Image,
-  AsyncStorage,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import store from '../reducers/rootStore';
 import { authSuccess } from '../actions/authActions';

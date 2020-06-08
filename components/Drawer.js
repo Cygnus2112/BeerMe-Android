@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   ActivityIndicator,
   StyleSheet,
@@ -7,11 +6,11 @@ import {
   View,
   Image,
   Dimensions,
-  AsyncStorage,
   TouchableOpacity,
   DrawerLayoutAndroid,
   // BackAndroid
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 /* Redux stuff...      */
 import { connect } from 'react-redux'
