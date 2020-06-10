@@ -29,7 +29,7 @@ export const signup = (info, navigation) => {
     })
     .then(response => {
       try {
-        if(response.token){
+        if (response.token){
         	AsyncStorage.setItem('beerme-token', response.token);
         	AsyncStorage.setItem('beerme-username', info.username);
           dispatch(signupSuccess({"token":response.token, "username": info.username}));
@@ -37,7 +37,7 @@ export const signup = (info, navigation) => {
         } else {
           dispatch(signupError(response));
         }
-      } catch(e){
+      } catch (e){
        // console.log('error response in SIGNUP: ', e);
         dispatch(signupError(e));
       }
@@ -92,7 +92,7 @@ export const login = (info, navigation) => {
     })
     .then(response => {
       try {
-        if(response.token){
+        if (response.token){
         	AsyncStorage.setItem('beerme-token', response.token);
         	AsyncStorage.setItem('beerme-username', info.username);
 
@@ -102,7 +102,7 @@ export const login = (info, navigation) => {
         } else {
           dispatch(loginError());
         }
-      } catch(e) {
+      } catch (e) {
         dispatch(loginError());
       };
     })

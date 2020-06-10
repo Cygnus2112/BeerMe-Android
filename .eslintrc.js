@@ -1,25 +1,24 @@
 module.exports = {
   root: true,
-  // extends: '@react-native-community',
-  env: {
-    es6: true,
-  },
-
-  parserOptions: {
-    sourceType: 'module',
-  },
-  rules: {
-    // General
-    // 'no-trailing-spaces': 1,
-    semi: 1,
-  },
+  extends: '@react-native-community',
+  // env: {
+  //   es6: true,
+  // },
+  // parserOptions: {
+  //   sourceType: 'module',
+  // },
+  // rules: {
+  //   // General
+  //   // 'no-trailing-spaces': 1,
+  //   'semi': 1,
+  // },
 
   // extends: [
     // "react-app",
     // "airbnb",
     // "plugin:jsx-a11y/recommended",
-    // "prettier",
-    // "prettier/react"
+  //   "prettier",
+  //   "prettier/react"
   // ],
   // "plugins": [
   //   "prettier"

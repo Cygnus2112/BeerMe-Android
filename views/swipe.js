@@ -8,7 +8,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Animated,
-  PanResponder
+  PanResponder,
 } from 'react-native';
 
 /* Redux stuff...      */
