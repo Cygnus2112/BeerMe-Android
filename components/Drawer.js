@@ -119,6 +119,10 @@ class Drawer extends React.Component {
     this.DRAWER.openDrawer();
   }
 
+  componentDidMount() {
+    console.log('this.props.navigation: ', this.props.navigation)
+  }
+
   render() {
     // BackAndroid.addEventListener('hardwareBackPress', () => {
     //   if(this.state.drawerOpen) {

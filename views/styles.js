@@ -18,8 +18,6 @@ import * as wishlistActions from '../actions/wishlistActions';
 /* End Redux stuff...      */
 
 let screenHeight = Dimensions.get('window').height;
-
-import Button from 'react-native-button';
 let width = Dimensions.get('window').width;
 import LinearGradient from 'react-native-linear-gradient';
 import { gradientColors } from '../utils';
@@ -58,7 +56,6 @@ class Styles extends React.Component {
   } 
 
   render() {
-  //  let navIcon = require('../assets/ic_menu_black_24dp_sm.png');
 
     let mainView = (<LinearGradient colors={gradientColors} style={{flex:1}}>
         <View style={styles.main}>
@@ -99,7 +96,7 @@ class Styles extends React.Component {
         </View>
       </LinearGradient>);
 //icon={navIcon} 
-      return (<Drawer view={mainView} />)
+      return (<Drawer view={mainView} navigation={this.props.navigation} />)
     
   }
 }

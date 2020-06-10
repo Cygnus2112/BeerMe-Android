@@ -75,10 +75,11 @@ class Swipe extends React.Component {
         })
       })
     }
-  }
+  }    
 
   componentDidMount() {
     this._animateEntrance();
+    console.log('this.props.navigation in SWIPE: ', this.props.navigation)
   }
 
   _animateEntrance() {
@@ -332,11 +333,11 @@ class Swipe extends React.Component {
         </View>
       </LinearGradient>);
     if((this.props.isSearching && !this.props.beerToView.label) || !this.state.firstImageLoaded) {
-      return ( <Drawer view={searchingView} wishlistFunc={this.wishlist} /> )
+      return ( <Drawer view={searchingView} wishlistFunc={this.wishlist} navigation={this.props.navigation} /> )
     } else if (this.state.isLoadingWishlist) {
-       return ( <Drawer view={loadingView} wishlistFunc={this.wishlist} /> )
+       return ( <Drawer view={loadingView} wishlistFunc={this.wishlist} navigation={this.props.navigation}/> )
     } else {
-      return ( <Drawer view={mainView} wishlistFunc={this.wishlist} /> )
+      return ( <Drawer view={mainView} wishlistFunc={this.wishlist} navigation={this.props.navigation}/> )
     } 
   }
 }

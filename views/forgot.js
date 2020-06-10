@@ -5,11 +5,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import { gradientColors } from '../utils';
 
 const Forgot = (props) => {
-  loadSignup = () => {
+  const loadSignup = () => {
     props.navigation.navigate('signup');
   };
 
-  whatever = () => {
+  const whatever = () => {
     props.navigation.navigate('whatever');
   };
 
@@ -20,7 +20,7 @@ const Forgot = (props) => {
           <Text style={{ fontSize: 18, textAlign: 'center' }}>
             Ugh. Coding password resets is a nightmare.
           </Text>
-          <TouchableNativeFeedback onPress={this.loadSignup}>
+          <TouchableNativeFeedback onPress={loadSignup}>
             <View>
               <Text style={{ fontSize: 18, textAlign: 'center' }}>
                 Can't you just{' '}
@@ -32,7 +32,7 @@ const Forgot = (props) => {
           </TouchableNativeFeedback>
         </View>
         <View style={styles.bottom}>
-          <TouchableNativeFeedback onPress={this.whatever}>
+          <TouchableNativeFeedback onPress={whatever}>
             <View>
               <Text style={{ fontSize: 12, textAlign: 'center' }}>
                 No, I insist.{' '}

@@ -7,6 +7,7 @@ let menuIcon = require('../assets/ic_menu_black_24dp_sm.png');
 let backIcon = require('../assets/ic_navigate_before_black_24dp.png');
 
 const Toolbar = (props) => {
+  console.log('props.navigation in Toolbar: ', props.navigation)
   const goBack = () => {
     props.navigation.goBack();
   };
