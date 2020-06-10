@@ -13,7 +13,7 @@ export const EMPTY_WISHLIST = 'EMPTY_WISHLIST';
 
 export const loadWishlist = (userData, navigation) => {
   return dispatch => {
-    dispatch(loadWishlistRequest());			
+    dispatch(loadWishlistRequest());
 
     AsyncStorage.getItem("beerme-token").then((token) => {
         if(token){
@@ -23,8 +23,8 @@ export const loadWishlist = (userData, navigation) => {
       			headers: {
         			'Accept': 'application/json',
         			'Content-Type': 'application/json',
-        			'x-access-token': token
-      			}
+        			'x-access-token': token,
+      			},
     		})
     		.then(response => {
       			  return response.json();
@@ -34,41 +34,41 @@ export const loadWishlist = (userData, navigation) => {
             // console.log(response);
 
             for(var beer in response) {
-              Image.prefetch(response[beer].icon)
+              Image.prefetch(response[beer].icon);
               //console.log(response[beer].icon);
             }
 
             dispatch(loadWishlistSuccess(response));
-            navigation.navigate('wishlist');					
+            navigation.navigate('wishlist');
     		})
     		.catch(err => {
             console.error('Error in loadWishlist:', err);
           });
-            	
+
         } else {
             // dispatch(authFail());
             navigation.navigate('login');
         }
     }).done();
-  }
-}
+  };
+};
 
 const loadWishlistRequest = () => {
 	return {
-    	type: LOAD_WISHLIST_REQUEST
-  	}
-}
+    	type: LOAD_WISHLIST_REQUEST,
+  	};
+};
 
 const loadWishlistSuccess = (wishlistData) => {
 	return {
     	type: LOAD_WISHLIST_SUCCESS,
-    	wishlistData
-  	}
-}
+    	wishlistData,
+  	};
+};
 
 export const updateWishlist = (userData, navigation) => {
   return dispatch => {
-    dispatch(updateWishlistRequest());      
+    dispatch(updateWishlistRequest());
     AsyncStorage.getItem("beerme-token").then((token) => {
         if(token){
             //dispatch(authSuccess());
@@ -78,15 +78,15 @@ export const updateWishlist = (userData, navigation) => {
               data: JSON.stringify({
                 username: userData.username,
                 wishlist: userData.wishlistToAdd,
-                dislikes: userData.dislikesToAdd
+                dislikes: userData.dislikesToAdd,
               }),
               headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'x-access-token': token  
+                'x-access-token': token,
               },
-              timeout: 30000
-            }   
+              timeout: 30000,
+            }
         )
         .then(response => {
             //return response.json();
@@ -96,18 +96,18 @@ export const updateWishlist = (userData, navigation) => {
             dispatch(updateWishlistSuccess(response));
         })
         .catch(err => console.error('Error in UPDATEWishlist:', err));
-              
+
         } else {
             // dispatch(authFail());
             navigation.navigate('login');
         }
     }).done();
-  }
-}
+  };
+};
 
 export const removeWishlistItem = (userData, navigation) => {
   return dispatch => {
-    dispatch(removeWishlistItemRequest());      
+    dispatch(removeWishlistItemRequest());
 
     AsyncStorage.getItem("beerme-token").then((token) => {
         if(token){
@@ -118,15 +118,15 @@ export const removeWishlistItem = (userData, navigation) => {
               data: JSON.stringify({
                 username: userData.username,
                 wishlist: userData.wishlist,
-                dislikes: userData.dislikes
+                dislikes: userData.dislikes,
               }),
               headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'x-access-token': token  
+                'x-access-token': token,
               },
-              timeout: 30000
-            }   
+              timeout: 30000,
+            }
         )
         .then(response => {
             //return response.json();
@@ -136,42 +136,42 @@ export const removeWishlistItem = (userData, navigation) => {
             dispatch(removeWishlistItemSuccess(userData.wishlist[0]));
         })
         .catch(err => console.error('Error in UPDATEWishlist:', err));
-              
+
         } else {
             // dispatch(authFail());
             navigation.navigate('login');
         }
     }).done();
-  }
-}
+  };
+};
 
 const emptyWishlist = () => {
   return {
-    type: EMPTY_WISHLIST
-  }
-}
+    type: EMPTY_WISHLIST,
+  };
+};
 
 const removeWishlistItemRequest = () => {
   return {
-      type: REMOVE_WISHLIST_ITEM_REQUEST
-    }
-}
+      type: REMOVE_WISHLIST_ITEM_REQUEST,
+    };
+};
 
 const removeWishlistItemSuccess = (item) => {
   return {
       type: REMOVE_WISHLIST_ITEM_SUCCESS,
-      item: item
-    }
-}
+      item: item,
+    };
+};
 
 export const updateWishlistRequest = () => {
 	return {
-    	type: UPDATE_WISHLIST_REQUEST
-  	}
-}
+    	type: UPDATE_WISHLIST_REQUEST,
+  	};
+};
 export const updateWishlistSuccess = () => {
 	return {
-    	type: UPDATE_WISHLIST_SUCCESS
-  	}
-}
+    	type: UPDATE_WISHLIST_SUCCESS,
+  	};
+};
 

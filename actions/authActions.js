@@ -16,20 +16,20 @@ export const signup = (info, navigation) => {
       mode: 'cors',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username: info.username,
         password: info.password,
-        email: info.email
-      })
+        email: info.email,
+      }),
     })
     .then(response => {
       return response.json();
     })
     .then(response => {
       try {
-        if(response.token){
+        if (response.token){
         	AsyncStorage.setItem('beerme-token', response.token);
         	AsyncStorage.setItem('beerme-username', info.username);
           dispatch(signupSuccess({"token":response.token, "username": info.username}));
@@ -37,35 +37,35 @@ export const signup = (info, navigation) => {
         } else {
           dispatch(signupError(response));
         }
-      } catch(e){
+      } catch (e){
        // console.log('error response in SIGNUP: ', e);
         dispatch(signupError(e));
       }
     })
     .catch(err => console.error('Error in signup:', err));
-  }
-}
+  };
+};
 
 const signupRequest = (info) => {
   return {
     type: SIGNUP_REQUEST,
-    username: info.username
-  }
-}
+    username: info.username,
+  };
+};
 
 const signupError = (err) => {
   return {
     type: SIGNUP_ERROR,
-    errorMsg: err
-  }
-}
+    errorMsg: err,
+  };
+};
 
 const signupSuccess = (info) => {
   return {
     type: SIGNUP_SUCCESS,
-    username: info.username
-  }
-}
+    username: info.username,
+  };
+};
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
@@ -80,19 +80,19 @@ export const login = (info, navigation) => {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username: info.username,
-        password: info.password
-      })
+        password: info.password,
+      }),
     })
     .then(response => {
       return response.json();
     })
     .then(response => {
       try {
-        if(response.token){        	
+        if (response.token){
         	AsyncStorage.setItem('beerme-token', response.token);
         	AsyncStorage.setItem('beerme-username', info.username);
 
@@ -102,7 +102,7 @@ export const login = (info, navigation) => {
         } else {
           dispatch(loginError());
         }
-      } catch(e) {
+      } catch (e) {
         dispatch(loginError());
       };
     })
@@ -110,28 +110,28 @@ export const login = (info, navigation) => {
       console.error('login error:', err);
       dispatch(loginError());
     });
-  }
-}
+  };
+};
 
 const loginRequest = (info) => {
   return {
     type: LOGIN_REQUEST,
-    info
-  }
-}
+    info,
+  };
+};
 
 const loginError = () => {
   return {
-    type: LOGIN_ERROR
-  }
-}
+    type: LOGIN_ERROR,
+  };
+};
 
 const loginSuccess = (user) => {
   return {
     type: LOGIN_SUCCESS,
-    username: user.username
-  }
-}
+    username: user.username,
+  };
+};
 
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 
@@ -145,14 +145,14 @@ export const logout = (navigation) => {
             navigation.navigate('login');
     			});
     	});
-  }
-}
+  };
+};
 
 const logoutSuccess = () => {
   return {
-    type: LOGOUT_SUCCESS
-  }
-}
+    type: LOGOUT_SUCCESS,
+  };
+};
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
@@ -160,13 +160,13 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 
 const authRequest = () => {
   return {
-    type: AUTH_REQUEST
-  }
-}
+    type: AUTH_REQUEST,
+  };
+};
 
 export const authSuccess = (username) => {
   return {
     type: AUTH_SUCCESS,
-    username: username
-  }
-}
+    username: username,
+  };
+};
