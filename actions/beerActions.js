@@ -20,8 +20,8 @@ export const loadBeers = (userData={style: "Ale"}) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'x-access-token': AsyncStorage.getItem('beerme-token')
-      }
+        'x-access-token': AsyncStorage.getItem('beerme-token'),
+      },
     })
     .then(response => {
       return response.json();
@@ -48,7 +48,7 @@ export const loadBeers = (userData={style: "Ale"}) => {
           descript: response[key].descript,
           abv: response[key].abv,
           brewery: response[key].brewery,
-          website: response[key].website
+          website: response[key].website,
         })
       }
       dispatch(loadBeersSuccess(beerArr));             
@@ -61,21 +61,21 @@ export const loadBeers = (userData={style: "Ale"}) => {
 
 const loadBeersRequest = () => {
   return {
-    type: LOAD_BEERS_REQUEST
+    type: LOAD_BEERS_REQUEST,
   }
 }
 
 const loadBeersSuccess = (beerData) => {
   return {
     type: LOAD_BEERS_SUCCESS,
-    beerData
+    beerData,
   }
 }
 
 const loadBeersFailure = (errorMessage) => {
   return {
     type: LOAD_BEERS_FAILURE,
-    errorMessage
+    errorMessage,
   }
 }
 
@@ -99,13 +99,13 @@ export const loadFrontBeer = () => {
 
 const loadFrontBeerSuccess = () => {
   return {
-    type: LOAD_FRONT_BEER
+    type: LOAD_FRONT_BEER,
   }
 }
 
 const clearBeerDataSuccess = () => {
   return {
-    type: CLEAR_BEER_DATA
+    type: CLEAR_BEER_DATA,
   }
 }
 
@@ -117,7 +117,7 @@ export const clearBeerData = () => {
 
 const clearFrontBeerSuccess = () => {
   return {
-    type: CLEAR_FRONT_BEER
+    type: CLEAR_FRONT_BEER,
   }
 }
 

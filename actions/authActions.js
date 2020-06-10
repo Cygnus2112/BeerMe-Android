@@ -16,13 +16,13 @@ export const signup = (info, navigation) => {
       mode: 'cors',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username: info.username,
         password: info.password,
-        email: info.email
-      })
+        email: info.email,
+      }),
     })
     .then(response => {
       return response.json();
@@ -49,21 +49,21 @@ export const signup = (info, navigation) => {
 const signupRequest = (info) => {
   return {
     type: SIGNUP_REQUEST,
-    username: info.username
+    username: info.username,
   }
 }
 
 const signupError = (err) => {
   return {
     type: SIGNUP_ERROR,
-    errorMsg: err
+    errorMsg: err,
   }
 }
 
 const signupSuccess = (info) => {
   return {
     type: SIGNUP_SUCCESS,
-    username: info.username
+    username: info.username,
   }
 }
 
@@ -80,12 +80,12 @@ export const login = (info, navigation) => {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username: info.username,
-        password: info.password
-      })
+        password: info.password,
+      }),
     })
     .then(response => {
       return response.json();
@@ -116,20 +116,20 @@ export const login = (info, navigation) => {
 const loginRequest = (info) => {
   return {
     type: LOGIN_REQUEST,
-    info
+    info,
   }
 }
 
 const loginError = () => {
   return {
-    type: LOGIN_ERROR
+    type: LOGIN_ERROR,
   }
 }
 
 const loginSuccess = (user) => {
   return {
     type: LOGIN_SUCCESS,
-    username: user.username
+    username: user.username,
   }
 }
 
@@ -150,7 +150,7 @@ export const logout = (navigation) => {
 
 const logoutSuccess = () => {
   return {
-    type: LOGOUT_SUCCESS
+    type: LOGOUT_SUCCESS,
   }
 }
 
@@ -160,13 +160,13 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 
 const authRequest = () => {
   return {
-    type: AUTH_REQUEST
+    type: AUTH_REQUEST,
   }
 }
 
 export const authSuccess = (username) => {
   return {
     type: AUTH_SUCCESS,
-    username: username
+    username: username,
   }
 }

@@ -196,4 +196,5 @@ const mapDispatchToProps = (dispatch) => {
     authActions: bindActionCreators(authActions, dispatch)
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Wishlist);

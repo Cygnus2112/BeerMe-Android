@@ -10,7 +10,7 @@ export default function beerReducer(state = initialState, action){
   switch(action.type){
     case ActionTypes.LOAD_BEERS_REQUEST:
       return Object.assign({}, state, {
-        isSearching: true
+        isSearching: true,
       })
     case ActionTypes.LOAD_BEERS_SUCCESS:
       if(!state.beerToView.label) {
@@ -18,12 +18,12 @@ export default function beerReducer(state = initialState, action){
           isSearching: false,
           beerToView: action.beerData.pop(),
           nextBeer: action.beerData.pop(),
-          beerData: [...(new Set( [...state.beerData, ...action.beerData ]))] 
+          beerData: [...(new Set( [...state.beerData, ...action.beerData ]))], 
         })
       } else {
         return Object.assign({}, state, {
           isSearching: false,
-          beerData: [...(new Set( [...state.beerData, ...action.beerData ]))] 
+          beerData: [...(new Set( [...state.beerData, ...action.beerData ]))], 
         })
       }
     case ActionTypes.LOAD_BEERS_FAILURE:
@@ -31,7 +31,7 @@ export default function beerReducer(state = initialState, action){
       return Object.assign({}, state, {
         beerToView: {name: action.errorMessage},
         beerData: [{name: action.errorMessage}],
-        isSearching: false
+        isSearching: false,
       })
     // case ActionTypes.IMAGE_LOAD_SUCCESS:
     //   return Object.assign({}, state, {
@@ -46,11 +46,11 @@ export default function beerReducer(state = initialState, action){
 
     case ActionTypes.CLEAR_BEER_DATA:
       return Object.assign({}, state, {
-        beerData: []
+        beerData: [],
       })
     case ActionTypes.CLEAR_FRONT_BEER:
       return Object.assign({}, state, {
-        beerToView: {}
+        beerToView: {},
       })
     default:
       return state;

@@ -4,7 +4,7 @@ const initialState = {
   isFetching: false,
   isUpdating: false,
   wishlist: {},
-  dislikes: {}
+  dislikes: {},
 }
 
 export default function beerReducer(state = initialState, action){
@@ -16,11 +16,11 @@ export default function beerReducer(state = initialState, action){
     case ActionTypes.LOAD_WISHLIST_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        wishlist: action.wishlistData
+        wishlist: action.wishlistData,
       })
     case ActionTypes.EMPTY_WISHLIST:
       return Object.assign({}, state, {
-        isFetching: false
+        isFetching: false,
       })
     case ActionTypes.UPDATE_WISHLIST_REQUEST:
       return Object.assign({}, state, {
@@ -40,7 +40,7 @@ export default function beerReducer(state = initialState, action){
       console.log('newWishlist: ', newWishlist);
       return Object.assign({}, state, {
         isUpdating: false,
-        wishlist: newWishlist
+        wishlist: newWishlist,
       })
     default:
       return state;

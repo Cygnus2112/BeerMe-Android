@@ -1,6 +1,6 @@
 import {
   StyleSheet,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 
 let width = Dimensions.get('window').width;
@@ -22,23 +22,23 @@ export const styles = StyleSheet.create({
   footer: {
     flex: .2,
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   container: {
     height: 250,
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   error: {
     flex: .5,
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   errorMsg: {
     textAlign: 'center',
     color: 'red',
-    marginBottom: 5
+    marginBottom: 5,
   },
   welcome: {
     fontSize: 20,
@@ -49,20 +49,20 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     fontSize: 16,
-    marginBottom: 5
+    marginBottom: 5,
   },
   iambold: {
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   forgot: {
     textAlign: 'center',
     color: '#333333',
    // marginBottom: 5,
-    fontSize: 14
+    fontSize: 14,
   },
   input: {
     backgroundColor: 'white', 
@@ -72,7 +72,7 @@ export const styles = StyleSheet.create({
    // height: 45, 
     width: width*.7,
     fontSize: 18,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   textInput: {
     backgroundColor: 'white', 
@@ -113,6 +113,6 @@ export const styles = StyleSheet.create({
     margin: 2,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
 });
