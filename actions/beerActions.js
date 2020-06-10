@@ -28,7 +28,7 @@ export const loadBeers = (userData={style: "Ale"}) => {
     })
     .then(response => {
       if(response.errorMessage) {
-        console.error('BreweryDB API Limit Reached. Sorry :-(')
+        console.error('BreweryDB API Limit Reached. Sorry :-(');
         dispatch(loadBeersFailure('BreweryDB API Limit Reached. Sorry :-('));
         return;
       }
@@ -37,7 +37,7 @@ export const loadBeers = (userData={style: "Ale"}) => {
         if(!beerArr.length < 2){
           Image.prefetch(response[key].label).then(() => {
             // console.log('IMAGE PREFETCHED for ', response[key].name)
-          })
+          });
         }
         beerArr.push({
           id: key,
@@ -49,35 +49,35 @@ export const loadBeers = (userData={style: "Ale"}) => {
           abv: response[key].abv,
           brewery: response[key].brewery,
           website: response[key].website,
-        })
+        });
       }
       dispatch(loadBeersSuccess(beerArr));
     })
     .catch(err => {
-      console.warn('Error in loadBeers:', err)
+      console.warn('Error in loadBeers:', err);
     });
-  }
-}
+  };
+};
 
 const loadBeersRequest = () => {
   return {
     type: LOAD_BEERS_REQUEST,
-  }
-}
+  };
+};
 
 const loadBeersSuccess = (beerData) => {
   return {
     type: LOAD_BEERS_SUCCESS,
     beerData,
-  }
-}
+  };
+};
 
 const loadBeersFailure = (errorMessage) => {
   return {
     type: LOAD_BEERS_FAILURE,
     errorMessage,
-  }
-}
+  };
+};
 
 // export const imageLoadSuccess = () => {
 //   return dispatch => {
@@ -93,37 +93,37 @@ const loadBeersFailure = (errorMessage) => {
 
 export const loadFrontBeer = () => {
   return dispatch => {
-    dispatch(loadFrontBeerSuccess())
-  }
-}
+    dispatch(loadFrontBeerSuccess());
+  };
+};
 
 const loadFrontBeerSuccess = () => {
   return {
     type: LOAD_FRONT_BEER,
-  }
-}
+  };
+};
 
 const clearBeerDataSuccess = () => {
   return {
     type: CLEAR_BEER_DATA,
-  }
-}
+  };
+};
 
 export const clearBeerData = () => {
   return dispatch => {
-    dispatch(clearBeerDataSuccess())
-  }
-}
+    dispatch(clearBeerDataSuccess());
+  };
+};
 
 const clearFrontBeerSuccess = () => {
   return {
     type: CLEAR_FRONT_BEER,
-  }
-}
+  };
+};
 
 export const clearFrontBeer = () => {
   return dispatch => {
-    dispatch(clearFrontBeerSuccess())
-  }
-}
+    dispatch(clearFrontBeerSuccess());
+  };
+};
 

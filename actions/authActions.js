@@ -43,29 +43,29 @@ export const signup = (info, navigation) => {
       }
     })
     .catch(err => console.error('Error in signup:', err));
-  }
-}
+  };
+};
 
 const signupRequest = (info) => {
   return {
     type: SIGNUP_REQUEST,
     username: info.username,
-  }
-}
+  };
+};
 
 const signupError = (err) => {
   return {
     type: SIGNUP_ERROR,
     errorMsg: err,
-  }
-}
+  };
+};
 
 const signupSuccess = (info) => {
   return {
     type: SIGNUP_SUCCESS,
     username: info.username,
-  }
-}
+  };
+};
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
@@ -110,28 +110,28 @@ export const login = (info, navigation) => {
       console.error('login error:', err);
       dispatch(loginError());
     });
-  }
-}
+  };
+};
 
 const loginRequest = (info) => {
   return {
     type: LOGIN_REQUEST,
     info,
-  }
-}
+  };
+};
 
 const loginError = () => {
   return {
     type: LOGIN_ERROR,
-  }
-}
+  };
+};
 
 const loginSuccess = (user) => {
   return {
     type: LOGIN_SUCCESS,
     username: user.username,
-  }
-}
+  };
+};
 
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 
@@ -145,14 +145,14 @@ export const logout = (navigation) => {
             navigation.navigate('login');
     			});
     	});
-  }
-}
+  };
+};
 
 const logoutSuccess = () => {
   return {
     type: LOGOUT_SUCCESS,
-  }
-}
+  };
+};
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
@@ -161,12 +161,12 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 const authRequest = () => {
   return {
     type: AUTH_REQUEST,
-  }
-}
+  };
+};
 
 export const authSuccess = (username) => {
   return {
     type: AUTH_SUCCESS,
     username: username,
-  }
-}
+  };
+};

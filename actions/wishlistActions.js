@@ -34,7 +34,7 @@ export const loadWishlist = (userData, navigation) => {
             // console.log(response);
 
             for(var beer in response) {
-              Image.prefetch(response[beer].icon)
+              Image.prefetch(response[beer].icon);
               //console.log(response[beer].icon);
             }
 
@@ -50,21 +50,21 @@ export const loadWishlist = (userData, navigation) => {
             navigation.navigate('login');
         }
     }).done();
-  }
-}
+  };
+};
 
 const loadWishlistRequest = () => {
 	return {
     	type: LOAD_WISHLIST_REQUEST,
-  	}
-}
+  	};
+};
 
 const loadWishlistSuccess = (wishlistData) => {
 	return {
     	type: LOAD_WISHLIST_SUCCESS,
     	wishlistData,
-  	}
-}
+  	};
+};
 
 export const updateWishlist = (userData, navigation) => {
   return dispatch => {
@@ -102,8 +102,8 @@ export const updateWishlist = (userData, navigation) => {
             navigation.navigate('login');
         }
     }).done();
-  }
-}
+  };
+};
 
 export const removeWishlistItem = (userData, navigation) => {
   return dispatch => {
@@ -142,36 +142,36 @@ export const removeWishlistItem = (userData, navigation) => {
             navigation.navigate('login');
         }
     }).done();
-  }
-}
+  };
+};
 
 const emptyWishlist = () => {
   return {
     type: EMPTY_WISHLIST,
-  }
-}
+  };
+};
 
 const removeWishlistItemRequest = () => {
   return {
       type: REMOVE_WISHLIST_ITEM_REQUEST,
-    }
-}
+    };
+};
 
 const removeWishlistItemSuccess = (item) => {
   return {
       type: REMOVE_WISHLIST_ITEM_SUCCESS,
       item: item,
-    }
-}
+    };
+};
 
 export const updateWishlistRequest = () => {
 	return {
     	type: UPDATE_WISHLIST_REQUEST,
-  	}
-}
+  	};
+};
 export const updateWishlistSuccess = () => {
 	return {
     	type: UPDATE_WISHLIST_SUCCESS,
-  	}
-}
+  	};
+};
 
