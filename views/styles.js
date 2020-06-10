@@ -1,17 +1,12 @@
 import React from 'react';
 
 import {
-  ActivityIndicator,
   StyleSheet,
   Text,
   View,
   Image,
   Dimensions,
-  AsyncStorage,
-  TouchableNativeFeedback,
   TouchableOpacity,
-  DrawerLayoutAndroid,
-  ToolbarAndroid
 } from 'react-native';
 
 /* Redux stuff...      */
@@ -22,7 +17,6 @@ import * as beerActions from '../actions/beerActions';
 import * as wishlistActions from '../actions/wishlistActions';
 /* End Redux stuff...      */
 
-import { Actions } from 'react-native-router-flux';
 let screenHeight = Dimensions.get('window').height;
 
 import Button from 'react-native-button';
@@ -53,7 +47,7 @@ class Styles extends React.Component {
       style: style                                 
     }
     loadBeers(userData); 
-    Actions.swipe({styleChoice: style});        
+    this.props.navigation.navigate('swipe', { styleChoice: style });      
   }
 
   openSwipe = (styleChoice) => {

@@ -1,18 +1,9 @@
 import React from 'react';
-
 import {
-  ActivityIndicator,
-  StyleSheet,
   Text,
   View,
-  Image,
   TextInput,
-  Dimensions,
-  AsyncStorage,
   TouchableNativeFeedback,
-  findNodeHandle,
-  ScrollView,
-  Keyboard,
 } from 'react-native';
 
 import { styles } from '../css/stylesheet';
@@ -23,14 +14,11 @@ import { bindActionCreators } from 'redux'
 import * as authActions from '../actions/authActions';
 
 /* ---------------------- */
-import { Actions } from 'react-native-router-flux';
 import Button from 'react-native-button';
 import { gradientColors } from '../utils';
 import Drawer from '../components/Drawer'
 
 import LinearGradient from 'react-native-linear-gradient';
-
-let width = Dimensions.get('window').width;
 
 class Signup extends React.Component {
 	constructor(props) {
@@ -109,12 +97,12 @@ class Signup extends React.Component {
       this.setState({
         errorMsg: ""
       }) 
-      signup(userInfo);
+      signup(userInfo, this.props.navigation);
     }
 	}
 
 	loadLogin() {
-    Actions.login();
+    this.props.navigation.navigate('login');
 	}
 
     // <View style={{height: 75, margin: 10, justifyContent: 'center', alignItems: 'center'}}>
@@ -197,4 +185,5 @@ const mapDispatchToProps = (dispatch) => {
     authActions: bindActionCreators(authActions, dispatch)
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

@@ -1,57 +1,45 @@
 import React from 'react';
-
 import {
   StyleSheet,
   Text,
   View,
   Image,
-  Dimensions,
-  ToolbarAndroid
 } from 'react-native';
-
-//import { Actions } from 'react-native-router-flux';
-let screenHeight = Dimensions.get('window').height;
-let width = Dimensions.get('window').width;
-
 import LinearGradient from 'react-native-linear-gradient';
+
 import { gradientColors } from '../utils';
 import Toolbar from '../components/Toolbar';
 
-class About extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <View style={{flex: 1}}>
+const About = () => {
+  return (
+    <View style={{flex: 1}}>
       <Toolbar iconAction={'back'} />
       <LinearGradient colors={gradientColors} style={{flex:1}}>
         <View style={styles.main}>
           <View style={{flex: 1, margin: 10, height: 75, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-        		<Image source={require('../assets/logo_outline.png')} />
+            <Image source={require('../assets/logo_outline.png')} />
           </View>
           <View style={styles.container}>
               <View style={{flex: 2, flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
                 <Text style={{fontSize: 22, textAlign: 'center'}}>
-                Version 1.03
+                  Version 1.03
                 </Text>
               </View>
               <View style={{flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center'}}>
-              	<Text style={{fontSize: 16, textAlign: 'center'}}>
-                <Image source={require('../assets/ic_copyright_black_24dp.png')} style={{height:20,width:20}} /> 2016 Thomas Leupp
+                <Text style={{fontSize: 16, textAlign: 'center'}}>
+                  <Image source={require('../assets/ic_copyright_black_24dp.png')} style={{height:20,width:20}} /> 2016 Thomas Leupp
                 </Text>
                 <Text></Text>
                 <Text style={{fontSize: 14, textAlign: 'center'}}>
-                Beer data courtesy of BreweryDB
+                  Beer data courtesy of BreweryDB
                 </Text>
               </View>
           </View>
         </View>
-      </LinearGradient >
-    </View>)
-  }
-}
+      </LinearGradient>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   main: {
@@ -87,4 +75,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default About
+export default About;

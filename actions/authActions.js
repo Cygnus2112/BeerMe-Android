@@ -1,16 +1,12 @@
-import { Actions } from 'react-native-router-flux';
+import AsyncStorage from '@react-native-community/async-storage';
 
 let utils = require('../utils');
-
-import {
-  AsyncStorage
-} from 'react-native';
 
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
 export const SIGNUP_ERROR = 'SIGNUP_ERROR';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 
-export const signup = (info) => {
+export const signup = (info, navigation) => {
   return dispatch => {
     dispatch(signupRequest(info));
 
@@ -36,8 +32,8 @@ export const signup = (info) => {
         if(response.token){
         	AsyncStorage.setItem('beerme-token', response.token);
         	AsyncStorage.setItem('beerme-username', info.username);
-          	dispatch(signupSuccess({"token":response.token, "username": info.username}));
-          	Actions.styles();
+          dispatch(signupSuccess({"token":response.token, "username": info.username}));
+          navigation.navigate('styles');
         } else {
           dispatch(signupError(response));
         }
@@ -75,7 +71,7 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 
-export const login = (info) => {
+export const login = (info, navigation) => {
   return dispatch => {
     dispatch(loginRequest(info));
 
@@ -102,11 +98,9 @@ export const login = (info) => {
 
           dispatch(loginSuccess({"token":response.token, "username": info.username}));
           //dispatch(authSuccess());
-
-          Actions.styles();
+          navigation.navigate('styles');
         } else {
           dispatch(loginError());
-          
         }
       } catch(e) {
         dispatch(loginError());
@@ -141,14 +135,14 @@ const loginSuccess = (user) => {
 
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 
-export const logout = () => {
+export const logout = (navigation) => {
   return dispatch => {
     AsyncStorage.removeItem('beerme-token')
     	.then(result => {
     		AsyncStorage.removeItem('beerme-username')
     			.then(result => {
-    				dispatch(logoutSuccess());
-    				Actions.login();
+            dispatch(logoutSuccess());
+            navigation.navigate('login');
     			});
     	});
   }
@@ -164,36 +158,15 @@ export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 // export const AUTH_FAIL = 'AUTH_FAIL';
 
-export const checkForToken = () => {
-    return dispatch => {
-    	AsyncStorage.getItem("beerme-token").then((value) => {
-            if(value){
-            	AsyncStorage.getItem("beerme-username").then((username) => {
-            		dispatch(authSuccess(username));
-            		Actions.styles(hideNavBar={true});
-            	}).done();
-            } else {
-            	// dispatch(authFail());
-            	//Actions.login();
-              Actions.styles(hideNavBar={true});
-            }
-
-        }).done();
-    }
-}
-
 const authRequest = () => {
   return {
     type: AUTH_REQUEST
   }
 }
 
-const authSuccess = (username) => {
+export const authSuccess = (username) => {
   return {
     type: AUTH_SUCCESS,
     username: username
   }
 }
-
-
-

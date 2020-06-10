@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   ActivityIndicator,
   StyleSheet,
@@ -7,11 +6,11 @@ import {
   View,
   Image,
   Dimensions,
-  AsyncStorage,
   TouchableOpacity,
   DrawerLayoutAndroid,
-  BackAndroid
+  // BackAndroid
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 /* Redux stuff...      */
 import { connect } from 'react-redux'
@@ -21,7 +20,6 @@ import * as beerActions from '../actions/beerActions';
 import * as wishlistActions from '../actions/wishlistActions';
 /* End Redux stuff...      */
 
-import { Actions } from 'react-native-router-flux';
 let screenHeight = Dimensions.get('window').height;
 
 let width = Dimensions.get('window').width;
@@ -58,8 +56,8 @@ class Drawer extends React.Component {
       username: this.props.username,
       style: style                                 
     }
-    loadBeers(userData); 
-    Actions.swipe({styleChoice: style});        
+    loadBeers(userData);
+    this.props.navigation.navigate('swipe', {styleChoice: style});       
   }
 
   openSwipe = (styleChoice) => {
@@ -77,7 +75,7 @@ class Drawer extends React.Component {
     //this.refs['DRAWER'].closeDrawer();
     this.DRAWER.closeDrawer();
     const { logout } = this.props.authActions;
-    logout();
+    logout(this.props.navigation);
   }
 
   wishlist = () => {
@@ -99,7 +97,7 @@ class Drawer extends React.Component {
       this.props.wishlistFunc();
     } else {
       const { loadWishlist } = this.props.wishlistActions;
-      loadWishlist({"username": this.props.username});
+      loadWishlist({"username": this.props.username}, this.props.navigation);
     }
 
     }
@@ -110,7 +108,7 @@ class Drawer extends React.Component {
     this.setState({ drawerOpen: false })
     //this.refs['DRAWER'].closeDrawer();
     this.DRAWER.closeDrawer();
-    Actions.styles();
+    this.props.navigation.navigate('styles');
   }
 
   loadAbout = () => {
@@ -118,7 +116,7 @@ class Drawer extends React.Component {
     this.setState({ drawerOpen: false })
     //this.refs['DRAWER'].closeDrawer();
     this.DRAWER.closeDrawer();
-    Actions.about();
+    this.props.navigation.navigate('about');
   }
 
   openDrawer = () => {
@@ -127,17 +125,17 @@ class Drawer extends React.Component {
   }
 
   render() {
-      BackAndroid.addEventListener('hardwareBackPress', () => {
-        if(this.state.drawerOpen) {
-          if(this.DRAWER){
-          // this.refs['DRAWER'].closeDrawer();
-          this.DRAWER.closeDrawer();
-          this.setState({ drawerOpen: false })
-          // return true;
-          }
-        }
-        return true;
-      });
+      // BackAndroid.addEventListener('hardwareBackPress', () => {
+      //   if(this.state.drawerOpen) {
+      //     if(this.DRAWER){
+      //     // this.refs['DRAWER'].closeDrawer();
+      //     this.DRAWER.closeDrawer();
+      //     this.setState({ drawerOpen: false })
+      //     // return true;
+      //     }
+      //   }
+      //   return true;
+      // });
     
     let userView = (
         <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
@@ -157,7 +155,7 @@ class Drawer extends React.Component {
     let loginView = (
         <TouchableOpacity onPress={ () => {
             this.DRAWER.closeDrawer();
-            Actions.login(); 
+            this.props.navigation.navigate('login');
             }}>
           <View style={{height: 50, flexDirection: 'row', alignItems: 'center', backgroundColor: '#F5FCFF', borderBottomColor: '#b5b5b5', borderBottomWidth: 1}}>
             <Image source={require('../assets/ic_account_circle_black_24dp_sm.png')} style={{margin: 10}}  />
@@ -230,7 +228,7 @@ class Drawer extends React.Component {
           onDrawerClose={() => {
             this.setState({drawerOpen: false})}
           }
-          drawerPosition={DrawerLayoutAndroid.positions.Left}
+          drawerPosition={"left"}
           renderNavigationView={() => navigationView}>
           <Toolbar openDrawer={this.openDrawer} />
 

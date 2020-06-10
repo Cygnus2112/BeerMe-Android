@@ -1,48 +1,42 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
 import {
-  ActivityIndicator,
   StyleSheet,
-  Text,
   View,
   Image,
-  Dimensions,
-  TouchableNativeFeedback
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
-import { Actions } from 'react-native-router-flux';
+import store from '../reducers/rootStore';
+import { authSuccess } from '../actions/authActions';
 
-/* Redux stuff...      */
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as authActions from '../actions/authActions';
-import * as wishlistActions from '../actions/wishlistActions';
-
-/* ---------------------- */
-
-let width = Dimensions.get('window').width;
-
-class Main extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
-	componentDidMount() {
-    const { checkForToken } = this.props.authActions;
-    setTimeout(() => {
-      checkForToken();} ,1500) // Because I spent a long time working on the main logo 
+const checkForToken = async (props) => {
+  try {
+    const token = await AsyncStorage.getItem("beerme-token");
+    const username = await AsyncStorage.getItem("beerme-username");
+    store.dispatch(authSuccess(username));
+  } catch(err) {
+    console.warn('token err: ', err);
+  } finally {
+    props.navigation.navigate('styles');
   }
+};
 
-	render() {
-		return (
-		  <View style={styles.main}>
-          <View style={styles.container}>
-              <Image source={require('../assets/logo_outline.png')} />
-          </View> 
-        <View style={styles.footer} />
-    </View>)
-	}
-}
+const Main = (props) => {
+  useEffect(() => {
+    setTimeout(() => {
+      checkForToken(props);
+    } ,1500) // Because I spent a long time working on the main logo 
+  }, []);
+
+  return (
+    <View style={styles.main}>
+      <View style={styles.container}>
+        <Image source={require('../assets/logo_outline.png')} />
+      </View> 
+      <View style={styles.footer} />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   main: {
@@ -66,18 +60,4 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: state.authReducer.isLoggedIn,
-    isFetching: state.authReducer.isFetching,
-    authErrorMsg: state.authReducer.authErrorMsg,
-    username: state.authReducer.username
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    authActions: bindActionCreators(authActions, dispatch)
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default Main;

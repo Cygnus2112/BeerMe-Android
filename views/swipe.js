@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   ActivityIndicator,
   StyleSheet,
@@ -7,7 +6,6 @@ import {
   View,
   Image,
   Dimensions,
-  TouchableNativeFeedback,
   TouchableOpacity,
   Animated,
   PanResponder
@@ -23,7 +21,6 @@ import * as authActions from '../actions/authActions';
 
 import Drawer from '../components/Drawer'
 
-import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
 import { gradientColors } from '../utils';
 let width = Dimensions.get('window').width;
@@ -67,18 +64,17 @@ class Swipe extends React.Component {
    */
 
   componentWillReceiveProps(newProps) {
-      if(newProps.nextBeer.label) {
-        Image.prefetch(newProps.nextBeer.label).then(() => {
-        // console.log('IMAGE PREFETCHED')
+    if(newProps.nextBeer.label) {
+      Image.prefetch(newProps.nextBeer.label).then(() => {
+      })
+    }
+    if(!this.state.firstImageLoaded && newProps.beerToView.label ){
+      Image.prefetch(newProps.beerToView.label).then(() => {
+        this.setState({
+          firstImageLoaded: true
         })
-      }
-      if(!this.state.firstImageLoaded && newProps.beerToView.label ){
-        Image.prefetch(newProps.beerToView.label).then(() => {
-          this.setState({
-            firstImageLoaded: true
-          })
-        })
-      }
+      })
+    }
   }
 
   componentDidMount() {
@@ -88,7 +84,7 @@ class Swipe extends React.Component {
   _animateEntrance() {
     Animated.spring(
       this.state.enter,
-      { toValue: 1, friction: 8 }
+      { toValue: 1, friction: 8, useNativeDriver: false }
     ).start();
   }
 
@@ -104,8 +100,8 @@ class Swipe extends React.Component {
       },
 
       onPanResponderMove: Animated.event([
-        null, {dx: this.state.pan.x, dy: this.state.pan.y},
-      ]),
+        null, {dx: this.state.pan.x, dy: this.state.pan.y}
+      ], {useNativeDriver: false}),
 
       onPanResponderRelease: (e, {vx, vy}) => {
         this.state.pan.flattenOffset();
@@ -130,7 +126,8 @@ class Swipe extends React.Component {
         } else {
           Animated.spring(this.state.pan, {
             toValue: {x: 0, y: 0},
-            friction: 4
+            friction: 4,
+            useNativeDriver: false,
           }).start()
         }
       }
@@ -156,7 +153,7 @@ class Swipe extends React.Component {
           "username": this.props.username,
           "wishlistToAdd": this.state.wishlistToAdd,
           "dislikesToAdd": this.state.dislikesToAdd
-        });
+        }, this.props.navigation);
       }
     }
   }
@@ -171,7 +168,7 @@ class Swipe extends React.Component {
         "username": this.props.username,
         "wishlistToAdd": this.state.wishlistToAdd,
         "dislikesToAdd": this.state.dislikesToAdd
-      });
+      }, this.props.navigation);
       this.setState({
         wishlistToAdd: [],
         dislikesToAdd: []
@@ -189,7 +186,7 @@ class Swipe extends React.Component {
         const { updateWishlistRequest } = this.props.wishlistActions;
         updateWishlistRequest();
         const { loadWishlist } = this.props.wishlistActions;
-        loadWishlist({"username": this.props.username});
+        loadWishlist({"username": this.props.username}, this.props.navigation);
         //setTimeout(() => loadWishlist({"username": this.props.username}), 500);
         loading = false;
       }
@@ -199,20 +196,20 @@ class Swipe extends React.Component {
   _loadFrontBeer = () => {
     const { loadFrontBeer } = this.props.beerActions;
     loadFrontBeer();
-
-    Image.prefetch(this.props.beerToView.icon).then(() => {
-      // Actions.beerdetail({selectedBeer: beer, rowID: beer.id, isAlreadyInWishlist: false});
-      //     //const { loadFrontBeer } = this.props.beerActions;
-      // setTimeout(this._loadFrontBeer, 300);
-    })
   }
 
   likeBeer = (beer) => {
-   // Image.prefetch(this.props.beerToView.icon).then(() => {
-      Actions.beerdetail({selectedBeer: beer, rowID: beer.id, isAlreadyInWishlist: false, direction: 'vertical' });
-          //const { loadFrontBeer } = this.props.beerActions;
-      setTimeout(this._loadFrontBeer, 300);
-   // })
+    this.props.navigation.navigate(
+      'beerdetail',
+      {
+        selectedBeer: beer,
+        rowID: beer.id,
+        isAlreadyInWishlist: false,
+        direction: 'vertical',
+      }
+    );
+
+    setTimeout(this._loadFrontBeer, 300);
 
     if(this.props.beerData.length < 5 && !this.props.isSearching){
       const { loadBeers } = this.props.beerActions;

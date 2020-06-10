@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-
 import {
   WebView, 
-  ActivityIndicator,
   StyleSheet,
   Text,
   View,
-  Image,
   TextInput,
   Dimensions,
   TouchableOpacity 
 } from 'react-native';
-
-import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import * as wishlistActions from '../actions/wishlistActions';
 import * as authActions from '../actions/authActions';
@@ -78,7 +73,7 @@ class Browser extends Component {
   }
 
   quitWeb = () => {
-    Actions.pop()
+    this.props.navigation.goBack();
   }
 
   pressGoButton () {
@@ -137,8 +132,6 @@ class Browser extends Component {
       </View>
     </View>
     );
-    
-    
   }
 }
 
@@ -220,7 +213,7 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = (dispatch) => {
   return {
     authActions: bindActionCreators(authActions, dispatch),
-    wishlistActions: bindActionCreators(wishlistActions, dispatch)
+    wishlistActions: bindActionCreators(wishlistActions, dispatch),
   }
 }
 
@@ -228,7 +221,7 @@ const mapStateToProps = (state) => {
   return {
     username: state.authReducer.username,
     isSearching: state.beerReducer.isSearching,
-    isFetching: state.wishlistReducer.isFetching
+    isFetching: state.wishlistReducer.isFetching,
   }
 }
 

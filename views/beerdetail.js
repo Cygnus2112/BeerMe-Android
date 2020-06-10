@@ -1,17 +1,13 @@
-import React, { PropTypes } from 'react';
-
+import React from 'react';
 import {
-  ActivityIndicator,
   StyleSheet,
   Text,
   View,
   Image,
   Dimensions,
-  TouchableNativeFeedback,
   TouchableOpacity, 
   Linking,
   Modal,
-  TouchableHighlight
 } from 'react-native';
 
 import Button from 'react-native-button';
@@ -24,7 +20,6 @@ import * as wishlistActions from '../actions/wishlistActions';
 import * as authActions from '../actions/authActions';
 /* End redux stuff...      */ 
 
-import { Actions } from 'react-native-router-flux';
 import Toolbar from '../components/Toolbar';
 //import OrderModal from '../components/Order';
 
@@ -67,47 +62,51 @@ class BeerDetail extends React.Component {
   }
 
   componentWillUnmount() {
+    const {
+      selectedBeer,
+      rowID,
+      isAlreadyInWishlist,
+    } = this.props.route.params;
     if(this.props.username){
       const { removeWishlistItem } = this.props.wishlistActions;
-      //if(this.state.dislikeToAdd) {
-      if(!this.state.toggled && this.props.isAlreadyInWishlist) {
+      if(!this.state.toggled && isAlreadyInWishlist) {
         let a = {
-          "id": this.props.rowID,
-          "name": this.props.selectedBeer.name,
-          "style": this.props.selectedBeer.style,
-          "labelUrl": this.props.selectedBeer.label,
-          "icon": this.props.selectedBeer.icon,
-          "descript": this.props.selectedBeer.descript,
-          "abv": this.props.selectedBeer.abv,
-          "brewery": this.props.selectedBeer.brewery,
-          "website": this.props.selectedBeer.website
+          "id": rowID,
+          "name": selectedBeer.name,
+          "style": selectedBeer.style,
+          "labelUrl": selectedBeer.label,
+          "icon": selectedBeer.icon,
+          "descript": selectedBeer.descript,
+          "abv": selectedBeer.abv,
+          "brewery": selectedBeer.brewery,
+          "website": selectedBeer.website,
         }
         removeWishlistItem ({
           "username": this.props.username,
           "wishlist": [a],
-          "dislikes": [a]
-        });
+          "dislikes": [a],
+        }, this.props.navigation);
       }
-      if(this.state.toggled && !this.props.isAlreadyInWishlist && !this.state.wishlistClicked){
+      if(this.state.toggled && !isAlreadyInWishlist && !this.state.wishlistClicked){
         //add to wishlist
         const { updateWishlist } = this.props.wishlistActions;
         let a = {
-          "id": this.props.rowID,
-          "name": this.props.selectedBeer.name,
-          "style": this.props.selectedBeer.style,
-          "labelUrl": this.props.selectedBeer.label,
-          "icon": this.props.selectedBeer.icon,
-          "descript": this.props.selectedBeer.descript,
-          "abv": this.props.selectedBeer.abv,
-          "brewery": this.props.selectedBeer.brewery,
-          "website": this.props.selectedBeer.website
+          "id": rowID,
+          "name": selectedBeer.name,
+          "style": selectedBeer.style,
+          "labelUrl": selectedBeer.label,
+          "icon": selectedBeer.icon,
+          "descript": selectedBeer.descript,
+          "abv": selectedBeer.abv,
+          "brewery": selectedBeer.brewery,
+          "website": selectedBeer.website,
         }
 
         updateWishlist({
           "username": this.props.username,
           "wishlistToAdd": [a],
           "dislikesToAdd": []
-        });
+        }, this.props.navigation);
       }
     }
   }
@@ -117,22 +116,25 @@ class BeerDetail extends React.Component {
   }
 
   totalWineClicked() {
+    const { selectedBeer } = this.props.route.params;
     this.setModalVisible(false)
-    let url = ('http://www.totalwine.com/search/all?text='+this.props.selectedBeer.brewery.replace(" Ales","").replace(" Lagers", "").replace(" and", "")+" "+this.props.selectedBeer.name +'&tab=fullcatalog').replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "");
+    let url = ('http://www.totalwine.com/search/all?text='+selectedBeer.brewery.replace(" Ales","").replace(" Lagers", "").replace(" and", "")+" "+selectedBeer.name +'&tab=fullcatalog').replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "");
     Linking.openURL(url).catch(err => console.error('An error occurred', err));
   }
 
   bevMoClicked() {
+    const { selectedBeer } = this.props.route.params;
     this.setModalVisible(false)
-    let url = ('http://shop.bevmo.com/search?w='+this.props.selectedBeer.brewery.replace(" Ales","").replace(" Lagers", "").replace(" and", "")+' '+this.props.selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "");
+    let url = ('http://shop.bevmo.com/search?w='+selectedBeer.brewery.replace(" Ales","").replace(" Lagers", "").replace(" and", "")+' '+selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "");
     Linking.openURL(url).catch(err => console.error('An error occurred', err));
 
    // let url = ("http://shop.bevmo.com/search?w="+this.props.selectedBeer.brewery+"%20"+this.props.selectedBeer.name).replace(/ /g, "%20");
   }
   
   beerTempleClicked(){
+    const { selectedBeer } = this.props.route.params;
     this.setModalVisible(false)
-    let url = ('http://store2.craftbeertemple.com/search.php?search_query='+this.props.selectedBeer.brewery.replace(" Beer", "").replace(" Ales","").replace(" Lagers", "").replace(" and", "")+"+"+this.props.selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "").replace(/ /gi, "+");
+    let url = ('http://store2.craftbeertemple.com/search.php?search_query='+selectedBeer.brewery.replace(" Beer", "").replace(" Ales","").replace(" Lagers", "").replace(" and", "")+"+"+selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "").replace(/ /gi, "+");
     Linking.openURL(url).catch(err => console.error('An error occurred', err));
   }
 
@@ -143,27 +145,35 @@ class BeerDetail extends React.Component {
   // }
 
   craftshackClicked() {
+    const { selectedBeer } = this.props.route.params;
     this.setModalVisible(false)
-    let url = ('https://craftshack.com/search?type=product&q='+this.props.selectedBeer.brewery.replace(" Beer", "").replace(" Ales","").replace(" Lagers", "").replace(" and", "")+"+"+this.props.selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "").replace(/ /gi, "+");
+    let url = ('https://craftshack.com/search?type=product&q='+selectedBeer.brewery.replace(" Beer", "").replace(" Ales","").replace(" Lagers", "").replace(" and", "")+"+"+selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "").replace(/ /gi, "+");
     Linking.openURL(url).catch(err => console.error('An error occurred', err));
   }
 
   kingsClicked() {
+    const { selectedBeer } = this.props.route.params;
     this.setModalVisible(false)
-    let url = ('http://www.craftbeerkings.com/index.php?route=product/search&filter_name='+ this.props.selectedBeer.brewery.replace(" Beer", "").replace(" Ales","").replace(" Lagers", "").replace(" and", "")+' '+this.props.selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "");
+    let url = ('http://www.craftbeerkings.com/index.php?route=product/search&filter_name='+ selectedBeer.brewery.replace(" Beer", "").replace(" Ales","").replace(" Lagers", "").replace(" and", "")+' '+selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "");
     Linking.openURL(url).catch(err => console.error('An error occurred', err));
    // console.log('url: ', url);
   }
 
   craftCityClicked() {
+    const { selectedBeer } = this.props.route.params;
     this.setModalVisible(false)
-    let url = ('https://www.craftcity.com/index.php?route=product/search&search='+this.props.selectedBeer.brewery.replace(" Beer", "").replace(" Ales","").replace(" Lagers", "").replace(" and", "")+' '+this.props.selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "");
+    let url = ('https://www.craftcity.com/index.php?route=product/search&search='+selectedBeer.brewery.replace(" Beer", "").replace(" Ales","").replace(" Lagers", "").replace(" and", "")+' '+selectedBeer.name).replace(" Brewery", "").replace(" Brewing", "").replace(" Company", "").replace(" Co.", "");
     Linking.openURL(url).catch(err => console.error('An error occurred', err));
-   // console.log('CRAFT CITY url: ', url);
   }
 
   websiteClicked = () => {
-    Actions.webview({website: this.props.selectedBeer.website, url:this.props.selectedBeer.website})
+    this.props.navigation.navigate(
+      'webview',
+      {
+        website: this.props.selectedBeer.website,
+        url:this.props.selectedBeer.website
+      }
+    );
   }
 
   toggleWishlist = () => {
@@ -226,27 +236,25 @@ class BeerDetail extends React.Component {
   // }
 
   render() {
-    //let heartView = this.state.toggled ? (
-      let heartView = this.state.toggled ? (
-        <View style={ styles.icon }>
-          <TouchableOpacity onPress={ this.toggleWishlist } >
-            <Image source={require('../assets/ic_favorite_filled_3x.png') } style={{width: 60, height: 60}}/>
-          </TouchableOpacity>
-          <Text style={{fontSize: 10, textAlign: 'center'}}>Remove</Text>
-          <Text style={{fontSize: 10, textAlign: 'center'}}>From Wishlist</Text>
+    let heartView = this.state.toggled ? (
+      <View style={ styles.icon }>
+        <TouchableOpacity onPress={ this.toggleWishlist } >
+          <Image source={require('../assets/ic_favorite_filled_3x.png') } style={{width: 60, height: 60}}/>
+        </TouchableOpacity>
+        <Text style={{fontSize: 10, textAlign: 'center'}}>Remove</Text>
+        <Text style={{fontSize: 10, textAlign: 'center'}}>From Wishlist</Text>
+      </View>
+    ) : (
+      <View style={ styles.icon }>
+        <TouchableOpacity onPress={ this.toggleWishlist } >
+          <Image source={require('../assets/heart_empty.png') } style={{width: 60, height: 60}}/>
+        </TouchableOpacity>
+        <Text style={{fontSize: 10, textAlign: 'center'}}>Add</Text>
+        <Text style={{fontSize: 10, textAlign: 'center'}}>To Wishlist</Text>
+      </View>
+    )
 
-        </View>
-      ) : (
-        <View style={ styles.icon }>
-          <TouchableOpacity onPress={ this.toggleWishlist } >
-            <Image source={require('../assets/heart_empty.png') } style={{width: 60, height: 60}}/>
-          </TouchableOpacity>
-          <Text style={{fontSize: 10, textAlign: 'center'}}>Add</Text>
-          <Text style={{fontSize: 10, textAlign: 'center'}}>To Wishlist</Text>
-        </View>
-      )
-
-      let abvColor;
+    let abvColor;
 
     if(this.props.selectedBeer.abv < 4) {
         abvColor='#ffff00';
@@ -380,7 +388,7 @@ class BeerDetail extends React.Component {
         </View>
       </LinearGradient>
       </View>
-      )
+    )
   }
 }
 

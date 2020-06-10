@@ -1,4 +1,5 @@
-import { AsyncStorage, Image } from 'react-native';
+import { Image } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 let utils = require('../utils');
 
@@ -52,7 +53,9 @@ export const loadBeers = (userData={style: "Ale"}) => {
       }
       dispatch(loadBeersSuccess(beerArr));             
     })
-    .catch(err => console.error('Error in loadBeers:', err));
+    .catch(err => {
+      console.warn('Error in loadBeers:', err) 
+    });
   }
 }
 
