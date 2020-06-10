@@ -18,12 +18,12 @@ export default function beerReducer(state = initialState, action){
           isSearching: false,
           beerToView: action.beerData.pop(),
           nextBeer: action.beerData.pop(),
-          beerData: [...(new Set( [...state.beerData, ...action.beerData ]))], 
+          beerData: [...(new Set( [...state.beerData, ...action.beerData ]))],
         })
       } else {
         return Object.assign({}, state, {
           isSearching: false,
-          beerData: [...(new Set( [...state.beerData, ...action.beerData ]))], 
+          beerData: [...(new Set( [...state.beerData, ...action.beerData ]))],
         })
       }
     case ActionTypes.LOAD_BEERS_FAILURE:

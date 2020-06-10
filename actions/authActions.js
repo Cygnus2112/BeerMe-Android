@@ -92,7 +92,7 @@ export const login = (info, navigation) => {
     })
     .then(response => {
       try {
-        if(response.token){        	
+        if(response.token){
         	AsyncStorage.setItem('beerme-token', response.token);
         	AsyncStorage.setItem('beerme-username', info.username);
 

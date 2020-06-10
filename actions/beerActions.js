@@ -11,7 +11,7 @@ export const CLEAR_BEER_DATA = 'CLEAR_BEER_DATA';
 export const CLEAR_FRONT_BEER = 'CLEAR_FRONT_BEER';
 //export const IMAGE_LOAD_SUCCESS = 'IMAGE_LOAD_SUCCESS';
 
-export const loadBeers = (userData={style: "Ale"}) => {	
+export const loadBeers = (userData={style: "Ale"}) => {
   return dispatch => {
     dispatch(loadBeersRequest());
 
@@ -51,10 +51,10 @@ export const loadBeers = (userData={style: "Ale"}) => {
           website: response[key].website,
         })
       }
-      dispatch(loadBeersSuccess(beerArr));             
+      dispatch(loadBeersSuccess(beerArr));
     })
     .catch(err => {
-      console.warn('Error in loadBeers:', err) 
+      console.warn('Error in loadBeers:', err)
     });
   }
 }
