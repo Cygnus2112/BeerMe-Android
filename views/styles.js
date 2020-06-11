@@ -1,119 +1,112 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   Image,
-  Dimensions,
   TouchableOpacity,
 } from 'react-native';
 
+import LinearGradient from 'react-native-linear-gradient';
+
 /* Redux stuff...      */
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as authActions from '../actions/authActions';
 import * as beerActions from '../actions/beerActions';
 import * as wishlistActions from '../actions/wishlistActions';
 /* End Redux stuff...      */
 
-let screenHeight = Dimensions.get('window').height;
-
-import Button from 'react-native-button';
-let width = Dimensions.get('window').width;
-import LinearGradient from 'react-native-linear-gradient';
 import { gradientColors } from '../utils';
 
-import Drawer from '../components/Drawer'
+import Drawer from '../components/Drawer';
 
-class Styles extends React.Component {
-  constructor(props) {
-    super(props);
+const Styles = (props) => {
+  const [ styleChoice, setStyleChoice ] = useState('');
+  const [ actionText, setActionText ] = useState('');
+  const [ username, setUsername ] = useState('');
 
-    this.fetchBeers = this.fetchBeers.bind(this);
-    this.openSwipe = this.openSwipe.bind(this);
-
-    this.state = {
-      styleChoice: "",
-      actionText: "",
-      username: ""
-    }
-  }
-
-  fetchBeers = (style) => {         
-    const { loadBeers } = this.props.beerActions;
+  const fetchBeers = (style) => {
+    const { loadBeers } = props.beerActions;
     let userData = {
-      username: this.props.username,
-      style: style                                 
-    }
-    loadBeers(userData); 
-    this.props.navigation.navigate('swipe', { styleChoice: style });      
-  }
+      username: props.username,
+      style: style,
+    };
+    loadBeers(userData);
+    props.navigation.navigate('swipe', { styleChoice: style });
+  };
 
-  openSwipe = (styleChoice) => {
-    const { clearFrontBeer } = this.props.beerActions;
-    clearFrontBeer(); 
+  const openSwipe = (swipeChoice) => {
+    const { clearFrontBeer } = props.beerActions;
+    clearFrontBeer();
+    fetchBeers(swipeChoice);
+  };
 
-    this.fetchBeers(styleChoice); 
-  } 
-
-  render() {
-  //  let navIcon = require('../assets/ic_menu_black_24dp_sm.png');
-
-    let mainView = (<LinearGradient colors={gradientColors} style={{flex:1}}>
-        <View style={styles.main}>
-          <View style={styles.container}>
-              <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-                <Text style={styles.choose}>
-                What are you thirsty {"for"}?
-                </Text>
-              </View>
-              <View style={{flexDirection: 'row',justifyContent: 'space-around'}}>
-                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <TouchableOpacity onPress={ () => this.openSwipe("Ale") } >
-                      <Image source={require('../assets/Ale-125.png') } style={{width: 108*.65, height: 254*.65}}/>
-                      <Text style={styles.welcome}>Ale</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <TouchableOpacity onPress={ () => this.openSwipe("Lager") } >
-                      <Image source={require('../assets/Lager-125.png') } style={{width: 108*.65, height: 252*.65}}/>
-                      <Text style={styles.welcome}>Lager</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <TouchableOpacity onPress={ () => this.openSwipe("Pilsner") } >
-                      <Image source={require('../assets/Pilsner-125.png') } style={{width: 125*.65, height: 247*.665}}/>
-                      <Text style={styles.welcome}>Pilsner</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <TouchableOpacity onPress={ () => this.openSwipe("Stout") } >
-                      <Image source={require('../assets/Stout-125.png') } style={{width: 108*.65, height: 252*.66}}/>
-                      <Text style={styles.welcome}>Stout</Text>
-                    </TouchableOpacity>
-                </View>
-              </View>
+  let mainView = (
+    <LinearGradient colors={gradientColors} style={styles.main}>
+      <View style={styles.main}>
+        <View style={styles.container}>
+          <View style={styles.thirsty}>
+            <Text style={styles.choose}>
+              What are you thirsty {'for'}?
+            </Text>
           </View>
-          <View style={styles.footer} />
+          <View style={styles.beerWrap}>
+            <View style={styles.beer}>
+              <TouchableOpacity onPress={() => openSwipe('Ale')}>
+                <Image
+                  source={require('../assets/Ale-125.png')}
+                  style={styles.ale}
+                />
+                <Text style={styles.welcome}>Ale</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.beer}>
+              <TouchableOpacity onPress={() => openSwipe('Lager')}>
+                <Image
+                  source={require('../assets/Lager-125.png')}
+                  style={styles.lager}
+                />
+                <Text style={styles.welcome}>Lager</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.beer}>
+              <TouchableOpacity onPress={() => openSwipe('Pilsner')}>
+                <Image
+                  source={require('../assets/Pilsner-125.png')}
+                  style={styles.pilsner}
+                />
+                <Text style={styles.welcome}>Pilsner</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.beer}>
+              <TouchableOpacity onPress={() => openSwipe('Stout')}>
+                <Image
+                  source={require('../assets/Stout-125.png')}
+                  style={styles.stout}
+                />
+                <Text style={styles.welcome}>Stout</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      </LinearGradient>);
-//icon={navIcon} 
-      return (<Drawer view={mainView} />)
-    
-  }
-}
+        <View style={styles.footer} />
+      </View>
+    </LinearGradient>
+  );
+
+  return <Drawer view={mainView} navigation={props.navigation} />;
+};
 
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-   // backgroundColor: '#ddd'
   },
   footer: {
-    flex: .1,
+    flex: 0.1,
   },
   container: {
-    flex: .7,
+    flex: 0.7,
     justifyContent: 'center',
   },
   choose: {
@@ -125,7 +118,36 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
-  }
+  },
+  beer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  beerWrap: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  ale: {
+    width: 108 * 0.65,
+    height: 254 * 0.65,
+  },
+  lager: {
+    width: 108 * 0.65,
+    height: 252 * 0.65,
+  },
+  pilsner: {
+    width: 125 * 0.65,
+    height: 247 * 0.665,
+  },
+  stout: {
+    width: 108 * 0.65,
+    height: 252 * 0.66,
+  },
+  thirsty: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
 });
 
 const mapStateToProps = (state) => {
@@ -136,16 +158,16 @@ const mapStateToProps = (state) => {
     beerData: state.beerReducer.beerData,
     beerToView: state.beerReducer.beerToView,
     dislikes: state.wishlistReducer.dislikes,
-    wishlist: state.wishlistReducer.wishlist  
-  }
-}
+    wishlist: state.wishlistReducer.wishlist,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     wishlistActions: bindActionCreators(wishlistActions, dispatch),
     authActions: bindActionCreators(authActions, dispatch),
-    beerActions: bindActionCreators(beerActions, dispatch)
-  }
-}
+    beerActions: bindActionCreators(beerActions, dispatch),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Styles);

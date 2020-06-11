@@ -15,7 +15,7 @@ import * as authActions from '../actions/authActions';
 
 /* ---------------------- */
 import { styles } from '../css/stylesheet';
-import Drawer from '../components/Drawer'
+import Drawer from '../components/Drawer';
 import { gradientColors } from '../utils';
 import Button from 'react-native-button';
 
@@ -126,7 +126,7 @@ class Login extends React.Component {
   </LinearGradient>
       );
 
-		return (<Drawer view={ mainView } />)
+		return (<Drawer view={ mainView } navigation={this.props.navigation} />)
 
 	}
 }

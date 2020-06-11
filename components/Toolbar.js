@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import ToolbarAndroid from '@react-native-community/toolbar-android';
 
@@ -13,7 +13,7 @@ const Toolbar = (props) => {
 
   return (
     <ToolbarAndroid
-      navIcon={ props.iconAction ? backIcon : menuIcon }
+      navIcon={props.iconAction ? backIcon : menuIcon}
       onIconClicked={() => {
         if (props.iconAction === 'back') {
           goBack();
