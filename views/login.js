@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
+import Button from 'react-native-button';
 
 /* Redux stuff...      */
 import { connect } from 'react-redux';
@@ -18,7 +19,6 @@ import * as authActions from '../actions/authActions';
 import { styles } from '../css/stylesheet';
 import Drawer from '../components/Drawer';
 import { gradientColors } from '../utils';
-import Button from 'react-native-button';
 
 const Login = (props) => {
   const [ errorMsg, setErrorMessage ] = useState('');

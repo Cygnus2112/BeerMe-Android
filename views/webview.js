@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   WebView, 
   StyleSheet,
   Text,
   View,
   TextInput,
-  Dimensions,
-  TouchableOpacity 
+  TouchableOpacity,
 } from 'react-native';
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import * as wishlistActions from '../actions/wishlistActions';
 import * as authActions from '../actions/authActions';
@@ -22,137 +21,104 @@ const DISABLED_WASH = 'rgba(255,255,255,0.25)';
 const TEXT_INPUT_REF = 'urlInput';
 const WEBVIEW_REF = 'webview';
 
-let screenHeight = Dimensions.get('window').height;
+const Browser = (props) => {
+  const [ url, setUrl ] = useState(props.url);
+  const [ backButtonEnabled, setBackButtonEnabled ] = useState(false);
 
-class Browser extends Component {
-  constructor(props){
-    super(props);
+  const webRef = useRef(WEBVIEW_REF);
 
-    this.handleTextInputChange = this.handleTextInputChange.bind(this);
-    this.goBack = this.goBack.bind(this);
-    //this.goForward = this.goForward.bind(this);
-    this.reload = this.reload.bind(this);
+  let inputText = '';
 
-    this.quitWeb = this.quitWeb.bind(this);
-
-    this.state = {
-      url: this.props.url,
-      status: 'No Page Loaded',
-      backButtonEnabled: false,
-      forwardButtonEnabled: false,
-      loading: true,
-      scalesPageToFit: true,
-      isLoadingWishlist: false
+  const handleTextInputChange = (event) => {
+    var urlText = event.nativeEvent.text;
+    if (!/^[a-zA-Z-_]+:/.test(urlText)) {
+      urlText = 'http://' + urlText;
     }
-  }
+    inputText = urlText;
+  };
 
-  inputText = '';
+  const goBack = () => {
+    webRef.goBack();
+  };
 
-  handleTextInputChange = (event) => {
-    var url = event.nativeEvent.text;
-    if (!/^[a-zA-Z-_]+:/.test(url)) {
-      url = 'http://' + url;
-    }
-    this.inputText = url;
-  }
+  const reload = () => {
+    webRef.reload();
+  };
 
-  goBack = () => {
-    this.refs[WEBVIEW_REF].goBack();
-  }
+  const onSubmitEditing = (event) => {
+    pressGoButton();
+  };
 
-  // goForward = () => {
-  //   this.refs[WEBVIEW_REF].goForward();
-  // }
+  const quitWeb = () => {
+    props.navigation.goBack();
+  };
 
-  reload = () => {
-    this.refs[WEBVIEW_REF].reload();
-  }
-
-  onSubmitEditing = (event) => {
-    this.pressGoButton();
-  }
-
-  quitWeb = () => {
-    this.props.navigation.goBack();
-  }
-
-  pressGoButton () {
-    var url = this.inputText.toLowerCase();
-    if (url === this.state.url) {
-      this.reload();
+  const pressGoButton = () => {
+    var urlInput = inputText.toLowerCase();
+    if (urlInput === url) {
+      reload();
     } else {
-      this.setState({
-        url: url,
-      });
+      setUrl(urlInput);
     }
     // dismiss keyboard
-    this.refs[TEXT_INPUT_REF].blur();
-  }
+    webRef.blur();
+  };
 
-  render() {      
-      this.inputText = this.state.url;
+  inputText = url;
 
-      return (
-      <View style={{flex: 1, backgroundColor: HEADER}}>
-      <Toolbar iconAction={'back'} />  
-      <View style={styles.container}>	
-      	<View style={styles.addressBarRow}>
+  return (
+    <View style={styles.container}>
+      <Toolbar iconAction={'back'} />
+      <View style={styles.container}>
+        <View style={styles.addressBarRow}>
           <TouchableOpacity
-            onPress={this.goBack}
-            style={this.state.backButtonEnabled ? styles.navButton : styles.disabledButton}>
-            <Text>
-               {'<'}
-            </Text>
+            onPress={goBack}
+            style={backButtonEnabled ? styles.navButton : styles.disabledButton}
+          >
+            <Text>{'<'}</Text>
           </TouchableOpacity>
           <TextInput
             ref={TEXT_INPUT_REF}
             autoCapitalize="none"
-            defaultValue={this.props.url}
-            onSubmitEditing={this.onSubmitEditing}
-            onChange={this.handleTextInputChange}
+            defaultValue={props.url}
+            onSubmitEditing={onSubmitEditing}
+            onChange={handleTextInputChange}
             clearButtonMode="while-editing"
-            style={styles.addressBarTextInput}/>
-            <TouchableOpacity onPress={this.quitWeb}>
-              <View style={styles.goButton}>
-                <Text style={{fontWeight: 'bold'}}>
-                 X
-                </Text>
-              </View>
-            </TouchableOpacity>
+            style={styles.addressBarTextInput}
+          />
+          <TouchableOpacity onPress={quitWeb}>
+            <View style={styles.goButton}>
+              <Text style={{ fontWeight: 'bold' }}>X</Text>
+            </View>
+          </TouchableOpacity>
         </View>
-      	<WebView
-            ref={WEBVIEW_REF}
-            scalesPageToFit={true}
-            automaticallyAdjustContentInsets={false}
-        		source={{uri: this.state.url}}
-            javaScriptEnabled={true}
-            domStorageEnabled={true}
-            decelerationRate="normal"
-        		style={{marginTop: 1}}/>
+        <WebView
+          ref={WEBVIEW_REF}
+          scalesPageToFit={true}
+          automaticallyAdjustContentInsets={false}
+          source={{ uri: url }}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          decelerationRate="normal"
+          style={{marginTop: 1}}
+        />
       </View>
     </View>
-    );
-  }
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: HEADER,
-   // borderTopWidth: 1,
-    //borderTopColor: 'white'
   },
   addressBarRow: {
     flexDirection: 'row',
     padding: 8,
     alignItems: 'center',
-    borderTopColor: 'white', 
-    borderTopWidth: 1
+    borderTopColor: 'white',
+    borderTopWidth: 1,
   },
-  // webView: {
-  //   //backgroundColor: BGWASH,
-  //   height: 350,
-  // },
   addressBarTextInput: {
     backgroundColor: BGWASH,
     borderColor: 'transparent',
@@ -176,7 +142,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   navButton: {
     width: 20,
@@ -207,25 +173,22 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     borderRadius: 3,
     alignSelf: 'stretch',
-  }
-})
+  },
+});
 
 const mapDispatchToProps = (dispatch) => {
   return {
     authActions: bindActionCreators(authActions, dispatch),
     wishlistActions: bindActionCreators(wishlistActions, dispatch),
-  }
-}
+  };
+};
 
 const mapStateToProps = (state) => {
   return {
     username: state.authReducer.username,
     isSearching: state.beerReducer.isSearching,
     isFetching: state.wishlistReducer.isFetching,
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps,mapDispatchToProps)(Browser);
-
-
-
+export default connect(mapStateToProps, mapDispatchToProps)(Browser);
