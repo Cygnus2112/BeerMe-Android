@@ -79,7 +79,6 @@ class Swipe extends React.Component {
 
   componentDidMount() {
     this._animateEntrance();
-    console.log('this.props.navigation in SWIPE: ', this.props.navigation)
   }
 
   _animateEntrance() {

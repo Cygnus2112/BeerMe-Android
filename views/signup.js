@@ -114,7 +114,7 @@ const Signup = (props) => {
             </Text>
           </View>
         </View>
-        <View style={signupStyles.signin}> 
+        <View style={signupStyles.signin}>
           <TouchableNativeFeedback
             onPress={loadLogin}
             style={styles.button}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import ToolbarAndroid from '@react-native-community/toolbar-android';
 
@@ -7,14 +7,13 @@ let menuIcon = require('../assets/ic_menu_black_24dp_sm.png');
 let backIcon = require('../assets/ic_navigate_before_black_24dp.png');
 
 const Toolbar = (props) => {
-  console.log('props.navigation in Toolbar: ', props.navigation)
   const goBack = () => {
     props.navigation.goBack();
   };
 
   return (
     <ToolbarAndroid
-      navIcon={ props.iconAction ? backIcon : menuIcon }
+      navIcon={props.iconAction ? backIcon : menuIcon}
       onIconClicked={() => {
         if (props.iconAction === 'back') {
           goBack();
