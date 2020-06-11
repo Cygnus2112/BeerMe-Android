@@ -1,7 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableNativeFeedback } from 'react-native';
-
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableNativeFeedback,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+
 import { gradientColors } from '../utils';
 
 const Forgot = (props) => {
@@ -14,17 +19,17 @@ const Forgot = (props) => {
   };
 
   return (
-    <LinearGradient colors={gradientColors} style={{ flex: 1 }}>
+    <LinearGradient colors={gradientColors} style={styles.main}>
       <View style={styles.container}>
         <View style={styles.top}>
-          <Text style={{ fontSize: 18, textAlign: 'center' }}>
+          <Text style={styles.mainText}>
             Ugh. Coding password resets is a nightmare.
           </Text>
           <TouchableNativeFeedback onPress={loadSignup}>
             <View>
-              <Text style={{ fontSize: 18, textAlign: 'center' }}>
+              <Text style={styles.mainText}>
                 Can't you just{' '}
-                <Text style={{ fontWeight: 'bold' }}>
+                <Text style={styles.bold}>
                   create a new account?
                 </Text>
               </Text>
@@ -34,9 +39,11 @@ const Forgot = (props) => {
         <View style={styles.bottom}>
           <TouchableNativeFeedback onPress={whatever}>
             <View>
-              <Text style={{ fontSize: 12, textAlign: 'center' }}>
+              <Text style={styles.insist}>
                 No, I insist.{' '}
-                <Text style={{ fontWeight: 'bold' }}>Reset my password</Text>.
+                <Text style={styles.bold}>
+                  Reset my password
+                </Text>.
               </Text>
             </View>
           </TouchableNativeFeedback>
@@ -47,6 +54,9 @@ const Forgot = (props) => {
 };
 
 const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -67,6 +77,13 @@ const styles = StyleSheet.create({
   },
   mainText: {
     fontSize: 18,
+    textAlign: 'center',
+  },
+  bold: {
+    fontWeight: 'bold',
+  },
+  insist: {
+    fontSize: 12,
     textAlign: 'center',
   },
 });
