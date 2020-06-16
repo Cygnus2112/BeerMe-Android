@@ -109,9 +109,7 @@ const Signup = (props) => {
             </Button>
           </LinearGradient>
           <View style={styles.errorBox}>
-            <Text style={styles.errorMsg}>
-              {errorMsg}
-            </Text>
+            <Text style={styles.errorMsg}>{errorMsg}</Text>
           </View>
         </View>
         <View style={signupStyles.signin}>
@@ -120,12 +118,8 @@ const Signup = (props) => {
             style={styles.button}
           >
             <View style={styles.header}>
-              <Text style={styles.instructions}>
-                Already have an account?
-              </Text>
-              <Text style={styles.iambold}>
-                Sign {'in'}
-              </Text>
+              <Text style={styles.instructions}>Already have an account?</Text>
+              <Text style={styles.iambold}>Sign {'in'}</Text>
             </View>
           </TouchableNativeFeedback>
         </View>

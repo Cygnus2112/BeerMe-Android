@@ -32,7 +32,7 @@ const About = () => {
                   source={require('../assets/ic_copyright_black_24dp.png')}
                   style={styles.copylogo}
                 />
-                2016 Thomas Leupp
+                2016, 2020 Thomas Leupp
               </Text>
               <Text></Text>
               <Text style={{ fontSize: 14, textAlign: 'center' }}>

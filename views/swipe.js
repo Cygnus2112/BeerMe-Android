@@ -10,52 +10,46 @@ import {
   Animated,
   PanResponder,
 } from 'react-native';
+import clamp from 'clamp';
+import LinearGradient from 'react-native-linear-gradient';
 
 /* Redux stuff...      */
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import * as beerActions from '../actions/beerActions'; 
 import * as wishlistActions from '../actions/wishlistActions'; 
 import * as authActions from '../actions/authActions';
-/* End redux stuff...      */ 
+/* End redux stuff...      */
 
-import Drawer from '../components/Drawer'
-
-import LinearGradient from 'react-native-linear-gradient';
+import Drawer from '../components/Drawer';
 import { gradientColors } from '../utils';
-let width = Dimensions.get('window').width;
-let screenHeight = Dimensions.get('window').height;
 
-import clamp from 'clamp';
-//const SWIPE_THRESHOLD = 120;
+let width = Dimensions.get('window').width;
+
 const SWIPE_THRESHOLD = 105;
 
 class Swipe extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.likeBeer = this.likeBeer.bind(this);
     this.dislikeBeer = this.dislikeBeer.bind(this);
-
     this.wishlist = this.wishlist.bind(this);
-
     this._loadFrontBeer = this._loadFrontBeer.bind(this);
 
     this.state = {
-      likeMessage: "",
+      likeMessage: '',
       wishlistToAdd: [],
       dislikesToAdd: [],
-      actionText: "",
+      actionText: '',
       isLoadingWishlist: false,
       pan: new Animated.ValueXY(),
-      //enter: new Animated.Value(0),
-      // enter: new Animated.Value(0.5),
       enter: new Animated.Value(1),
       beerLabel: this.props.beerToView.label,
       nextLabel: null,
       mountTime: new Date(),
       firstImageLoaded: false,
-    }
+    };
   }
 
   /* Begin Tinder Swipe code, large portions of which are gratefully copied from
@@ -64,18 +58,18 @@ class Swipe extends React.Component {
    */
 
   componentWillReceiveProps(newProps) {
-    if(newProps.nextBeer.label) {
+    if (newProps.nextBeer.label) {
       Image.prefetch(newProps.nextBeer.label).then(() => {
-      })
+      });
     }
     if(!this.state.firstImageLoaded && newProps.beerToView.label ){
       Image.prefetch(newProps.beerToView.label).then(() => {
         this.setState({
-          firstImageLoaded: true
-        })
-      })
+          firstImageLoaded: true,
+        });
+      });
     }
-  }    
+  }
 
   componentDidMount() {
     this._animateEntrance();
@@ -89,7 +83,6 @@ class Swipe extends React.Component {
   }
 
   componentWillMount() {
-
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
@@ -100,7 +93,7 @@ class Swipe extends React.Component {
       },
 
       onPanResponderMove: Animated.event([
-        null, {dx: this.state.pan.x, dy: this.state.pan.y}
+        null, {dx: this.state.pan.x, dy: this.state.pan.y},
       ], {useNativeDriver: false}),
 
       onPanResponderRelease: (e, {vx, vy}) => {
@@ -114,30 +107,29 @@ class Swipe extends React.Component {
         }
 
         if (Math.abs(this.state.pan.x._value) > SWIPE_THRESHOLD) {
-
           this.state.pan.x._value > 0
             ? this.likeBeer(this.props.beerToView)
-            : this.dislikeBeer(this.props.beerToView)
+            : this.dislikeBeer(this.props.beerToView);
 
           Animated.decay(this.state.pan, {
             velocity: {x: velocity, y: vy},
-            deceleration: 0.98
-          }).start(this._resetState.bind(this))
+            deceleration: 0.98,
+          }).start(this._resetState.bind(this));
         } else {
           Animated.spring(this.state.pan, {
             toValue: {x: 0, y: 0},
             friction: 4,
             useNativeDriver: false,
-          }).start()
+          }).start();
         }
-      }
-    })
+      },
+    });
   }
 
   _resetState() {
     this.state.pan.setValue({x: 0, y: 0});
     this.state.enter.setValue(1);
-  //  this._goToNextCard();
+    //  this._goToNextCard();
     this._animateEntrance();
   }
 
@@ -146,14 +138,15 @@ class Swipe extends React.Component {
   componentWillUnmount() {
     const { clearBeerData } = this.props.beerActions;
     clearBeerData();
-    if(this.props.username){
+    if (this.props.username) {
       const { updateWishlist } = this.props.wishlistActions;
-      if(this.state.wishlistToAdd.length || this.state.dislikesToAdd.length) {
+      if (this.state.wishlistToAdd.length || this.state.dislikesToAdd.length) {
         updateWishlist({
-          "username": this.props.username,
-          "wishlistToAdd": this.state.wishlistToAdd,
-          "dislikesToAdd": this.state.dislikesToAdd
-        }, this.props.navigation);
+          'username': this.props.username,
+          'wishlistToAdd': this.state.wishlistToAdd,
+          'dislikesToAdd': this.state.dislikesToAdd,
+        },
+        this.props.navigation);
       }
     }
   }
@@ -163,51 +156,49 @@ class Swipe extends React.Component {
     const { clearBeerData } = this.props.beerActions;
     clearBeerData();
     const { updateWishlist } = this.props.wishlistActions;
-    if(this.state.wishlistToAdd.length || this.state.dislikesToAdd.length) {
-    updateWishlist({
-        "username": this.props.username,
-        "wishlistToAdd": this.state.wishlistToAdd,
-        "dislikesToAdd": this.state.dislikesToAdd
-      }, this.props.navigation);
+    if (this.state.wishlistToAdd.length || this.state.dislikesToAdd.length) {
+      updateWishlist(
+        {
+          username: this.props.username,
+          'wishlistToAdd': this.state.wishlistToAdd,
+          'dislikesToAdd': this.state.dislikesToAdd,
+        },
+        this.props.navigation
+      );
       this.setState({
         wishlistToAdd: [],
-        dislikesToAdd: []
-      })
+        dislikesToAdd: [],
+      });
     }
     let loading = true;
 
     this.setState({
-      isLoadingWishlist: true
-    })
- 
-    while(loading) {
-      if(this.props.isUpdating === false){
+      isLoadingWishlist: true,
+    });
 
+    while (loading) {
+      if (this.props.isUpdating === false) {
         const { updateWishlistRequest } = this.props.wishlistActions;
         updateWishlistRequest();
         const { loadWishlist } = this.props.wishlistActions;
-        loadWishlist({"username": this.props.username}, this.props.navigation);
-        //setTimeout(() => loadWishlist({"username": this.props.username}), 500);
+        loadWishlist({'username': this.props.username}, this.props.navigation);
         loading = false;
       }
     }
-  }
+  };
 
   _loadFrontBeer = () => {
     const { loadFrontBeer } = this.props.beerActions;
     loadFrontBeer();
-  }
+  };
 
   likeBeer = (beer) => {
-    this.props.navigation.navigate(
-      'beerdetail',
-      {
-        selectedBeer: beer,
-        rowID: beer.id,
-        isAlreadyInWishlist: false,
-        direction: 'vertical',
-      }
-    );
+    this.props.navigation.navigate('beerdetail', {
+      selectedBeer: beer,
+      rowID: beer.id,
+      isAlreadyInWishlist: false,
+      direction: 'vertical',
+    });
 
     setTimeout(this._loadFrontBeer, 300);
 
@@ -215,131 +206,141 @@ class Swipe extends React.Component {
       const { loadBeers } = this.props.beerActions;
       let userData = {
         username: this.props.username,
-        style: this.props.styleChoice
-      }
+        style: this.props.styleChoice,
+      };
       loadBeers(userData);
-    }  
-  }
+    }
+  };
 
   dislikeBeer = (beer) => {
-   // const { loadFrontBeer } = this.props.beerActions;
+    // const { loadFrontBeer } = this.props.beerActions;
     this._loadFrontBeer();
 
     this.setState({
-      likeMessage: "You disliked " + beer.name,
+      likeMessage: 'You disliked ' + beer.name,
       dislikesToAdd: this.state.dislikesToAdd.concat([{
-        "id": beer.id,
-        "name": beer.name,
-        "labelUrl": beer.label,
-        "style": beer.style,
-        "icon": beer.icon,
-        "abv": beer.abv,
-        "descript": beer.descript,
-        "brewery": beer.brewery,
-        "website": beer.website
-      }])
-    })
+        'id': beer.id,
+        'name': beer.name,
+        'labelUrl': beer.label,
+        'style': beer.style,
+        'icon': beer.icon,
+        'abv': beer.abv,
+        'descript': beer.descript,
+        'brewery': beer.brewery,
+        'website': beer.website,
+      }]),
+    });
 
-    setTimeout(() => {this.setState({
-      likeMessage: ""
-    });}, 2000);
+    setTimeout(() => {
+      this.setState({
+        likeMessage: '',
+      });
+    }, 2000);
 
     if(this.props.beerData.length < 5 && !this.props.isSearching){
       const { loadBeers } = this.props.beerActions;
       let userData = {
         username: this.props.username,
-        style: this.props.styleChoice
-      }
+        style: this.props.styleChoice,
+      };
       loadBeers(userData);
     }
-  }
+  };
 
   render() {
     /* Begin Tinder Swipe code pt. II ....        */
-    let { pan, enter, } = this.state;
+    let { pan, enter } = this.state;
 
     let [translateX, translateY] = [pan.x, pan.y];
 
-    let rotate = pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: ["-30deg", "0deg", "30deg"]});
+    let rotate = pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: ['-30deg', '0deg', '30deg']});
     let opacity = pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: [0.5, 1, 0.5]});
     let scale = enter;
 
     let animatedCardstyles = {transform: [{translateX}, {translateY}, {rotate}, {scale}], opacity};
 
-    let yupOpacity = pan.x.interpolate({inputRange: [0, 150], outputRange: [0, 1]});
-    let yupScale = pan.x.interpolate({inputRange: [0, 150], outputRange: [0.5, 1], extrapolate: 'clamp'});
-    let animatedYupStyles = {transform: [{scale: yupScale}], opacity: yupOpacity}
-
-    let nopeOpacity = pan.x.interpolate({inputRange: [-150, 0], outputRange: [1, 0]});
-    let nopeScale = pan.x.interpolate({inputRange: [-150, 0], outputRange: [1, 0.5], extrapolate: 'clamp'});
-    let animatedNopeStyles = {transform: [{scale: nopeScale}], opacity: nopeOpacity}
-
     /* End Tinder Swipe code pt. II ------------------ */
     let searchingView = (
-        <View style={styles.loading}>
-          <View style={{flex:.5,flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
-            <Text style={{fontSize: 27, textAlign: 'center'}}>Fetching beers...</Text>
-          </View>
-          <ActivityIndicator
-            animating={ true }
-            style={[styles.centering, {height: 80}]}
-            size="large"/>
+      <View style={styles.loading}>
+        <View style={{flex:0.5,flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
+          <Text style={{fontSize: 27, textAlign: 'center'}}>Fetching beers...</Text>
         </View>
-        );
-          let loadingView = (
-        <View style={styles.loading}>
-          <View style={{flex:.5, flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
-            <Text style={{fontSize: 27, textAlign: 'center'}}>Loading wishlist...</Text>
-          </View>
-          <ActivityIndicator
-            animating={ true }
-            style={[styles.centering, {height: 80}]}
-            size="large"/>
+        <ActivityIndicator
+          animating={ true }
+          style={[styles.centering, {height: 80}]}
+          size="large"
+        />
+      </View>
+    );
+
+    let loadingView = (
+      <View style={styles.loading}>
+        <View style={{flex:0.5, flexDirection:'row', justifyContent:'center',alignItems:'flex-end'}}>
+          <Text style={{fontSize: 27, textAlign: 'center'}}>Loading wishlist...</Text>
         </View>
-        );
+        <ActivityIndicator
+          animating={ true }
+          style={[styles.centering, {height: 80}]}
+          size="large"
+        />
+      </View>
+    );
 
     let mainView = (
-    <LinearGradient colors={gradientColors} style={{flex:1}}>
-      <View style={styles.main} >
+      <LinearGradient colors={gradientColors} style={{flex:1}}>
+        <View style={styles.main}>
           <Animated.View style={[styles.card, animatedCardstyles]} {...this._panResponder.panHandlers}>
-              <View style={{elevation:3,flexDirection: 'row',justifyContent: 'center', borderColor: 'black', borderWidth: 1, width: 258, height: 258}}>
-                <Image 
-                  source={{uri: this.props.beerToView.label}} 
-                  style={{width: 256, height: 256}}/>
-              </View>
-              <Text style={styles.choose}>
-                {this.props.beerToView.name}
-              </Text>
-              <Text style={{fontSize: 16}}>
-                {this.props.beerToView.brewery}
-              </Text>
+            <View style={{elevation:3,flexDirection: 'row',justifyContent: 'center', borderColor: 'black', borderWidth: 1, width: 258, height: 258}}>
+              <Image 
+                source={{uri: this.props.beerToView.label}} 
+                style={{width: 256, height: 256}}/>
+            </View>
+            <Text style={styles.choose}>
+              {this.props.beerToView.name}
+            </Text>
+            <Text style={{fontSize: 16}}>
+              {this.props.beerToView.brewery}
+            </Text>
           </Animated.View>
           <View style={ styles.thumbs }>
-              <TouchableOpacity onPress={ () => this.dislikeBeer(this.props.beerToView) } >
-                <Image source={require('../assets/thumbdown_outline2.png') } style={{width: 72, height: 72, marginRight: width*.1}}/>
-              </TouchableOpacity >
-              <TouchableOpacity onPress={ () => this.likeBeer(this.props.beerToView) } >
-                <Image source={require('../assets/thumbup_outline.png') } style={{width: 72, height: 72, marginLeft: width*.1}}/>
-              </TouchableOpacity >
+            <TouchableOpacity onPress={ () => this.dislikeBeer(this.props.beerToView) } >
+              <Image source={require('../assets/thumbdown_outline2.png') } style={{width: 72, height: 72, marginRight: width*0.1}}/>
+            </TouchableOpacity >
+            <TouchableOpacity onPress={ () => this.likeBeer(this.props.beerToView) } >
+              <Image source={require('../assets/thumbup_outline.png') } style={{width: 72, height: 72, marginLeft: width*0.1}}/>
+            </TouchableOpacity >
           </View>
           <View style={ styles.footer }>
             <View style={{flexDirection: 'row',justifyContent: 'center'}}>
-                <Text style={styles.like } >
-                  { this.state.likeMessage }
-                </Text>
+              <Text style={styles.like}>{this.state.likeMessage}</Text>
             </View>
           </View>
         </View>
-      </LinearGradient>);
-    if((this.props.isSearching && !this.props.beerToView.label) || !this.state.firstImageLoaded) {
-      return ( <Drawer view={searchingView} wishlistFunc={this.wishlist} navigation={this.props.navigation} /> )
+      </LinearGradient>
+    );
+
+    let viewToDisplay;
+
+    if (
+      (this.props.isSearching && !this.props.beerToView.label) ||
+      !this.state.firstImageLoaded
+    ) {
+      viewToDisplay = searchingView;
     } else if (this.state.isLoadingWishlist) {
-       return ( <Drawer view={loadingView} wishlistFunc={this.wishlist} navigation={this.props.navigation}/> )
+      viewToDisplay = loadingView;
     } else {
-      return ( <Drawer view={mainView} wishlistFunc={this.wishlist} navigation={this.props.navigation}/> )
-    } 
+      viewToDisplay = mainView;
+    }
+    return (
+      <Drawer
+        view={viewToDisplay}
+        wishlistFunc={this.wishlist}
+        navigation={this.props.navigation}
+      />
+    );
   }
 }
+
 const styles = StyleSheet.create({
   like: {
     textAlign: 'center',
@@ -360,57 +361,52 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderTopWidth: 1,
-    borderTopColor: 'white'
-    //backgroundColor: '#F5FCFF'
+    borderTopColor: 'white',
   },
   main: {
     flex: 1,
     flexDirection: 'column',
-   // backgroundColor: '#ddd',
     alignItems: 'center',
     justifyContent: 'space-around',
-    //backgroundColor: '#F5FCFF'
-   // borderTopWidth: 1,
-   // borderTopColor: 'white',
-    paddingTop: 10
+    paddingTop: 10,
   },
   card: {
     elevation:5,
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    width: width*.85,
+    width: width * 0.85,
     margin: 5,
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
     borderColor: 'black',
     borderWidth: 2,
-    borderRadius: 5
+    borderRadius: 5,
   },
   thumbs: {
-    flex: .2,
+    flex: 0.2,
     flexDirection: 'row',
     margin: 7,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   footer: {
-    flex: .1,
+    flex: 0.1,
   },
   choose: {
     fontSize: 24,
     textAlign: 'center',
     margin: 2,
-  }
+  },
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     authActions: bindActionCreators(authActions, dispatch),
     wishlistActions: bindActionCreators(wishlistActions, dispatch),
-    beerActions: bindActionCreators(beerActions, dispatch)
-  }
-}
+    beerActions: bindActionCreators(beerActions, dispatch),
+  };
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -421,9 +417,8 @@ const mapStateToProps = (state) => {
     isSearching: state.beerReducer.isSearching,
     isUpdating: state.wishlistReducer.isUpdating,
     wishlist: state.wishlistReducer.wishlist,
-    dislikes: state.wishlistReducer.dislikes 
-  }
-}
+    dislikes: state.wishlistReducer.dislikes,
+  };
+};
 
 export default connect(mapStateToProps,mapDispatchToProps)(Swipe);
-
