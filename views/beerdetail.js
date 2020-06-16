@@ -9,7 +9,7 @@ import {
   Linking,
   Modal,
 } from 'react-native';
-
+import LinearGradient from 'react-native-linear-gradient';
 import Button from 'react-native-button';
 
 /* Redux stuff...      */
@@ -22,8 +22,6 @@ import * as authActions from '../actions/authActions';
 
 import Toolbar from '../components/Toolbar';
 //import OrderModal from '../components/Order';
-
-import LinearGradient from 'react-native-linear-gradient';
 import { gradientColors } from '../utils';
 
 let screenWidth = Dimensions.get('window').width;
@@ -43,7 +41,7 @@ const BeerDetail = (props) => {
         rowID,
         isAlreadyInWishlist,
       } = props.route.params;
-      if (props.username){
+      if (props.username) {
         const { removeWishlistItem } = props.wishlistActions;
         if (!toggled && isAlreadyInWishlist) {
           let a = {
@@ -58,7 +56,7 @@ const BeerDetail = (props) => {
             website: selectedBeer.website,
           };
           removeWishlistItem({
-              username: this.props.username,
+              username: props.username,
               wishlist: [a],
               dislikes: [a],
             },
@@ -91,7 +89,7 @@ const BeerDetail = (props) => {
         }
       }
     };
-  });
+  }, []);
 
   const openShoppingModal = () => {
     setModalVisible(true);
@@ -138,8 +136,6 @@ const BeerDetail = (props) => {
     Linking.openURL(url).catch((err) =>
       console.error('An error occurred', err),
     );
-
-    // let url = ("http://shop.bevmo.com/search?w="+this.props.selectedBeer.brewery+"%20"+this.props.selectedBeer.name).replace(/ /g, "%20");
   };
 
   const beerTempleClicked = () => {
@@ -208,7 +204,6 @@ const BeerDetail = (props) => {
     Linking.openURL(url).catch((err) =>
       console.error('An error occurred', err),
     );
-    // console.log('url: ', url);
   };
 
   const craftCityClicked = () => {
@@ -241,7 +236,7 @@ const BeerDetail = (props) => {
   };
 
   const toggleWishlist = () => {
-    if (!props.username){
+    if (!props.username) {
       setActionMessage('Please sign in to save beers to wishlist');
     } else {
       if (toggled){
@@ -297,7 +292,7 @@ const BeerDetail = (props) => {
       <TouchableOpacity onPress={toggleWishlist}>
         <Image
           source={require('../assets/ic_favorite_filled_3x.png')}
-          style={{ width: 60, height: 60 }}
+          style={styles.favorite}
         />
       </TouchableOpacity>
       <Text style={styles.buttonLabel}>Remove</Text>
@@ -308,7 +303,7 @@ const BeerDetail = (props) => {
       <TouchableOpacity onPress={toggleWishlist}>
         <Image
           source={require('../assets/heart_empty.png')}
-          style={{ width: 60, height: 60 }}
+          style={styles.favorite}
         />
       </TouchableOpacity>
       <Text style={styles.buttonLabel}>Add</Text>
@@ -331,46 +326,16 @@ const BeerDetail = (props) => {
   }
 
   let beerTitle = (
-    <View
-      style={{
-        flex: 5,
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-      }}
-    >
-      <View
-        style={{
-          flex: 1,
-          marginLeft: 2,
-          marginRight: 2,
-          marginBottom: 2,
-          flexDirection: 'column',
-          justifyContent: 'space-around',
-        }}
-      >
+    <View style={styles.titleWrap}>
+      <View style={styles.title}>
         <Text style={styles.choose}>{props.selectedBeer.name}</Text>
         <Text style={styles.brewery}>{props.selectedBeer.brewery}</Text>
-        <Text style={{ fontSize: 12, textAlign: 'left' }}>
-          {props.selectedBeer.style}
-        </Text>
+        <Text style={styles.titleText}>{props.selectedBeer.style}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ fontSize: 12, textAlign: 'left' }}>ABV: </Text>
-          <View
-            style={{
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              paddingLeft: 3,
-              paddingRight: 3,
-              borderColor: 'black',
-              borderWidth: 1,
-              backgroundColor: abvColor,
-            }}
-          >
+          <Text style={styles.titleText}>ABV: </Text>
+          <View style={[styles.abvWrap, { backgroundColor: abvColor }]}>
             <Text style={styles.abv}>
-              {props.selectedBeer.abv
-                ? props.selectedBeer.abv + '%'
-                : 'N/A'}
+              {props.selectedBeer.abv ? props.selectedBeer.abv + '%' : 'N/A'}
             </Text>
           </View>
         </View>
@@ -379,30 +344,16 @@ const BeerDetail = (props) => {
   );
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.wrap}>
       <Toolbar iconAction={'back'} />
-      <LinearGradient colors={gradientColors} style={{ flex: 1 }}>
+      <LinearGradient
+        colors={gradientColors}
+        style={styles.wrap}
+      >
         <View style={styles.main}>
           <View style={styles.card}>
-            <View
-              style={{
-                marginTop: 2,
-                flex: 1.3,
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                borderBottomColor: 'black',
-                borderBottomWidth: 5,
-                backgroundColor: 'white',
-              }}
-            >
-              <View
-                style={{
-                  flex: 2,
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
+            <View style={styles.cardWrap}>
+              <View style={styles.selected}>
                 <Image
                   source={{ uri: props.selectedBeer.icon }}
                   style={{ width: 80, height: 80 }}
@@ -410,14 +361,7 @@ const BeerDetail = (props) => {
               </View>
               {beerTitle}
             </View>
-            <View
-              style={{
-                flex: 2.5,
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                alignItems: 'flex-start',
-              }}
-            >
+            <View style={styles.notProvided}>
               <Text numberOfLines={12} style={{ margin: 10 }}>
                 {props.selectedBeer.descript
                   ? props.selectedBeer.descript
@@ -431,31 +375,20 @@ const BeerDetail = (props) => {
                 <TouchableOpacity onPress={websiteClicked}>
                   <Image
                     source={require('../assets/ic_language_black_24dp.png')}
-                    style={{
-                      width: 60,
-                      height: 60,
-                      marginLeft: 20,
-                      marginRight: 20,
-                    }}
+                    style={styles.web}
                   />
                 </TouchableOpacity>
-                <Text style={styles.buttonLabel}>
-                  Brewery
-                </Text>
-                <Text style={styles.buttonLabel}>
-                  Website
-                </Text>
+                <Text style={styles.buttonLabel}>Brewery</Text>
+                <Text style={styles.buttonLabel}>Website</Text>
               </View>
               <View style={styles.icon}>
                 <TouchableOpacity onPress={openShoppingModal}>
                   <Image
                     source={require('../assets/ic_shopping_cart_black_24dp.png')}
-                    style={{ width: 60, height: 60 }}
+                    style={styles.favorite}
                   />
                 </TouchableOpacity>
-                <Text style={styles.buttonLabel}>
-                  Order Online
-                </Text>
+                <Text style={styles.buttonLabel}>Order Online</Text>
                 <Text style={styles.buttonLabel}>
                   <Text style={{ color: 'red' }}>(Beta)</Text>
                 </Text>
@@ -466,18 +399,10 @@ const BeerDetail = (props) => {
             animationType={'slide'}
             transparent={true}
             visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(!modalVisible);
-            }}
+            onRequestClose={() => setModalVisible(!modalVisible)}
           >
             <View style={styles.modal}>
-              <View
-                style={{
-                  flex: 0.8,
-                  justifyContent: 'flex-start',
-                  marginTop: 10,
-                }}
-              >
+              <View style={styles.modalHead}>
                 <Text style={{ fontSize: 16 }}>
                   Select a merchant to search its inventory
                 </Text>
@@ -530,18 +455,10 @@ const BeerDetail = (props) => {
                   </TouchableOpacity>
                 </View>
               </View>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'flex-end',
-                  marginBottom: 10,
-                }}
-              >
+              <View style={styles.dismiss}>
                 <Button
                   style={{ fontSize: 16 }}
-                  onPress={() => {
-                    setModalVisible(!modalVisible);
-                  }}
+                  onPress={() => setModalVisible(!modalVisible)}
                 >
                   Dismiss
                 </Button>
@@ -560,6 +477,9 @@ const BeerDetail = (props) => {
 };
 
 const styles = StyleSheet.create({
+  wrap: {
+    flex: 1,
+  },
   modal: {
     elevation: 50,
     flex: 1,
@@ -590,7 +510,7 @@ const styles = StyleSheet.create({
   card: {
     elevation: 5,
     flex: 1.1,
-    width: screenWidth * 0.90,
+    width: screenWidth * 0.9,
     margin: 5,
     backgroundColor: '#F5FCFF',
     borderColor: 'black',
@@ -661,6 +581,73 @@ const styles = StyleSheet.create({
     fontSize: 10,
     textAlign: 'center',
   },
+  favorite: {
+    width: 60,
+    height: 60,
+  },
+  titleWrap: {
+    flex: 5,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+  },
+  title: {
+    flex: 1,
+    marginLeft: 2,
+    marginRight: 2,
+    marginBottom: 2,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+  },
+  abvWrap: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingLeft: 3,
+    paddingRight: 3,
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+  cardWrap: {
+    marginTop: 2,
+    flex: 1.3,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    borderBottomColor: 'black',
+    borderBottomWidth: 5,
+    backgroundColor: 'white',
+  },
+  selected: {
+    flex: 2,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notProvided: {
+    flex: 2.5,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  web: {
+    width: 60,
+    height: 60,
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  modalHead: {
+    flex: 0.8,
+    justifyContent: 'flex-start',
+    marginTop: 10,
+  },
+  dismiss: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 10,
+  },
+  titleText: {
+    fontSize: 12,
+    textAlign: 'left',
+  },
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -676,7 +663,7 @@ const mapStateToProps = (state) => {
     beerData: state.beerReducer.beerData,
     username: state.authReducer.username,
     wishlist: state.wishlistReducer.wishlist,
-    dislikes: state.wishlistReducer.dislikes, 
+    dislikes: state.wishlistReducer.dislikes,
   };
 };
 
