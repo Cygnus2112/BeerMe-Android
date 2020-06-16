@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import {
-  WebView, 
+  WebView,
   StyleSheet,
   Text,
   View,
