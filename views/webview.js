@@ -131,19 +131,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
   },
-  centering: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 2,
-  },
-  loading: {
-    flex: 1,
-    backgroundColor: '#ddd',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   navButton: {
     width: 20,
     padding: 3,
