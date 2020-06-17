@@ -1,9 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  StyleSheet,
-  View,
-  Image,
-} from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import store from '../reducers/rootStore';

@@ -1,5 +1,4 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import beerReducer from './beerReducers';
@@ -12,9 +11,7 @@ const reducer = combineReducers({
   wishlistReducer,
 });
 
-const finalCreateStore = compose(
-  applyMiddleware(thunk)
-)(createStore);
+const finalCreateStore = compose(applyMiddleware(thunk))(createStore);
 
 const store = finalCreateStore(reducer);
 
