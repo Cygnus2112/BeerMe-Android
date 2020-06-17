@@ -102,7 +102,7 @@ const Signup = (props) => {
           >
             <Button
               style={signupStyles.button}
-              styleDisabled={{color: 'red'}}
+              styleDisabled={{ color: 'red' }}
               onPress={submitSignup}
             >
               Sign up

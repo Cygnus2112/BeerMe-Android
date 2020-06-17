@@ -98,7 +98,7 @@ const BeerDetail = (props) => {
   const totalWineClicked = () => {
     const { selectedBeer } = props.route.params;
     setModalVisible(false);
-    let url = (
+    const url = (
       'http://www.totalwine.com/search/all?text=' +
       selectedBeer.brewery
         .replace(' Ales', '')
@@ -120,7 +120,7 @@ const BeerDetail = (props) => {
   const bevMoClicked = () => {
     const { selectedBeer } = props.route.params;
     setModalVisible(false);
-    let url = (
+    const url = (
       'http://shop.bevmo.com/search?w=' +
       selectedBeer.brewery
         .replace(' Ales', '')
@@ -141,7 +141,7 @@ const BeerDetail = (props) => {
   const beerTempleClicked = () => {
     const { selectedBeer } = props.route.params;
     setModalVisible(false);
-    let url = (
+    const url = (
       'http://store2.craftbeertemple.com/search.php?search_query=' +
       selectedBeer.brewery
         .replace(' Beer', '')
@@ -164,7 +164,7 @@ const BeerDetail = (props) => {
   const craftshackClicked = () => {
     const { selectedBeer } = props.route.params;
     setModalVisible(false);
-    let url = (
+    const url = (
       'https://craftshack.com/search?type=product&q=' +
       selectedBeer.brewery
         .replace(' Beer', '')
@@ -187,7 +187,7 @@ const BeerDetail = (props) => {
   const kingsClicked = () => {
     const { selectedBeer } = props.route.params;
     setModalVisible(false);
-    let url = (
+    const url = (
       'http://www.craftbeerkings.com/index.php?route=product/search&filter_name=' +
       selectedBeer.brewery
         .replace(' Beer', '')
@@ -209,7 +209,7 @@ const BeerDetail = (props) => {
   const craftCityClicked = () => {
     const { selectedBeer } = props.route.params;
     setModalVisible(false);
-    let url = (
+    const url = (
       'https://www.craftcity.com/index.php?route=product/search&search=' +
       selectedBeer.brewery
         .replace(' Beer', '')

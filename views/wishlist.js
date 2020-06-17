@@ -1,200 +1,150 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ListView,
   StyleSheet,
   Text,
   View,
   Image,
-  Dimensions,
   TouchableNativeFeedback,
   TouchableHighlight,
   ScrollView,
 } from 'react-native';
 
 /* Redux stuff...      */
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as wishlistActions from '../actions/wishlistActions';
-import * as authActions from '../actions/authActions';
 
 import Drawer from '../components/Drawer';
 
-let screenHeight = Dimensions.get('window').height;
+const Wishlist = (props) => {
+  const ds = new ListView.DataSource({
+    rowHasChanged: (r1, r2) => r1 !== r2,
+  });
 
-class Wishlist extends React.Component {
-  constructor(props) {
-    super(props);
+  const [dataSource, setDataSource] = useState(
+    ds.cloneWithRows(props.wishlist),
+  );
 
-    this.renderHeader = this.renderHeader.bind(this);
-
-    let ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 != r2
-    });
-
-    this.state = {
-      dataSource: ds.cloneWithRows(this.props.wishlist)
-    }
-  }
-
-  componentDidMount(){
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(this.props.wishlist)
-    })
-    const { updateWishlistSuccess} = this.props.wishlistActions;
+  useEffect(() => {
+    const newData = dataSource.cloneWithRows(props.wishlist);
+    setDataSource(newData);
+    const { updateWishlistSuccess } = props.wishlistActions;
     updateWishlistSuccess();
-  }
+  }, [props.wishlist]);
 
-  componentWillReceiveProps(newProps){
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(newProps.wishlist)
-    })
-  }
-
-  renderHeader = () => {
+  const renderHeader = () => {
     return (
       <View style={styles.header}>
-        <Text style={{textAlign: 'center', color: 'white', fontSize: 20, fontWeight: 'bold'}}>
-          Wishlist
-        </Text>
+        <Text style={styles.headerText}>Wishlist</Text>
       </View>
     );
-  }
+  };
 
-  emptyLoadStyles = () => {
-    this.props.navigation.navigate('styles');
-  }
-    
-  render() {
-    let emptyWishlistView = (
-      <View>
-        <Text style={styles.choose}>
-          You {"haven't"} added any beers to your wishlist!
-        </Text>
-        <TouchableNativeFeedback onPress={ this.emptyLoadStyles } >
-          <View>
-            <Text style={styles.choose}>
-              Find your brew
-            </Text>
-          </View>
-        </TouchableNativeFeedback>
-      </View>
-    );
+  const emptyLoadStyles = () => {
+    props.navigation.navigate('styles');
+  };
 
-    let wishlistView = (
-      <ScrollView >
-        <ListView
-          dataSource = {this.state.dataSource}
-          renderHeader={this.renderHeader}
-          renderRow = {(selectedBeer, sectionID, rowID) => {
-            return (
-          <TouchableHighlight
-            onPress={()=> {
-              this.props.navigation.navigate(
-                'beerdetail',
-                {
-                  selectedBeer: selectedBeer,
-                  rowID: rowID,
-                  isAlreadyInWishlist: true,
-                }
-              );
-            }}
-            underlayColor='#ddd'
-          >
-            <View style ={styles.row}>
-              <Image source={{uri: selectedBeer.icon}} style={{height:34, width:34, borderColor: 'black', borderWidth: 1, marginLeft: 5, marginRight:5}} />
-              <Text style={{fontSize:18}}>{selectedBeer.name}</Text>
-            </View>
-          </TouchableHighlight>  ) }} />
-      </ScrollView>
-    );
+  const emptyWishlistView = (
+    <View>
+      <Text style={styles.choose}>
+        You {"haven't"} added any beers to your wishlist!
+      </Text>
+      <TouchableNativeFeedback onPress={emptyLoadStyles}>
+        <View>
+          <Text style={styles.choose}>Find your brew</Text>
+        </View>
+      </TouchableNativeFeedback>
+    </View>
+  );
 
-    if(!Object.keys(this.props.wishlist).length){
-      return ( <Drawer view={ emptyWishlistView } /> )
-    } else {
-      return ( <Drawer view={ wishlistView } /> )
-    }
+  const wishlistView = (
+    <ScrollView>
+      <ListView
+        dataSource={dataSource}
+        renderHeader={renderHeader}
+        renderRow={(selectedBeer, sectionID, rowID) => {
+          return (
+            <TouchableHighlight
+              onPress={() => {
+                props.navigation.navigate(
+                  'beerdetail',
+                  {
+                    selectedBeer: selectedBeer,
+                    rowID: rowID,
+                    isAlreadyInWishlist: true,
+                  }
+                );
+              }}
+              underlayColor="#ddd"
+            >
+              <View style={styles.row}>
+                <Image
+                  source={{ uri: selectedBeer.icon }}
+                  style={styles.icon}
+                />
+                <Text style={{ fontSize: 18 }}>{selectedBeer.name}</Text>
+              </View>
+            </TouchableHighlight>
+          );
+        }}
+      />
+    </ScrollView>
+  );
+
+  if (!Object.keys(props.wishlist).length) {
+    return <Drawer view={emptyWishlistView} />;
+  } else {
+    return <Drawer view={wishlistView} />;
   }
-}
+};
 
 let styles = StyleSheet.create({
   header: {
     backgroundColor: 'brown',
-   // borderBottomColor: 'black',
-   // borderBottomWidth: 1,
     height: 30,
-    elevation: 3
-  },
-  toolbar: {
     elevation: 3,
-    backgroundColor: '#ffbf00',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    height: 57,
-    //height: screenHeight * .092
-  },
-  drawer: {
-    flex: .7,
-    justifyContent: 'flex-start',
-    //alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  drawermain: {
-    flexDirection: 'column',
-    flex: 1,
-    backgroundColor: '#ddd',
-    //alignItems: 'center',
-    justifyContent: 'space-between',
-    //backgroundColor: '#F5FCFF'
-    borderColor: 'black',
-    borderWidth: 2
-  },
-  centering: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 8,
   },
   choose: {
     fontSize: 27,
     textAlign: 'center',
     margin: 30,
   },
-  main: {
+  row: {
     flex: 1,
-    backgroundColor: '#F5FCFF'
-  },
-  row:{
-    flex:1,
-    flexDirection:'row',
+    flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    padding:5,
+    padding: 5,
     borderBottomWidth: 1,
     borderColor: 'darkgrey',
   },
-  selectionText:{
-    fontSize:15,
-    paddingTop:3,
-    color:'#b5b5b5',
-    textAlign:'right'
+  headerText: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
-}); 
+  icon: {
+    height: 34,
+    width: 34,
+    borderColor: 'black',
+    borderWidth: 1,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+});
 
 const mapStateToProps = (state) => {
   return {
-    isUpdating: state.wishlistReducer.isUpdating,
-    isFetching: state.wishlistReducer.isFetching,
-    username: state.authReducer.username,
     wishlist: state.wishlistReducer.wishlist,
-    dislikes: state.wishlistReducer.dislikes
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     wishlistActions: bindActionCreators(wishlistActions, dispatch),
-    authActions: bindActionCreators(authActions, dispatch)
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wishlist);

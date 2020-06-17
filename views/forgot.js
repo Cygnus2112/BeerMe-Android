@@ -29,9 +29,7 @@ const Forgot = (props) => {
             <View>
               <Text style={styles.mainText}>
                 Can't you just{' '}
-                <Text style={styles.bold}>
-                  create a new account?
-                </Text>
+                <Text style={styles.bold}>create a new account?</Text>
               </Text>
             </View>
           </TouchableNativeFeedback>
