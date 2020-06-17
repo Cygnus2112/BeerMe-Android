@@ -1,7 +1,4 @@
-import {
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 let width = Dimensions.get('window').width;
 let screenHeight = Dimensions.get('window').height;
@@ -61,16 +58,13 @@ export const styles = StyleSheet.create({
   forgot: {
     textAlign: 'center',
     color: '#333333',
-    // marginBottom: 5,
     fontSize: 14,
   },
   input: {
     backgroundColor: 'white',
     margin: 3,
-    // padding: 10,
     padding: 5,
-    // height: 45,
-    width: width*0.7,
+    width: width * 0.7,
     fontSize: 18,
     textAlign: 'center',
   },
@@ -78,35 +72,33 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     margin: 5,
     padding: 5,
-    width: width*0.7,
+    width: width * 0.7,
     fontSize: 18,
     textAlign: 'center',
   },
   buttonBox: {
     elevation: 3,
-  	padding: 10,
-  	margin: 5,
+    padding: 10,
+    margin: 5,
     height: 45,
-  	width: width * 0.7,
-  	overflow:'hidden',
-  	borderRadius: 4,
+    width: width * 0.7,
+    overflow: 'hidden',
+    borderRadius: 4,
   },
   signupbuttonBox: {
-    elevation:3,
-    //flex: 1,
-    padding:10,
+    elevation: 3,
+    padding: 10,
     margin: 3,
-    height:45,
-    width: width*0.7,
-    overflow:'hidden',
-    borderRadius:4,
-    //backgroundColor: 'blue'
+    height: 45,
+    width: width * 0.7,
+    overflow: 'hidden',
+    borderRadius: 4,
   },
   button: {
     textAlign: 'center',
     color: '#333333',
     marginBottom: 7,
-    width: width*0.7,
+    width: width * 0.7,
   },
   errorBox: {
     flex: 0.3,
