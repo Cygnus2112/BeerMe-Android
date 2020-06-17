@@ -79,7 +79,7 @@ const Drawer = (props) => {
   const loadAbout = () => {
     // because for some reason onDrawerClose doesn't always work
     setDrawerOpen(false);
-    DRAWER.closeDrawer();
+    DRAWER.current.closeDrawer();
     props.navigation.navigate('about');
   };
 
