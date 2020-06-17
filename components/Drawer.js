@@ -211,7 +211,7 @@ const Drawer = (props) => {
       drawerPosition={'left'}
       renderNavigationView={() => navigationView}
     >
-      <Toolbar openDrawer={openDrawer} />
+      <Toolbar openDrawer={openDrawer} navigation={props.navigation} />
       {props.isFetching ? loadingView : props.view}
     </DrawerLayoutAndroid>
   );

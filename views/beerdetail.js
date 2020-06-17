@@ -342,7 +342,7 @@ const BeerDetail = (props) => {
 
   return (
     <View style={styles.wrap}>
-      <Toolbar iconAction={'back'} />
+      <Toolbar iconAction={'back'} navigation={props.navigation} />
       <LinearGradient colors={gradientColors} style={styles.wrap}>
         <View style={styles.main}>
           <View style={styles.card}>
