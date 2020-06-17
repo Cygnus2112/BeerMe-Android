@@ -121,52 +121,48 @@ const Swipe = (props) => {
     _animateEntrance();
   };
 
-  let _panResponder;
+  const _panResponder = PanResponder.create({
+    onMoveShouldSetResponderCapture: () => true,
+    onMoveShouldSetPanResponderCapture: () => true,
+    onPanResponderGrant: (e, gestureState) => {
+      pan.setOffset({ x: pan.x._value, y: pan.y._value });
+      pan.setValue({ x: 0, y: 0 });
+    },
+    onPanResponderMove: Animated.event(
+      [ null, { dx: pan.x, dy: pan.y }],
+      { useNativeDriver: false },
+    ),
+    onPanResponderRelease: (e, { vx, vy }) => {
+      pan.flattenOffset();
+      let velocity;
+
+      if (vx >= 0) {
+        velocity = clamp(vx, 3, 5);
+      } else if (vx < 0) {
+        velocity = clamp(vx * -1, 3, 5) * -1;
+      }
+
+      if (Math.abs(pan.x._value) > SWIPE_THRESHOLD) {
+        pan.x._value > 0
+          ? likeBeer(props.beerToView)
+          : dislikeBeer(props.beerToView);
+
+        Animated.decay(pan, {
+          velocity: { x: velocity, y: vy },
+          deceleration: 0.98,
+        }).start(_resetState);
+      } else {
+        Animated.spring(pan, {
+          toValue: { x: 0, y: 0 },
+          friction: 4,
+          useNativeDriver: false,
+        }).start();
+      }
+    },
+  });
 
   useEffect(() => {
     _animateEntrance();
-
-    _panResponder = PanResponder.create({
-      onMoveShouldSetResponderCapture: () => true,
-      onMoveShouldSetPanResponderCapture: () => true,
-
-      onPanResponderGrant: (e, gestureState) => {
-        pan.setOffset({x: pan.x._value, y: pan.y._value});
-        pan.setValue({x: 0, y: 0});
-      },
-
-      onPanResponderMove: Animated.event([
-        null, {dx: pan.x, dy: pan.y},
-      ], {useNativeDriver: false}),
-
-      onPanResponderRelease: (e, {vx, vy}) => {
-        pan.flattenOffset();
-        let velocity;
-
-        if (vx >= 0) {
-          velocity = clamp(vx, 3, 5);
-        } else if (vx < 0) {
-          velocity = clamp(vx * -1, 3, 5) * -1;
-        }
-
-        if (Math.abs(pan.x._value) > SWIPE_THRESHOLD) {
-          pan.x._value > 0
-            ? likeBeer(props.beerToView)
-            : dislikeBeer(props.beerToView);
-
-          Animated.decay(pan, {
-            velocity: {x: velocity, y: vy},
-            deceleration: 0.98,
-          }).start(_resetState);
-        } else {
-          Animated.spring(pan, {
-            toValue: {x: 0, y: 0},
-            friction: 4,
-            useNativeDriver: false,
-          }).start();
-        }
-      },
-    });
 
     if (props.nextBeer.label) {
       Image.prefetch(props.nextBeer.label).then(() => {});
@@ -198,67 +194,60 @@ const Swipe = (props) => {
 
   /* End gratefully copied Tinder Swipe code */
 
-  // const wishlist = () => {
-  //   const { clearBeerData } = props.beerActions;
-  //   clearBeerData();
-  //   const { updateWishlist } = props.wishlistActions;
-  //   if (wishlistToAdd.length || dislikesToAdd.length) {
-  //     updateWishlist(
-  //       {
-  //         username: props.username,
-  //         'wishlistToAdd': wishlistToAdd,
-  //         'dislikesToAdd': dislikesToAdd,
-  //       },
-  //       props.navigation
-  //     );
-  //     setWishlist([]);
-  //     setDislikes([]);
-  //   }
-  //   let loading = true;
+  const wishlist = () => {
+    const { clearBeerData } = props.beerActions;
+    clearBeerData();
+    const { updateWishlist } = props.wishlistActions;
+    if (wishlistToAdd.length || dislikesToAdd.length) {
+      updateWishlist(
+        {
+          username: props.username,
+          'wishlistToAdd': wishlistToAdd,
+          'dislikesToAdd': dislikesToAdd,
+        },
+        props.navigation
+      );
+      setWishlist([]);
+      setDislikes([]);
+    }
+    let loading = true;
 
-  //   setIsLoadingWishlist(true);
+    setIsLoadingWishlist(true);
 
-  //   while (loading) {
-  //     if (props.isUpdating === false) {
-  //       const { updateWishlistRequest } = props.wishlistActions;
-  //       updateWishlistRequest();
-  //       const { loadWishlist } = props.wishlistActions;
-  //       loadWishlist({'username': props.username}, props.navigation);
-  //       loading = false;
-  //     }
-  //   }
-  // };
+    while (loading) {
+      if (props.isUpdating === false) {
+        const { updateWishlistRequest } = props.wishlistActions;
+        updateWishlistRequest();
+        const { loadWishlist } = props.wishlistActions;
+        loadWishlist({ 'username': props.username }, props.navigation);
+        loading = false;
+      }
+    }
+  };
 
   /* Begin Tinder Swipe code pt. II ....        */
 
-  let [translateX, translateY] = [pan.x, pan.y];
-
-  let rotate = pan.x.interpolate({
+  const [translateX, translateY] = [pan.x, pan.y];
+  const rotate = pan.x.interpolate({
     inputRange: [-200, 0, 200],
     outputRange: ['-30deg', '0deg', '30deg'],
   });
-  let opacity = pan.x.interpolate({
+  const opacity = pan.x.interpolate({
     inputRange: [-200, 0, 200],
     outputRange: [0.5, 1, 0.5],
   });
-  let scale = enter;
-
-  let animatedCardstyles = {
-    transform: [
-      { translateX },
-      { translateY },
-      { rotate },
-      { scale }
-    ],
+  const scale = enter;
+  const animatedCardstyles = {
+    transform: [{ translateX }, { translateY }, { rotate }, { scale }],
     opacity,
   };
 
   /* End Tinder Swipe code pt. II ------------------ */
 
-  let searchingView = (
+  const searchingView = (
     <View style={styles.loading}>
-      <View style={{flex:0.5, flexDirection:'row', justifyContent:'center', alignItems:'flex-end'}}>
-        <Text style={{fontSize: 27, textAlign: 'center'}}>Fetching beers...</Text>
+      <View style={styles.loadingTextWrap}>
+        <Text style={styles.loadingText}>Fetching beers...</Text>
       </View>
       <ActivityIndicator
         animating={true}
@@ -268,10 +257,10 @@ const Swipe = (props) => {
     </View>
   );
 
-  let loadingView = (
+  const loadingView = (
     <View style={styles.loading}>
-      <View style={{flex:0.5, flexDirection:'row', justifyContent:'center', alignItems:'flex-end'}}>
-        <Text style={{fontSize: 27, textAlign: 'center'}}>Loading wishlist...</Text>
+      <View style={styles.loadingTextWrap}>
+        <Text style={styles.loadingText}>Loading wishlist...</Text>
       </View>
       <ActivityIndicator
         animating={true}
@@ -281,34 +270,38 @@ const Swipe = (props) => {
     </View>
   );
 
-  let mainView = (
-    <LinearGradient colors={gradientColors} style={{flex:1}}>
+  const mainView = (
+    <LinearGradient colors={gradientColors} style={{ flex: 1 }}>
       <View style={styles.main}>
-        <Animated.View style={[styles.card, animatedCardstyles]} {..._panResponder.panHandlers}>
-          <View style={{elevation:3, flexDirection: 'row', justifyContent: 'center', borderColor: 'black', borderWidth: 1, width: 258, height: 258}}>
-            <Image 
-              source={{uri: props.beerToView.label}}
-              style={{width: 256, height: 256}}/>
+        <Animated.View
+          style={[styles.card, animatedCardstyles]}
+          {..._panResponder.panHandlers}
+        >
+          <View style={styles.labelWrap}>
+            <Image
+              source={{ uri: props.beerToView.label }}
+              style={styles.labelImg}
+            />
           </View>
           <Text style={styles.choose}>{props.beerToView.name}</Text>
           <Text style={{ fontSize: 16 }}>{props.beerToView.brewery}</Text>
         </Animated.View>
         <View style={styles.thumbs}>
-          <TouchableOpacity onPress={ () => dislikeBeer(props.beerToView) } >
+          <TouchableOpacity onPress={() => dislikeBeer(props.beerToView)}>
             <Image
-              source={require('../assets/thumbdown_outline2.png') }
-              style={{width: 72, height: 72, marginRight: width * 0.1}}
+              source={require('../assets/thumbdown_outline2.png')}
+              style={styles.thumbDown}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={ () => likeBeer(props.beerToView) } >
+          <TouchableOpacity onPress={() => likeBeer(props.beerToView)}>
             <Image
-              source={require('../assets/thumbup_outline.png') }
-              style={{width: 72, height: 72, marginLeft: width * 0.1}}
+              source={require('../assets/thumbup_outline.png')}
+              style={styles.thumbUp}
             />
           </TouchableOpacity>
         </View>
-        <View style={styles.footer}>
-          <View style={{flexDirection: 'row',justifyContent: 'center'}}>
+        <View style={styles.footerWrap}>
+          <View style={styles.footer}>
             <Text style={styles.like}>{likeMessage}</Text>
           </View>
         </View>
@@ -328,8 +321,8 @@ const Swipe = (props) => {
   return (
     <Drawer
       view={viewToDisplay}
-      wishlistFunc={this.wishlist}
-      navigation={this.props.navigation}
+      wishlistFunc={wishlist}
+      navigation={props.navigation}
     />
   );
 };
@@ -383,13 +376,50 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  footer: {
+  thumbUp: {
+    width: 72,
+    height: 72,
+    marginLeft: width * 0.1,
+  },
+  thumbDown: {
+    width: 72,
+    height: 72,
+    marginRight: width * 0.1,
+  },
+  footerWrap: {
     flex: 0.1,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   choose: {
     fontSize: 24,
     textAlign: 'center',
     margin: 2,
+  },
+  labelWrap: {
+    elevation: 3,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    width: 258,
+    height: 258,
+  },
+  labelImg: {
+    width: 256,
+    height: 256,
+  },
+  loadingTextWrap: {
+    flex: 0.5,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  loadingText: {
+    fontSize: 27,
+    textAlign: 'center',
   },
 });
 
