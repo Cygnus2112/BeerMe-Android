@@ -1,20 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-} from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { gradientColors } from '../utils';
 import Toolbar from '../components/Toolbar';
 
-const About = () => {
+const About = (props) => {
   return (
     <View style={styles.wrap}>
-      <Toolbar iconAction={'back'} />
+      <Toolbar iconAction={'back'} navigation={props.navigation} />
       <LinearGradient colors={gradientColors} style={styles.wrap}>
         <View style={styles.main}>
           <View style={styles.logo}>

@@ -11,51 +11,47 @@ export const CLEAR_BEER_DATA = 'CLEAR_BEER_DATA';
 export const CLEAR_FRONT_BEER = 'CLEAR_FRONT_BEER';
 //export const IMAGE_LOAD_SUCCESS = 'IMAGE_LOAD_SUCCESS';
 
-export const loadBeers = (userData={style: "Ale"}) => {
-  return dispatch => {
+export const loadBeers = (userData = { style: 'Ale' }) => {
+  return async (dispatch) => {
     dispatch(loadBeersRequest());
 
-    return fetch(utils.fetchbeersURL+"?username="+userData.username+"&style="+userData.style, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'x-access-token': AsyncStorage.getItem('beerme-token'),
-      },
-    })
-    .then(response => {
-      return response.json();
-    })
-    .then(response => {
-      if(response.errorMessage) {
+    try {
+      const creds = await AsyncStorage.getItem('beerme-token');
+      const response = await fetch(utils.fetchbeersURL + '?username=' + userData.username + '&style=' + userData.style, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'x-access-token': creds,
+        },
+      });
+      const response_1 = await response.json();
+      if (response_1.errorMessage) {
         console.error('BreweryDB API Limit Reached. Sorry :-(');
         dispatch(loadBeersFailure('BreweryDB API Limit Reached. Sorry :-('));
         return;
       }
       let beerArr = [];
-      for(var key in response){
-        if(!beerArr.length < 2){
-          Image.prefetch(response[key].label).then(() => {
-            // console.log('IMAGE PREFETCHED for ', response[key].name)
-          });
+      for (var key in response_1) {
+        if (!beerArr.length < 2) {
+          await Image.prefetch(response_1[key].label);
         }
         beerArr.push({
           id: key,
-          name: response[key].name,
-          label: response[key].label,
-          style: response[key].style,
-          icon: response[key].icon,
-          descript: response[key].descript,
-          abv: response[key].abv,
-          brewery: response[key].brewery,
-          website: response[key].website,
+          name: response_1[key].name,
+          label: response_1[key].label,
+          style: response_1[key].style,
+          icon: response_1[key].icon,
+          descript: response_1[key].descript,
+          abv: response_1[key].abv,
+          brewery: response_1[key].brewery,
+          website: response_1[key].website,
         });
       }
       dispatch(loadBeersSuccess(beerArr));
-    })
-    .catch(err => {
+    } catch (err) {
       console.warn('Error in loadBeers:', err);
-    });
+    }
   };
 };
 
@@ -92,7 +88,7 @@ const loadBeersFailure = (errorMessage) => {
 // }
 
 export const loadFrontBeer = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(loadFrontBeerSuccess());
   };
 };
@@ -110,7 +106,7 @@ const clearBeerDataSuccess = () => {
 };
 
 export const clearBeerData = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(clearBeerDataSuccess());
   };
 };
@@ -122,7 +118,7 @@ const clearFrontBeerSuccess = () => {
 };
 
 export const clearFrontBeer = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(clearFrontBeerSuccess());
   };
 };

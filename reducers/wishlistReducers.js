@@ -7,8 +7,8 @@ const initialState = {
   dislikes: {},
 };
 
-export default function beerReducer(state = initialState, action){
-  switch(action.type){
+export default function beerReducer(state = initialState, action) {
+  switch (action.type) {
     case ActionTypes.LOAD_WISHLIST_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
@@ -37,7 +37,6 @@ export default function beerReducer(state = initialState, action){
     case ActionTypes.REMOVE_WISHLIST_ITEM_SUCCESS:
       let newWishlist = Object.assign({}, state.wishlist);
       delete newWishlist[action.item.id];
-      console.log('newWishlist: ', newWishlist);
       return Object.assign({}, state, {
         isUpdating: false,
         wishlist: newWishlist,

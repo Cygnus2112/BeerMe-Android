@@ -36,11 +36,7 @@ const BeerDetail = (props) => {
 
   useEffect(() => {
     return () => {
-      const {
-        selectedBeer,
-        rowID,
-        isAlreadyInWishlist,
-      } = props.route.params;
+      const { selectedBeer, rowID, isAlreadyInWishlist } = props.route.params;
       if (props.username) {
         const { removeWishlistItem } = props.wishlistActions;
         if (!toggled && isAlreadyInWishlist) {
@@ -55,7 +51,8 @@ const BeerDetail = (props) => {
             brewery: selectedBeer.brewery,
             website: selectedBeer.website,
           };
-          removeWishlistItem({
+          removeWishlistItem(
+            {
               username: props.username,
               wishlist: [a],
               dislikes: [a],
@@ -63,7 +60,7 @@ const BeerDetail = (props) => {
             props.navigation,
           );
         }
-        if (toggled && !isAlreadyInWishlist && !wishlistClicked){
+        if (toggled && !isAlreadyInWishlist && !wishlistClicked) {
           //add to wishlist
           const { updateWishlist } = props.wishlistActions;
           let a = {
@@ -98,7 +95,7 @@ const BeerDetail = (props) => {
   const totalWineClicked = () => {
     const { selectedBeer } = props.route.params;
     setModalVisible(false);
-    let url = (
+    const url = (
       'http://www.totalwine.com/search/all?text=' +
       selectedBeer.brewery
         .replace(' Ales', '')
@@ -120,7 +117,7 @@ const BeerDetail = (props) => {
   const bevMoClicked = () => {
     const { selectedBeer } = props.route.params;
     setModalVisible(false);
-    let url = (
+    const url = (
       'http://shop.bevmo.com/search?w=' +
       selectedBeer.brewery
         .replace(' Ales', '')
@@ -141,7 +138,7 @@ const BeerDetail = (props) => {
   const beerTempleClicked = () => {
     const { selectedBeer } = props.route.params;
     setModalVisible(false);
-    let url = (
+    const url = (
       'http://store2.craftbeertemple.com/search.php?search_query=' +
       selectedBeer.brewery
         .replace(' Beer', '')
@@ -164,7 +161,7 @@ const BeerDetail = (props) => {
   const craftshackClicked = () => {
     const { selectedBeer } = props.route.params;
     setModalVisible(false);
-    let url = (
+    const url = (
       'https://craftshack.com/search?type=product&q=' +
       selectedBeer.brewery
         .replace(' Beer', '')
@@ -187,7 +184,7 @@ const BeerDetail = (props) => {
   const kingsClicked = () => {
     const { selectedBeer } = props.route.params;
     setModalVisible(false);
-    let url = (
+    const url = (
       'http://www.craftbeerkings.com/index.php?route=product/search&filter_name=' +
       selectedBeer.brewery
         .replace(' Beer', '')
@@ -209,7 +206,7 @@ const BeerDetail = (props) => {
   const craftCityClicked = () => {
     const { selectedBeer } = props.route.params;
     setModalVisible(false);
-    let url = (
+    const url = (
       'https://www.craftcity.com/index.php?route=product/search&search=' +
       selectedBeer.brewery
         .replace(' Beer', '')
@@ -287,7 +284,7 @@ const BeerDetail = (props) => {
   //   Actions.pop();
   // }
 
-  let heartView = toggled ? (
+  const heartView = toggled ? (
     <View style={styles.icon}>
       <TouchableOpacity onPress={toggleWishlist}>
         <Image
@@ -325,13 +322,13 @@ const BeerDetail = (props) => {
     abvColor = '#ff3300';
   }
 
-  let beerTitle = (
+  const beerTitle = (
     <View style={styles.titleWrap}>
       <View style={styles.title}>
         <Text style={styles.choose}>{props.selectedBeer.name}</Text>
         <Text style={styles.brewery}>{props.selectedBeer.brewery}</Text>
         <Text style={styles.titleText}>{props.selectedBeer.style}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={styles.center}>
           <Text style={styles.titleText}>ABV: </Text>
           <View style={[styles.abvWrap, { backgroundColor: abvColor }]}>
             <Text style={styles.abv}>
@@ -345,11 +342,8 @@ const BeerDetail = (props) => {
 
   return (
     <View style={styles.wrap}>
-      <Toolbar iconAction={'back'} />
-      <LinearGradient
-        colors={gradientColors}
-        style={styles.wrap}
-      >
+      <Toolbar iconAction={'back'} navigation={props.navigation} />
+      <LinearGradient colors={gradientColors} style={styles.wrap}>
         <View style={styles.main}>
           <View style={styles.card}>
             <View style={styles.cardWrap}>
@@ -647,6 +641,10 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 12,
     textAlign: 'left',
+  },
+  center: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 

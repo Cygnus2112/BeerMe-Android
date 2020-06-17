@@ -68,7 +68,7 @@ const Browser = (props) => {
 
   return (
     <View style={styles.container}>
-      <Toolbar iconAction={'back'} />
+      <Toolbar iconAction={'back'} navigation={props.navigation} />
       <View style={styles.container}>
         <View style={styles.addressBarRow}>
           <TouchableOpacity
