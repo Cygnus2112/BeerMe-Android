@@ -36,19 +36,20 @@ export const loadBeers = (userData = { style: 'Ale' }) => {
         if (!beerArr.length < 2) {
           await Image.prefetch(response_1[key].label);
         }
-        beerArr.push({
-          id: key,
-          name: response_1[key].name,
-          label: response_1[key].label,
-          style: response_1[key].style,
-          icon: response_1[key].icon,
-          descript: response_1[key].descript,
-          abv: response_1[key].abv,
-          brewery: response_1[key].brewery,
-          website: response_1[key].website,
-        });
+        // beerArr.push({
+        //   id: key,
+        //   name: response_1[key].name,
+        //   label: response_1[key].label,
+        //   style: response_1[key].style,
+        //   icon: response_1[key].icon,
+        //   descript: response_1[key].descript,
+        //   abv: response_1[key].abv,
+        //   brewery: response_1[key].brewery,
+        //   website: response_1[key].website,
+        // });
       }
-      dispatch(loadBeersSuccess(beerArr));
+      // dispatch(loadBeersSuccess(beerArr));
+      dispatch(loadBeersSuccess(response_1));
     } catch (err) {
       console.warn('Error in loadBeers:', err);
     }

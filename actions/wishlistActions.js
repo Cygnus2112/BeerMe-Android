@@ -73,8 +73,8 @@ export const updateWishlist = (userData, navigation) => {
           method: 'post',
           data: JSON.stringify({
             username: userData.username,
-            wishlist: userData.wishlistToAdd,
-            dislikes: userData.dislikesToAdd,
+            wishlist: userData.wishlistToAdd, // TODO: change to array of ids instead
+            dislikes: userData.dislikesToAdd, // TODO: change to array of ids instead
           }),
           headers: {
             Accept: 'application/json',
@@ -96,6 +96,7 @@ export const updateWishlist = (userData, navigation) => {
   };
 };
 
+// corresponds to addDislike in GraphQL server
 export const removeWishlistItem = (userData, navigation) => {
   return async (dispatch) => {
     dispatch(removeWishlistItemRequest());
@@ -107,8 +108,7 @@ export const removeWishlistItem = (userData, navigation) => {
           method: 'put',
           data: JSON.stringify({
             username: userData.username,
-            wishlist: userData.wishlist,
-            dislikes: userData.dislikes,
+            dislike: userData.dislike, // TODO: change to send id instead
           }),
           headers: {
             Accept: 'application/json',
@@ -117,7 +117,7 @@ export const removeWishlistItem = (userData, navigation) => {
           },
           timeout: 30000,
         });
-        dispatch(removeWishlistItemSuccess(userData.wishlist[0]));
+        dispatch(removeWishlistItemSuccess(userData.dislike));
       } catch (err) {
         console.error('Error in UPDATEWishlist:', err);
       }
@@ -143,7 +143,7 @@ const removeWishlistItemRequest = () => {
 const removeWishlistItemSuccess = (item) => {
   return {
     type: REMOVE_WISHLIST_ITEM_SUCCESS,
-    item: item,
+    item,
   };
 };
 

@@ -35,8 +35,9 @@ export default function beerReducer(state = initialState, action) {
         isUpdating: true,
       });
     case ActionTypes.REMOVE_WISHLIST_ITEM_SUCCESS:
-      let newWishlist = Object.assign({}, state.wishlist);
-      delete newWishlist[action.item.id];
+      const newWishlist = state.wishlist.filter((beerID) => {
+        return beerID !== item;
+      });
       return Object.assign({}, state, {
         isUpdating: false,
         wishlist: newWishlist,
