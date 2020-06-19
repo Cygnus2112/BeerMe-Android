@@ -21,7 +21,7 @@ const Styles = (props) => {
   const fetchBeers = (style) => {
     const { loadBeers } = props.beerActions;
     let userData = {
-      username: props.username,
+      username: props.username || '',
       style: style,
     };
     loadBeers(userData);

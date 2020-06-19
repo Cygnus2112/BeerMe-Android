@@ -34,6 +34,8 @@ const BeerDetail = (props) => {
   const [ wishlistClicked, setWishlistClicked ] = useState(false);
   const [ modalVisible, setModalVisible ] = useState(false);
 
+  const { selectedBeer } = props.route.params;
+
   useEffect(() => {
     return () => {
       const { selectedBeer, rowID, isAlreadyInWishlist } = props.route.params;
@@ -66,7 +68,7 @@ const BeerDetail = (props) => {
           updateWishlist(
             {
               username: props.username,
-              wishlistToAdd: [a],
+              wishlistToAdd: [rowID],
               'dislikesToAdd': [],
             },
             props.navigation,
@@ -81,7 +83,6 @@ const BeerDetail = (props) => {
   };
 
   const totalWineClicked = () => {
-    const { selectedBeer } = props.route.params;
     setModalVisible(false);
     const url = (
       'http://www.totalwine.com/search/all?text=' +
@@ -103,7 +104,6 @@ const BeerDetail = (props) => {
   };
 
   const bevMoClicked = () => {
-    const { selectedBeer } = props.route.params;
     setModalVisible(false);
     const url = (
       'http://shop.bevmo.com/search?w=' +
@@ -124,7 +124,6 @@ const BeerDetail = (props) => {
   };
 
   const beerTempleClicked = () => {
-    const { selectedBeer } = props.route.params;
     setModalVisible(false);
     const url = (
       'http://store2.craftbeertemple.com/search.php?search_query=' +
@@ -147,7 +146,6 @@ const BeerDetail = (props) => {
   };
 
   const craftshackClicked = () => {
-    const { selectedBeer } = props.route.params;
     setModalVisible(false);
     const url = (
       'https://craftshack.com/search?type=product&q=' +
@@ -170,7 +168,6 @@ const BeerDetail = (props) => {
   };
 
   const kingsClicked = () => {
-    const { selectedBeer } = props.route.params;
     setModalVisible(false);
     const url = (
       'http://www.craftbeerkings.com/index.php?route=product/search&filter_name=' +
@@ -192,7 +189,6 @@ const BeerDetail = (props) => {
   };
 
   const craftCityClicked = () => {
-    const { selectedBeer } = props.route.params;
     setModalVisible(false);
     const url = (
       'https://www.craftcity.com/index.php?route=product/search&search=' +
@@ -215,8 +211,8 @@ const BeerDetail = (props) => {
 
   const websiteClicked = () => {
     props.navigation.navigate('webview', {
-      website: props.selectedBeer.website,
-      url: props.selectedBeer.website,
+      website: selectedBeer.website,
+      url: selectedBeer.website,
     });
   };
 
@@ -224,7 +220,7 @@ const BeerDetail = (props) => {
     if (!props.username) {
       setActionMessage('Please sign in to save beers to wishlist');
     } else {
-      if (toggled){
+      if (toggled) {
         setToggled(toggled);
         setActionMessage('Removed From Wishlist');
       } else {
@@ -298,13 +294,13 @@ const BeerDetail = (props) => {
 
   let abvColor;
 
-  if (props.selectedBeer.abv < 4) {
+  if (selectedBeer.abv < 4) {
     abvColor = '#ffff00';
-  } else if (props.selectedBeer.abv >= 4 && props.selectedBeer.abv < 5.7) {
+  } else if (selectedBeer.abv >= 4 && selectedBeer.abv < 5.7) {
     abvColor = '#ffcc00';
-  } else if (props.selectedBeer.abv >= 5.7 && props.selectedBeer.abv < 7.4) {
+  } else if (selectedBeer.abv >= 5.7 && selectedBeer.abv < 7.4) {
     abvColor = '#ff9900';
-  } else if (props.selectedBeer.abv >= 7.4 && props.selectedBeer.abv < 9) {
+  } else if (selectedBeer.abv >= 7.4 && selectedBeer.abv < 9) {
     abvColor = '#ff6600';
   } else {
     abvColor = '#ff3300';
@@ -313,14 +309,14 @@ const BeerDetail = (props) => {
   const beerTitle = (
     <View style={styles.titleWrap}>
       <View style={styles.title}>
-        <Text style={styles.choose}>{props.selectedBeer.name}</Text>
-        <Text style={styles.brewery}>{props.selectedBeer.brewery}</Text>
-        <Text style={styles.titleText}>{props.selectedBeer.style}</Text>
+        <Text style={styles.choose}>{selectedBeer.name}</Text>
+        <Text style={styles.brewery}>{selectedBeer.brewery}</Text>
+        <Text style={styles.titleText}>{selectedBeer.style}</Text>
         <View style={styles.center}>
           <Text style={styles.titleText}>ABV: </Text>
           <View style={[styles.abvWrap, { backgroundColor: abvColor }]}>
             <Text style={styles.abv}>
-              {props.selectedBeer.abv ? props.selectedBeer.abv + '%' : 'N/A'}
+              {selectedBeer.abv ? selectedBeer.abv + '%' : 'N/A'}
             </Text>
           </View>
         </View>
@@ -337,7 +333,7 @@ const BeerDetail = (props) => {
             <View style={styles.cardWrap}>
               <View style={styles.selected}>
                 <Image
-                  source={{ uri: props.selectedBeer.icon }}
+                  source={{ uri: selectedBeer.icon }}
                   style={{ width: 80, height: 80 }}
                 />
               </View>
@@ -345,9 +341,9 @@ const BeerDetail = (props) => {
             </View>
             <View style={styles.notProvided}>
               <Text numberOfLines={12} style={{ margin: 10 }}>
-                {props.selectedBeer.descript
-                  ? props.selectedBeer.descript
-                  : props.selectedBeer.brewery +
+                {selectedBeer.descript
+                  ? selectedBeer.descript
+                  : selectedBeer.brewery +
                     ' has not provided a description provided for this beer.'}
               </Text>
             </View>
