@@ -77,21 +77,7 @@ const Swipe = (props) => {
   const dislikeBeer = (beer) => {
     _loadFrontBeer();
     setLikeMessage('You disliked ' + beer.name);
-    setDislikes(
-      dislikesToAdd.concat([
-        {
-          'id': beer.id,
-          'name': beer.name,
-          'labelUrl': beer.label,
-          'style': beer.style,
-          'icon': beer.icon,
-          'abv': beer.abv,
-          'descript': beer.descript,
-          'brewery': beer.brewery,
-          'website': beer.website,
-        },
-      ]),
-    );
+    setDislikes(dislikesToAdd.concat([beer.id]));
 
     setTimeout(() => {
       setLikeMessage('');
@@ -205,7 +191,7 @@ const Swipe = (props) => {
           'wishlistToAdd': wishlistToAdd,
           'dislikesToAdd': dislikesToAdd,
         },
-        props.navigation
+        props.navigation,
       );
       setWishlist([]);
       setDislikes([]);
@@ -425,7 +411,6 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    authActions: bindActionCreators(authActions, dispatch),
     wishlistActions: bindActionCreators(wishlistActions, dispatch),
     beerActions: bindActionCreators(beerActions, dispatch),
   };

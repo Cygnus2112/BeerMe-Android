@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 
 /* Redux stuff...      */
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as authActions from '../actions/authActions';
 import * as beerActions from '../actions/beerActions';
-import * as wishlistActions from '../actions/wishlistActions';
 /* End Redux stuff...      */
 
 import { gradientColors } from '../utils';
@@ -153,19 +145,11 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     username: state.authReducer.username,
-    isLoggedIn: state.authReducer.isLoggedIn,
-    isSearching: state.beerReducer.isSearching,
-    beerData: state.beerReducer.beerData,
-    beerToView: state.beerReducer.beerToView,
-    dislikes: state.wishlistReducer.dislikes,
-    wishlist: state.wishlistReducer.wishlist,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    wishlistActions: bindActionCreators(wishlistActions, dispatch),
-    authActions: bindActionCreators(authActions, dispatch),
     beerActions: bindActionCreators(beerActions, dispatch),
   };
 };

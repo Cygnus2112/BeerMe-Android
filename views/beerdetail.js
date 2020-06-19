@@ -40,22 +40,10 @@ const BeerDetail = (props) => {
       if (props.username) {
         const { removeWishlistItem } = props.wishlistActions;
         if (!toggled && isAlreadyInWishlist) {
-          let a = {
-            id: rowID,
-            name: selectedBeer.name,
-            style: selectedBeer.style,
-            labelUrl: selectedBeer.label,
-            icon: selectedBeer.icon,
-            descript: selectedBeer.descript,
-            abv: selectedBeer.abv,
-            brewery: selectedBeer.brewery,
-            website: selectedBeer.website,
-          };
           removeWishlistItem(
             {
               username: props.username,
-              wishlist: [a],
-              dislikes: [a],
+              dislike: rowID,
             },
             props.navigation,
           );
@@ -658,7 +646,6 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    beerData: state.beerReducer.beerData,
     username: state.authReducer.username,
     wishlist: state.wishlistReducer.wishlist,
     dislikes: state.wishlistReducer.dislikes,

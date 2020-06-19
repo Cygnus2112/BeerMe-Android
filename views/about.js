@@ -18,7 +18,7 @@ const About = (props) => {
           <View style={styles.container}>
             <View style={styles.version}>
               <Text style={{ fontSize: 22, textAlign: 'center' }}>
-                Version 1.03
+                Version 2.00
               </Text>
             </View>
             <View style={styles.copyright}>

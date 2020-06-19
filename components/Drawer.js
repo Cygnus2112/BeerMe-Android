@@ -320,7 +320,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     username: state.authReducer.username,
-    wishlist: state.wishlistReducer.wishlist,
     isFetching: state.wishlistReducer.isFetching,
   };
 };
