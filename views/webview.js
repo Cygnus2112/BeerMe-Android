@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react';
 import {
-  WebView,
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 

@@ -76,7 +76,6 @@ const Swipe = (props) => {
 
   const dislikeBeer = (beer) => {
     _loadFrontBeer();
-    setLikeMessage('You disliked ' + beer.name);
     setDislikes(dislikesToAdd.concat([beer.id]));
 
     setTimeout(() => {
@@ -159,23 +158,24 @@ const Swipe = (props) => {
       });
     }
 
-    return () => {
-      const { clearBeerData } = props.beerActions;
-      clearBeerData();
-      if (props.username) {
-        const { updateWishlist } = props.wishlistActions;
-        if (wishlistToAdd.length || dislikesToAdd.length) {
-          updateWishlist(
-            {
-              'username': props.username,
-              'wishlistToAdd': wishlistToAdd,
-              'dislikesToAdd': dislikesToAdd,
-            },
-            props.navigation,
-          );
-        }
-      }
-    };
+    // return () => {
+    // TODO: this is getting called after every swipe.
+    //   const { clearBeerData } = props.beerActions;
+    //   clearBeerData();
+    //   if (props.username) {
+    //     const { updateWishlist } = props.wishlistActions;
+    //     if (wishlistToAdd.length || dislikesToAdd.length) {
+    //       updateWishlist(
+    //         {
+    //           'username': props.username,
+    //           'wishlistToAdd': wishlistToAdd,
+    //           'dislikesToAdd': dislikesToAdd,
+    //         },
+    //         props.navigation,
+    //       );
+    //     }
+    //   }
+    // };
   }, [props.nextBeer, props.beerToView]);
 
   /* End gratefully copied Tinder Swipe code */
