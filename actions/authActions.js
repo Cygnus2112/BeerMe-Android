@@ -9,27 +9,29 @@ export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const signup = (info, navigation) => {
   return async (dispatch) => {
     dispatch(signupRequest(info));
-    //return fetch('http://localhost:8080/signup', {
     try {
-      const response = await fetch(utils.signupURL, {
+      const { username, password, email } = info;
+      const query = `
+        mutation {
+          signup(input:{username:"${username}",password:"${password}",email:"${email}"}){
+            token
+          }
+        }
+      `;
+      const response = await fetch(utils.loginURL, {
         method: 'POST',
-        mode: 'cors',
         headers: {
-          'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          username: info.username,
-          password: info.password,
-          email: info.email,
-        }),
+        body: JSON.stringify({ query }),
       });
       const response_1 = await response.json();
       try {
-        if (response_1.token) {
-          AsyncStorage.setItem('beerme-token', response_1.token);
-          AsyncStorage.setItem('beerme-username', info.username);
-          dispatch(signupSuccess({ "token": response_1.token, "username": info.username }));
+        const { token } = response_1.data.signup;
+        if (token) {
+          await AsyncStorage.setItem('beerme-token', token);
+          await AsyncStorage.setItem('beerme-username', info.username);
+          dispatch(signupSuccess({ token, username: info.username }));
           navigation.navigate('styles');
         } else {
           dispatch(signupError(response_1));
@@ -71,28 +73,30 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const login = (info, navigation) => {
   return async (dispatch) => {
     dispatch(loginRequest(info));
-
-    //return fetch('http://localhost:8080/login', {
     try {
+      const { username, password } = info;
+      const query = `
+        query {
+          login(input:{username:"${username}",password:"${password}"}){
+            token
+          }
+        }
+      `;
       const response = await fetch(utils.loginURL, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          username: info.username,
-          password: info.password,
-        }),
+        body: JSON.stringify({ query }),
       });
       const response_1 = await response.json();
+      const { token } = response_1.data.login;
       try {
-        if (response_1.token) {
-          AsyncStorage.setItem('beerme-token', response_1.token);
+        if (token) {
+          AsyncStorage.setItem('beerme-token', token);
           AsyncStorage.setItem('beerme-username', info.username);
-
-          dispatch(loginSuccess({ "token": response_1.token, "username": info.username }));
-          //dispatch(authSuccess());
+          dispatch(loginSuccess({ token, username: info.username }));
           navigation.navigate('styles');
         } else {
           dispatch(loginError());
