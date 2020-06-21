@@ -14,6 +14,8 @@ export default function beerReducer(state = initialState, action) {
       });
     case ActionTypes.LOAD_BEERS_SUCCESS:
       if (!state.beerToView.label) {
+        const beerData = [...new Set([...state.beerData, ...action.beerData])];
+        console.log('beerData: ', beerData.length);
         return Object.assign({}, state, {
           isSearching: false,
           beerToView: action.beerData.pop(),
