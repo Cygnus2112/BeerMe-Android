@@ -52,24 +52,11 @@ const BeerDetail = (props) => {
         }
         if (toggled && !isAlreadyInWishlist && !wishlistClicked) {
           //add to wishlist
-          const { updateWishlist } = props.wishlistActions;
-          let a = {
-            id: rowID,
-            name: selectedBeer.name,
-            style: selectedBeer.style,
-            labelUrl: selectedBeer.label,
-            icon: selectedBeer.icon,
-            descript: selectedBeer.descript,
-            abv: selectedBeer.abv,
-            brewery: selectedBeer.brewery,
-            website: selectedBeer.website,
-          };
-
-          updateWishlist(
+          const { addToWishlist } = props.wishlistActions;
+          addToWishlist(
             {
               username: props.username,
-              wishlistToAdd: [rowID],
-              'dislikesToAdd': [],
+              wishlistToAdd: rowID,
             },
             props.navigation,
           );
@@ -217,6 +204,8 @@ const BeerDetail = (props) => {
   };
 
   const toggleWishlist = () => {
+    // TODO: just hit api everytime
+
     if (!props.username) {
       setActionMessage('Please sign in to save beers to wishlist');
     } else {
@@ -233,37 +222,6 @@ const BeerDetail = (props) => {
     }, 2000);
   };
 
-  // wishlist = () => {
-  //   this.setState({
-  //     wishlistClicked: true,
-  //     isLoadingWishlist: true
-  //   })
-  //   this.refs['DRAWER'].closeDrawer();
-  //   if(this.state.toggled && !this.props.isAlreadyInWishlist){
-  //     //add to wishlist
-  //     const { updateAndLoadWishlist } = this.props.wishlistActions;
-  //     let a = {
-  //       "id": this.props.rowID,
-  //       "name": this.props.selectedBeer.name,
-  //       "style": this.props.selectedBeer.style,
-  //       "labelUrl": this.props.selectedBeer.label,
-  //       "icon": this.props.selectedBeer.icon,
-  //       "descript": this.props.selectedBeer.descript,
-  //       "abv": this.props.selectedBeer.abv,
-  //       "brewery": this.props.selectedBeer.brewery,
-  //       "website": this.props.selectedBeer.website
-  //     }
-
-  //     updateAndLoadWishlist({
-  //       "username": this.props.username,
-  //       "wishlistToAdd": [a],
-  //       "dislikesToAdd": []
-  //     });
-  //   } else {
-  //     const { loadWishlist } = this.props.wishlistActions;
-  //     loadWishlist({"username": this.props.username});
-  //   }
-  // }
   // goBack = () => {
   //   Actions.pop();
   // }
