@@ -1,4 +1,3 @@
-import { Image } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 let utils = require('../utils');
@@ -11,38 +10,44 @@ export const REMOVE_WISHLIST_ITEM_REQUEST = 'REMOVE_WISHLIST_ITEM_REQUEST';
 export const REMOVE_WISHLIST_ITEM_SUCCESS = 'REMOVE_WISHLIST_ITEM_SUCCESS';
 export const EMPTY_WISHLIST = 'EMPTY_WISHLIST';
 
-export const loadWishlist = (userData, navigation) => {
+export const loadWishlist = (navigation) => {
   return async (dispatch) => {
     dispatch(loadWishlistRequest());
-
     const token = await AsyncStorage.getItem('beerme-token');
+    const username = await AsyncStorage.getItem('beerme-username');
     if (token) {
       try {
-        //dispatch(authSuccess());
-        const res = await fetch(
-          utils.wishlistURL + '?username=' + userData.username,
-          {
-            method: 'GET',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              'x-access-token': token,
-            },
+        const query = `
+          query {
+            wishlist(input:{username:"${username}",token:"${token}"}){
+              id
+              name
+              brewery
+              label
+              style
+              icon
+              descript
+              abv
+              website
+            }
+          }
+        `;
+        const res = await axios({
+          url: utils.wishlistURL,
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
           },
-        );
-        const response = await res.json();
-
-        for (let beer in response) {
-          Image.prefetch(response[beer].icon);
-        }
-
-        dispatch(loadWishlistSuccess(response));
+          data: JSON.stringify({ query }),
+        });
+        const { wishlist } = res.data.data;
+        dispatch(loadWishlistSuccess(wishlist));
         navigation.navigate('wishlist');
       } catch (err) {
         console.error('Error in loadWishlist:', err);
       }
     } else {
-      // dispatch(authFail());
       navigation.navigate('login');
     }
   };
@@ -61,68 +66,73 @@ const loadWishlistSuccess = (wishlistData) => {
   };
 };
 
-export const updateWishlist = (userData, navigation) => {
+export const addToWishlist = (userData, navigation) => {
+  const { wishlistToAdd } = userData;
   return async (dispatch) => {
-    dispatch(updateWishlistRequest());
+    dispatch(addToWishlistRequest());
     const token = await AsyncStorage.getItem('beerme-token');
+    const username = await AsyncStorage.getItem('beerme-username');
     if (token) {
-      //dispatch(authSuccess());
       try {
-        const res = await axios({
+        const query = `
+          mutation {
+            addToWishlist(input:{username:"${username}",token:"${token}",wishlist:"${wishlistToAdd}"}){
+              wishlist
+              dislikes
+            }
+          }
+        `;
+        await axios({
           url: utils.wishlistURL,
-          method: 'post',
-          data: JSON.stringify({
-            username: userData.username,
-            wishlist: userData.wishlistToAdd, // TODO: change to array of ids instead
-            dislikes: userData.dislikesToAdd, // TODO: change to array of ids instead
-          }),
+          method: 'POST',
+          data: JSON.stringify({ query }),
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            'x-access-token': token,
           },
           timeout: 30000,
         });
-        dispatch(updateWishlistSuccess(res));
-        // const response = await res();
-        // dispatch(updateWishlistSuccess(response));
+        dispatch(addToWishlistSuccess());
       } catch (err) {
         console.error('Error in UPDATEWishlist:', err);
       }
     } else {
-      // dispatch(authFail());
       navigation.navigate('login');
     }
   };
 };
 
-// corresponds to addDislike in GraphQL server
-export const removeWishlistItem = (userData, navigation) => {
+export const addDislike = (userData, navigation) => {
+  const { dislike } = userData;
   return async (dispatch) => {
-    dispatch(removeWishlistItemRequest());
+    dispatch(addDislikeRequest());
     const token = await AsyncStorage.getItem('beerme-token');
+    const username = await AsyncStorage.getItem('beerme-username');
     if (token) {
+      const query = `
+        mutation {
+          addDislike(input:{username:"${username}",token:"${token}",dislike:"${dislike}"}){
+            wishlist
+            dislikes
+          }
+        }
+      `;
       try {
         await axios({
           url: utils.wishlistURL,
-          method: 'put',
-          data: JSON.stringify({
-            username: userData.username,
-            dislike: userData.dislike, // TODO: change to send id instead
-          }),
+          method: 'POST',
+          data: JSON.stringify({ query }),
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            'x-access-token': token,
           },
           timeout: 30000,
         });
-        dispatch(removeWishlistItemSuccess(userData.dislike));
+        dispatch(addDislikeSuccess(dislike));
       } catch (err) {
-        console.error('Error in UPDATEWishlist:', err);
+        console.error('Error in addDislike:', err);
       }
     } else {
-      // dispatch(authFail());
       navigation.navigate('login');
     }
   };
@@ -134,26 +144,26 @@ const emptyWishlist = () => {
   };
 };
 
-const removeWishlistItemRequest = () => {
+const addDislikeRequest = () => {
   return {
     type: REMOVE_WISHLIST_ITEM_REQUEST,
   };
 };
 
-const removeWishlistItemSuccess = (item) => {
+const addDislikeSuccess = (item) => {
   return {
     type: REMOVE_WISHLIST_ITEM_SUCCESS,
     item,
   };
 };
 
-export const updateWishlistRequest = () => {
+export const addToWishlistRequest = () => {
   return {
     type: UPDATE_WISHLIST_REQUEST,
   };
 };
 
-export const updateWishlistSuccess = () => {
+export const addToWishlistSuccess = () => {
   return {
     type: UPDATE_WISHLIST_SUCCESS,
   };
