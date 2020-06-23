@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
-let utils = require('../utils');
+const utils = require('../utils');
 
 export const LOAD_WISHLIST_REQUEST = 'LOAD_WISHLIST_REQUEST';
 export const LOAD_WISHLIST_SUCCESS = 'LOAD_WISHLIST_SUCCESS';
