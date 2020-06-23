@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -28,46 +28,53 @@ let screenWidth = Dimensions.get('window').width;
 
 const BeerDetail = (props) => {
   // this.goBack = this.goBack.bind(this);
-  const [ toggled, setToggled ] = useState(props.isAlreadyInWishlist);
-  const [ actionMessage, setActionMessage ] = useState('');
-  const [ wishlistMessage, setWishlistMessage ] = useState('Remove From Wishlist');
-  const [ wishlistClicked, setWishlistClicked ] = useState(false);
-  const [ modalVisible, setModalVisible ] = useState(false);
+  const { isAlreadyInWishlist } = props.route.params;
+  const [toggled, setToggled] = useState(isAlreadyInWishlist);
+  const [actionMessage, setActionMessage] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   const { selectedBeer } = props.route.params;
-
-  useEffect(() => {
-    return () => {
-      const { selectedBeer, rowID, isAlreadyInWishlist } = props.route.params;
-      if (props.username) {
-        const { removeWishlistItem } = props.wishlistActions;
-        if (!toggled && isAlreadyInWishlist) {
-          removeWishlistItem(
-            {
-              username: props.username,
-              dislike: rowID,
-            },
-            props.navigation,
-          );
-        }
-        if (toggled && !isAlreadyInWishlist && !wishlistClicked) {
-          //add to wishlist
-          const { addToWishlist } = props.wishlistActions;
-          addToWishlist(
-            {
-              username: props.username,
-              wishlistToAdd: rowID,
-            },
-            props.navigation,
-          );
-        }
-      }
-    };
-  }, []);
 
   const openShoppingModal = () => {
     setModalVisible(true);
   };
+
+  const toggleWishlist = () => {
+    const { rowID } = props.route.params;
+    const { addToWishlist, addDislike } = props.wishlistActions;
+    if (!props.username) {
+      setActionMessage('Please sign in to save beers to wishlist');
+    } else {
+      if (toggled) {
+        addDislike(
+          {
+            username: props.username,
+            dislike: rowID,
+          },
+          props.navigation,
+        );
+        setToggled(false);
+        setActionMessage('Removed From Wishlist');
+      } else {
+        addToWishlist(
+          {
+            username: props.username,
+            wishlistToAdd: rowID,
+          },
+          props.navigation,
+        );
+        setToggled(true);
+        setActionMessage('Added to Wishlist');
+      }
+    }
+    setTimeout(() => {
+      setActionMessage('');
+    }, 2000);
+  };
+
+  // goBack = () => {
+  //   Actions.pop();
+  // }
 
   const totalWineClicked = () => {
     setModalVisible(false);
@@ -202,29 +209,6 @@ const BeerDetail = (props) => {
       url: selectedBeer.website,
     });
   };
-
-  const toggleWishlist = () => {
-    // TODO: just hit api everytime
-
-    if (!props.username) {
-      setActionMessage('Please sign in to save beers to wishlist');
-    } else {
-      if (toggled) {
-        setToggled(toggled);
-        setActionMessage('Removed From Wishlist');
-      } else {
-        setActionMessage('Added to Wishlist');
-        setToggled(!toggled);
-      }
-    }
-    setTimeout(() => {
-      setActionMessage('');
-    }, 2000);
-  };
-
-  // goBack = () => {
-  //   Actions.pop();
-  // }
 
   const heartView = toggled ? (
     <View style={styles.icon}>

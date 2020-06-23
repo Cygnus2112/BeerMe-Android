@@ -1,5 +1,4 @@
 import * as ActionTypes from '../actions/wishlistActions';
-import { ActivityIndicator } from 'react-native';
 
 const initialState = {
   isFetching: false,
