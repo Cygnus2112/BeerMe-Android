@@ -64,7 +64,7 @@ const Drawer = (props) => {
         props.wishlistFunc();
       } else {
         const { loadWishlist } = props.wishlistActions;
-        loadWishlist({ 'username': props.username }, props.navigation);
+        loadWishlist(props.navigation);
       }
     }
   };

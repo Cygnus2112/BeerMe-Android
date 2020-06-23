@@ -30,15 +30,9 @@ const SWIPE_THRESHOLD = 105;
 
 const Swipe = (props) => {
   const [ likeMessage, setLikeMessage ] = useState('');
-  const [ wishlistToAdd, setWishlist ] = useState([]);
-  const [ dislikesToAdd, setDislikes ] = useState([]);
   const [ isLoadingWishlist, setIsLoadingWishlist ] = useState(false);
   const [ pan, setPan ] = useState(new Animated.ValueXY());
   const [ enter, setEnter ] = useState(new Animated.Value(1));
-  // const [ actionText, setActionText ] = useState('');
-  // const [ beerLabel, setBeerLabel ] = useState(props.beerToView.label);
-  // const [ nextLabel, setNextLabel ] = useState(null);
-  // const [ mountTime, setMountTime ] = useState(new Date());
   const [ firstImageLoaded, setFirstImageLoaded ] = useState(false);
 
   /* Begin Tinder Swipe code, large portions of which are gratefully copied from
@@ -75,8 +69,18 @@ const Swipe = (props) => {
   };
 
   const dislikeBeer = (beer) => {
+    const { addDislike } = props.wishlistActions;
+
     _loadFrontBeer();
-    setDislikes(dislikesToAdd.concat([beer.id]));
+    if (props.username) {
+      addDislike(
+        {
+          username: props.username,
+          dislike: beer.id,
+        },
+        props.navigation,
+      );
+    }
 
     setTimeout(() => {
       setLikeMessage('');
@@ -157,55 +161,19 @@ const Swipe = (props) => {
         setFirstImageLoaded(true);
       });
     }
-
-    // return () => {
-    // TODO: this is getting called after every swipe.
-    //   const { clearBeerData } = props.beerActions;
-    //   clearBeerData();
-    //   if (props.username) {
-    //     const { updateWishlist } = props.wishlistActions;
-    //     if (wishlistToAdd.length || dislikesToAdd.length) {
-    //       updateWishlist(
-    //         {
-    //           'username': props.username,
-    //           'wishlistToAdd': wishlistToAdd,
-    //           'dislikesToAdd': dislikesToAdd,
-    //         },
-    //         props.navigation,
-    //       );
-    //     }
-    //   }
-    // };
   }, [props.nextBeer, props.beerToView]);
 
   /* End gratefully copied Tinder Swipe code */
 
   const wishlist = () => {
-    const { clearBeerData } = props.beerActions;
-    clearBeerData();
-    const { updateWishlist } = props.wishlistActions;
-    if (wishlistToAdd.length || dislikesToAdd.length) {
-      updateWishlist(
-        {
-          username: props.username,
-          'wishlistToAdd': wishlistToAdd,
-          'dislikesToAdd': dislikesToAdd,
-        },
-        props.navigation,
-      );
-      setWishlist([]);
-      setDislikes([]);
-    }
     let loading = true;
 
     setIsLoadingWishlist(true);
 
     while (loading) {
       if (props.isUpdating === false) {
-        const { updateWishlistRequest } = props.wishlistActions;
-        updateWishlistRequest();
         const { loadWishlist } = props.wishlistActions;
-        loadWishlist({ 'username': props.username }, props.navigation);
+        loadWishlist(props.navigation);
         loading = false;
       }
     }

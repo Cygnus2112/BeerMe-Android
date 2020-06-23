@@ -76,9 +76,9 @@ const Wishlist = (props) => {
   );
 
   if (!Object.keys(props.wishlist).length) {
-    return <Drawer view={emptyWishlistView} />;
+    return <Drawer view={emptyWishlistView} navigation={props.navigation} />;
   } else {
-    return <Drawer view={wishlistView} />;
+    return <Drawer view={wishlistView} navigation={props.navigation} />;
   }
 };
 
