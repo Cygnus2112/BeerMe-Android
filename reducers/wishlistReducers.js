@@ -1,10 +1,11 @@
 import * as ActionTypes from '../actions/wishlistActions';
+import { ActivityIndicator } from 'react-native';
 
 const initialState = {
   isFetching: false,
   isUpdating: false,
-  wishlist: {},
-  dislikes: {},
+  wishlist: [],
+  dislikes: [],
 };
 
 export default function beerReducer(state = initialState, action) {
@@ -36,7 +37,7 @@ export default function beerReducer(state = initialState, action) {
       });
     case ActionTypes.REMOVE_WISHLIST_ITEM_SUCCESS:
       const newWishlist = state.wishlist.filter((beerID) => {
-        return beerID !== item;
+        return beerID !== action.item;
       });
       return Object.assign({}, state, {
         isUpdating: false,

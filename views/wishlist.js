@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
-  ListView,
+  FlatList,
   StyleSheet,
   Text,
   View,
   Image,
   TouchableNativeFeedback,
   TouchableHighlight,
-  ScrollView,
 } from 'react-native';
 
 /* Redux stuff...      */
@@ -18,28 +17,14 @@ import * as wishlistActions from '../actions/wishlistActions';
 import Drawer from '../components/Drawer';
 
 const Wishlist = (props) => {
-  const ds = new ListView.DataSource({
-    rowHasChanged: (r1, r2) => r1 !== r2,
-  });
-
-  const [dataSource, setDataSource] = useState(
-    ds.cloneWithRows(props.wishlist),
-  );
-
-  useEffect(() => {
-    const newData = dataSource.cloneWithRows(props.wishlist);
-    setDataSource(newData);
-    const { updateWishlistSuccess } = props.wishlistActions;
-    updateWishlistSuccess();
-  }, [props.wishlist]);
-
-  const renderHeader = () => {
-    return (
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Wishlist</Text>
-      </View>
-    );
-  };
+  // TODO: use flatlist header
+  // const renderHeader = () => {
+  //   return (
+  //     <View style={styles.header}>
+  //       <Text style={styles.headerText}>Wishlist</Text>
+  //     </View>
+  //   );
+  // };
 
   const emptyLoadStyles = () => {
     props.navigation.navigate('styles');
@@ -59,37 +44,35 @@ const Wishlist = (props) => {
   );
 
   const wishlistView = (
-    <ScrollView>
-      <ListView
-        dataSource={dataSource}
-        renderHeader={renderHeader}
-        renderRow={(selectedBeer, sectionID, rowID) => {
-          return (
-            <TouchableHighlight
-              onPress={() => {
-                props.navigation.navigate(
-                  'beerdetail',
-                  {
-                    selectedBeer: selectedBeer,
-                    rowID: rowID,
-                    isAlreadyInWishlist: true,
-                  }
-                );
-              }}
-              underlayColor="#ddd"
-            >
-              <View style={styles.row}>
-                <Image
-                  source={{ uri: selectedBeer.icon }}
-                  style={styles.icon}
-                />
-                <Text style={{ fontSize: 18 }}>{selectedBeer.name}</Text>
-              </View>
-            </TouchableHighlight>
-          );
-        }}
-      />
-    </ScrollView>
+    <FlatList
+      data={props.wishlist}
+      renderItem={({ item, index }) => {
+        return (
+          <TouchableHighlight
+            onPress={() => {
+              props.navigation.navigate(
+                'beerdetail',
+                {
+                  selectedBeer: item,
+                  rowID: item.id,
+                  isAlreadyInWishlist: true,
+                }
+              );
+            }}
+            underlayColor="#ddd"
+          >
+            <View style={styles.row}>
+              <Image
+                source={{ uri: item.icon }}
+                style={styles.icon}
+              />
+              <Text style={{ fontSize: 18 }}>{item.name}</Text>
+            </View>
+          </TouchableHighlight>
+        );
+      }}
+      keyExtractor={(item) => item.id}
+    />
   );
 
   if (!Object.keys(props.wishlist).length) {

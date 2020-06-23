@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-
-let utils = require('../utils');
+const utils = require('../utils');
 
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
 export const SIGNUP_ERROR = 'SIGNUP_ERROR';
@@ -85,7 +84,7 @@ export const login = (info, navigation) => {
       const response = await fetch(utils.loginURL, {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ query }),
