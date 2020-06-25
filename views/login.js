@@ -26,10 +26,7 @@ const Login = (props) => {
   const [ password, setPassword ] = useState('');
 
   useEffect(() => {
-    if (props.authErrorMsg) {
-      setErrorMessage(props.authErrorMsg);
-    }
-    // TODO: do I need to access old props to remove error msg?
+    setErrorMessage(props.authErrorMsg);
   }, [props.authErrorMsg]);
 
   const submitLogin = () => {
@@ -54,6 +51,11 @@ const Login = (props) => {
     props.navigation.navigate('forgot');
   };
 
+  const clearErrorMessage = () => {
+    const { clearError } = props.authActions;
+    clearError();
+  };
+
   let mainView = (
     <LinearGradient colors={gradientColors} style={{flex:1}}>
       <View style={styles.main}>
@@ -62,7 +64,10 @@ const Login = (props) => {
             <TextInput
               placeholder="Username"
               style={styles.textInput}
-              onChangeText={setUsername}
+              onChangeText={(e) => {
+                setUsername(e);
+                clearErrorMessage();
+              }}
               value={username}
             />
           </View>
@@ -71,7 +76,10 @@ const Login = (props) => {
               placeholder="Password"
               style={styles.textInput}
               secureTextEntry={true}
-              onChangeText={setPassword}
+              onChangeText={(e) => {
+                setPassword(e);
+                clearErrorMessage();
+              }}
               value={password}
             />
           </View>
