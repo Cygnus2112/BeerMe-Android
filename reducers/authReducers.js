@@ -60,6 +60,10 @@ export default function authReducer(state = initialState, action) {
         username: action.username,
         isLoggedIn: true,
       });
+    case ActionTypes.CLEAR_ERROR:
+      return Object.assign({}, state, {
+        authErrorMsg: '',
+      });
     default:
       return state;
   }

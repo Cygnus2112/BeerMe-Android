@@ -4,6 +4,7 @@ const utils = require('../utils');
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
 export const SIGNUP_ERROR = 'SIGNUP_ERROR';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const CLEAR_ERROR = 'CLEAR_ERROR';
 
 export const signup = (info, navigation) => {
   return async (dispatch) => {
@@ -104,7 +105,7 @@ export const login = (info, navigation) => {
         dispatch(loginError());
       }
     } catch (err) {
-      console.error('login error:', err);
+      console.log('login error:', err);
       dispatch(loginError());
     }
   };
@@ -161,5 +162,11 @@ export const authSuccess = (username) => {
   return {
     type: AUTH_SUCCESS,
     username: username,
+  };
+};
+
+export const clearError = () => {
+  return {
+    type: CLEAR_ERROR,
   };
 };
