@@ -31,17 +31,61 @@ const App: () => React$Node = () => {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator headerMode={'none'}>
-            <Stack.Screen name="main" component={Main} />
-            <Stack.Screen name="login" component={Login} />
-            <Stack.Screen name="signup" component={Signup} />
-            <Stack.Screen name="styles" component={Styles} />
-            <Stack.Screen name="swipe" component={Swipe} />
-            <Stack.Screen name="wishlist" component={Wishlist} />
-            <Stack.Screen name="beerdetail" component={BeerDetail} />
-            <Stack.Screen name="webview" component={Browser} />
-            <Stack.Screen name="forgot" component={Forgot} />
-            <Stack.Screen name="whatever" component={Whatever} />
-            <Stack.Screen name="about" component={About} />
+            <Stack.Screen
+              name="main"
+              component={Main}
+              options={{ animationEnabled: false }}
+            />
+            <Stack.Screen
+              name="login"
+              component={Login}
+              options={{ animationEnabled: false }}
+            />
+            <Stack.Screen
+              name="signup"
+              component={Signup}
+              options={{ animationEnabled: false }}
+            />
+            <Stack.Screen
+              name="styles"
+              component={Styles}
+              options={{ animationEnabled: false }}
+            />
+            <Stack.Screen
+              name="swipe"
+              component={Swipe}
+              options={{ animationEnabled: false }}
+            />
+            <Stack.Screen
+              name="wishlist"
+              component={Wishlist}
+              options={{ animationEnabled: false }}
+            />
+            <Stack.Screen
+              name="beerdetail"
+              component={BeerDetail}
+              options={{ animationEnabled: false }}
+            />
+            <Stack.Screen
+              name="webview"
+              component={Browser}
+              options={{ animationEnabled: false }}
+            />
+            <Stack.Screen
+              name="forgot"
+              component={Forgot}
+              options={{ animationEnabled: false }}
+            />
+            <Stack.Screen
+              name="whatever"
+              component={Whatever}
+              options={{ animationEnabled: false }}
+            />
+            <Stack.Screen
+              name="about"
+              component={About}
+              options={{ animationEnabled: false }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
