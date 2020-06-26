@@ -30,7 +30,7 @@ const App: () => React$Node = () => {
     <>
       <Provider store={store}>
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator headerMode={'none'}>
             <Stack.Screen name="main" component={Main} />
             <Stack.Screen name="login" component={Login} />
             <Stack.Screen name="signup" component={Signup} />
