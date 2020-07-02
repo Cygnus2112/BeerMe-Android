@@ -7,11 +7,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-import * as wishlistActions from '../actions/wishlistActions';
-import * as authActions from '../actions/authActions';
 
 import Toolbar from '../components/Toolbar';
 
@@ -22,10 +17,11 @@ const TEXT_INPUT_REF = 'urlInput';
 const WEBVIEW_REF = 'webview';
 
 const Browser = (props) => {
-  const [ url, setUrl ] = useState(props.url);
+  const [ url, setUrl ] = useState(props.route.params.url);
   const [ backButtonEnabled, setBackButtonEnabled ] = useState(false);
 
   const webRef = useRef(WEBVIEW_REF);
+  const textInputRef = useRef(TEXT_INPUT_REF);
 
   let inputText = '';
 
@@ -38,11 +34,11 @@ const Browser = (props) => {
   };
 
   const goBack = () => {
-    webRef.goBack();
+    webRef.current.goBack();
   };
 
   const reload = () => {
-    webRef.reload();
+    webRef.current.reload();
   };
 
   const onSubmitEditing = (event) => {
@@ -61,7 +57,7 @@ const Browser = (props) => {
       setUrl(urlInput);
     }
     // dismiss keyboard
-    webRef.blur();
+    textInputRef.current.blur();
   };
 
   inputText = url;
@@ -78,9 +74,9 @@ const Browser = (props) => {
             <Text>{'<'}</Text>
           </TouchableOpacity>
           <TextInput
-            ref={TEXT_INPUT_REF}
+            ref={textInputRef}
             autoCapitalize="none"
-            defaultValue={props.url}
+            defaultValue={props.route.params.url}
             onSubmitEditing={onSubmitEditing}
             onChange={handleTextInputChange}
             clearButtonMode="while-editing"
@@ -93,7 +89,7 @@ const Browser = (props) => {
           </TouchableOpacity>
         </View>
         <WebView
-          ref={WEBVIEW_REF}
+          ref={webRef}
           scalesPageToFit={true}
           automaticallyAdjustContentInsets={false}
           source={{ uri: url }}
@@ -163,19 +159,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    authActions: bindActionCreators(authActions, dispatch),
-    wishlistActions: bindActionCreators(wishlistActions, dispatch),
-  };
-};
-
-const mapStateToProps = (state) => {
-  return {
-    username: state.authReducer.username,
-    isSearching: state.beerReducer.isSearching,
-    isFetching: state.wishlistReducer.isFetching,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Browser);
+export default Browser;
