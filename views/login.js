@@ -173,19 +173,10 @@ const loginStyles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: state.authReducer.isLoggedIn,
-    isFetching: state.authReducer.isFetching,
-    authErrorMsg: state.authReducer.authErrorMsg,
-    username: state.authReducer.username,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     authActions: bindActionCreators(authActions, dispatch),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
