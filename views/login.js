@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -16,6 +16,17 @@ import { bindActionCreators } from 'redux';
 import * as authActions from '../actions/authActions';
 /* ---------------------- */
 
+import gql from 'graphql-tag';
+import { useApolloClient } from '@apollo/react-hooks';
+
+const LOGIN = gql`
+  query Login($user: LoginInput) {
+    login(input: $user) {
+      token
+    }
+  }
+`;
+
 import { styles } from '../css/stylesheet';
 import Drawer from '../components/Drawer';
 import { gradientColors } from '../utils';
@@ -25,21 +36,37 @@ const Login = (props) => {
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
 
-  useEffect(() => {
-    setErrorMessage(props.authErrorMsg);
-  }, [props.authErrorMsg]);
+  const client = useApolloClient();
 
-  const submitLogin = () => {
+  const user = {
+    username,
+    password,
+  };
+
+  // TODO: sign in spinner
+
+  const submitLogin = async () => {
     if (!username || !password) {
       setErrorMessage('Please fill out all fields');
     } else {
-      const { login } = props.authActions;
-      const userInfo = {
-        username,
-        password,
-      };
-      setErrorMessage('');
-      login(userInfo, props.navigation);
+      try {
+        const { data, loading } = await client.query({
+          query: LOGIN,
+          variables: { user },
+        });
+        const { setToken } = props.authActions;
+        const { token } = data.login;
+        setToken(
+          {
+            token,
+            username,
+          },
+          props.navigation,
+        );
+        setErrorMessage('');
+      } catch (err) {
+        setErrorMessage('Username and/or password incorrect.');
+      }
     }
   };
 
@@ -65,8 +92,9 @@ const Login = (props) => {
               placeholder="Username"
               style={styles.textInput}
               onChangeText={(e) => {
-                setUsername(e);
+                setErrorMessage('');
                 clearErrorMessage();
+                setUsername(e);
               }}
               value={username}
             />
@@ -77,8 +105,9 @@ const Login = (props) => {
               style={styles.textInput}
               secureTextEntry={true}
               onChangeText={(e) => {
-                setPassword(e);
+                setErrorMessage('');
                 clearErrorMessage();
+                setPassword(e);
               }}
               value={password}
             />
