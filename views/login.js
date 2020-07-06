@@ -78,11 +78,6 @@ const Login = (props) => {
     props.navigation.navigate('forgot');
   };
 
-  const clearErrorMessage = () => {
-    const { clearError } = props.authActions;
-    clearError();
-  };
-
   let mainView = (
     <LinearGradient colors={gradientColors} style={{flex:1}}>
       <View style={styles.main}>
@@ -93,7 +88,6 @@ const Login = (props) => {
               style={styles.textInput}
               onChangeText={(e) => {
                 setErrorMessage('');
-                clearErrorMessage();
                 setUsername(e);
               }}
               value={username}
@@ -106,7 +100,6 @@ const Login = (props) => {
               secureTextEntry={true}
               onChangeText={(e) => {
                 setErrorMessage('');
-                clearErrorMessage();
                 setPassword(e);
               }}
               value={password}
