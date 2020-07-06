@@ -5,12 +5,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { ApolloClient } from 'apollo-client';
-// import { HttpLink } from 'apollo-link-http';
-// import { ApolloLink } from 'apollo-link';
-import { createHttpLink } from 'apollo-link-http';
+import { ApolloLink } from 'apollo-link';
+import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { onError } from 'apollo-link-error';
 
 const Stack = createStackNavigator();
 
@@ -28,12 +27,11 @@ import Forgot from './views/forgot';
 import Whatever from './views/whatever';
 import About from './views/about';
 
-// const http = new HttpLink({ uri: 'http://localhost:4000/' });
-// const link = ApolloLink(
-//   http,
-// );
-
-const link = createHttpLink({ uri: 'http://localhost:4000/' });
+const errorLink = onError(({ graphQLErrors }) => {
+  if (graphQLErrors) graphQLErrors.map(({ message }) => console.log(message));
+});
+const http = new HttpLink({ uri: 'http://localhost:4000/' });
+const link = ApolloLink.from([errorLink, http]);
 const cache = new InMemoryCache();
 const client = new ApolloClient({
   link,
@@ -48,9 +46,9 @@ const client = new ApolloClient({
 const App: () => React$Node = () => {
   return (
     <>
-      <ApolloProvider client={client}>
-        <Provider store={store}>
-          <NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          <ApolloProvider client={client}>
             <Stack.Navigator headerMode={'none'}>
               <Stack.Screen
                 name="main"
@@ -108,9 +106,9 @@ const App: () => React$Node = () => {
                 options={{ animationEnabled: false }}
               />
             </Stack.Navigator>
-          </NavigationContainer>
-        </Provider>
-      </ApolloProvider>
+          </ApolloProvider>
+        </NavigationContainer>
+      </Provider>
     </>
   );
 };

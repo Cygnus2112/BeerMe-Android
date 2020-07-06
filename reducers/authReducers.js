@@ -4,40 +4,10 @@ const initialState = {
   isFetching: false,
   isLoggedIn: false,
   username: '',
-  authErrorMsg: '',
 };
 
 export default function authReducer(state = initialState, action) {
   switch (action.type) {
-    case ActionTypes.SIGNUP_REQUEST:
-      return Object.assign({}, state, {
-        isFetching: true,
-        isLoggedIn: false,
-      });
-    case ActionTypes.SIGNUP_ERROR:
-      return Object.assign({}, state, {
-        isFetching: false,
-        isLoggedIn: false,
-        authErrorMsg: action.errorMsg,
-      });
-    case ActionTypes.SIGNUP_SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: false,
-        isLoggedIn: true,
-        username: action.username,
-        authErrorMsg: '',
-      });
-    case ActionTypes.LOGIN_REQUEST:
-      return Object.assign({}, state, {
-        isFetching: true,
-        isLoggedIn: false,
-      });
-    case ActionTypes.LOGIN_ERROR:
-      return Object.assign({}, state, {
-        isFetching: false,
-        isLoggedIn: false,
-        authErrorMsg: 'Username and/or password incorrect.',
-      });
     case ActionTypes.LOGIN_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
@@ -59,10 +29,6 @@ export default function authReducer(state = initialState, action) {
       return Object.assign({}, state, {
         username: action.username,
         isLoggedIn: true,
-      });
-    case ActionTypes.CLEAR_ERROR:
-      return Object.assign({}, state, {
-        authErrorMsg: '',
       });
     default:
       return state;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Text,
   View,
@@ -14,8 +14,19 @@ import * as authActions from '../actions/authActions';
 import LinearGradient from 'react-native-linear-gradient';
 import Button from 'react-native-button';
 import { gradientColors } from '../utils';
-import Drawer from '../components/Drawer';
 
+import gql from 'graphql-tag';
+import { useApolloClient } from '@apollo/react-hooks';
+
+const SIGNUP = gql`
+  mutation Signup($user: CreateUserInput) {
+    signup(input: $user) {
+      token
+    }
+  }
+`;
+
+import Drawer from '../components/Drawer';
 import { styles } from '../css/stylesheet';
 
 const Signup = (props) => {
@@ -26,19 +37,14 @@ const Signup = (props) => {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
 
-  useEffect(() => {
-    if (props.authErrorMsg.ERROR) {
-      setErrorMessage('That username is already taken.\nPlease choose another.');
-    }
-    // TODO: do I need to access old props to remove error msg?
-  }, [props.authErrorMsg]);
+  const client = useApolloClient();
 
   const _validateEmail = () => {
     let regExString = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return regExString.test(email);
   };
 
-  const submitSignup = () => {
+  const submitSignup = async () => {
     if (!username || !password || !email){
       setErrorMessage('Please fill out all fields.');
     } else if (password.length < 6) {
@@ -46,14 +52,30 @@ const Signup = (props) => {
     } else if (!_validateEmail()) {
       setErrorMessage('Please enter a properly formatted email address.');
     } else {
-      const { signup } = props.authActions;
-      const userInfo = {
-        email,
-        username,
-        password,
-      };
-      setErrorMessage('');
-      signup(userInfo, props.navigation);
+      try {
+        const { setToken } = props.authActions;
+        const user = {
+          email,
+          username,
+          password,
+        };
+        // TODO: signup spinner
+        const { data, loading } = await client.mutate({
+          mutation: SIGNUP,
+          variables: { user },
+        });
+        const { token } = data.signup;
+        setToken(
+          {
+            token,
+            username,
+          },
+          props.navigation,
+        );
+        setErrorMessage('');
+      } catch (err) {
+        setErrorMessage('That username is already taken.\nPlease choose another.');
+      }
     }
   };
 
@@ -70,7 +92,10 @@ const Signup = (props) => {
               placeholder="Email"
               style={styles.input}
               autoCorrect={false}
-              onChangeText={setEmail}
+              onChangeText={(e) => {
+                setErrorMessage('');
+                setEmail(e);
+              }}
               value={email}
               returnKeyType="next"
             />
@@ -80,7 +105,10 @@ const Signup = (props) => {
               placeholder="Username"
               style={styles.input}
               ref={usernameRef}
-              onChangeText={setUsername}
+              onChangeText={(e) => {
+                setErrorMessage('');
+                setUsername(e);
+              }}
               value={username}
               returnKeyType="next"
             />
@@ -91,7 +119,10 @@ const Signup = (props) => {
               style={styles.input}
               ref={passwordRef}
               secureTextEntry={true}
-              onChangeText={setPassword}
+              onChangeText={(e) => {
+                setErrorMessage('');
+                setPassword(e);
+              }}
               value={password}
               returnKeyType="next"
             />
@@ -151,19 +182,10 @@ const signupStyles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: state.authReducer.isLoggedIn,
-    isFetching: state.authReducer.isFetching,
-    authErrorMsg: state.authReducer.authErrorMsg,
-    username: state.authReducer.username,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     authActions: bindActionCreators(authActions, dispatch),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+export default connect(null, mapDispatchToProps)(Signup);
