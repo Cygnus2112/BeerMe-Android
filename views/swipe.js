@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   Dimensions,
   TouchableOpacity,
   Animated,
@@ -33,11 +32,6 @@ const Swipe = (props) => {
   const [ isLoadingWishlist, setIsLoadingWishlist ] = useState(false);
   const [ pan, setPan ] = useState(new Animated.ValueXY());
   const [ enter, setEnter ] = useState(new Animated.Value(1));
-
-  /* Begin Tinder Swipe code, large portions of which are gratefully copied from
-   * https://github.com/meteor-factory/react-native-tinder-swipe-cards, which was 
-   * gratefully copied from https://github.com/brentvatne/react-native-animated-demo-tinder
-   */
 
   const _animateEntrance = () => {
     Animated.spring(enter, {
@@ -162,8 +156,6 @@ const Swipe = (props) => {
     // }
   }, [props.nextBeer, props.beerToView]); // TODO: this is probably wrong implementation
 
-  /* End gratefully copied Tinder Swipe code */
-
   const wishlist = () => {
     let loading = true;
 
@@ -177,8 +169,6 @@ const Swipe = (props) => {
       }
     }
   };
-
-  /* Begin Tinder Swipe code pt. II ....        */
 
   const [translateX, translateY] = [pan.x, pan.y];
   const rotate = pan.x.interpolate({
@@ -194,8 +184,6 @@ const Swipe = (props) => {
     transform: [{ translateX }, { translateY }, { rotate }, { scale }],
     opacity,
   };
-
-  /* End Tinder Swipe code pt. II ------------------ */
 
   const searchingView = (
     <View style={styles.loading}>
@@ -223,7 +211,7 @@ const Swipe = (props) => {
     </View>
   );
 
-  const mainView = (
+  const mainView = (props.beerToView && props.beerToView.label) ? (
     <LinearGradient colors={gradientColors} style={{ flex: 1 }}>
       <View style={styles.main}>
         <Animated.View
@@ -260,11 +248,11 @@ const Swipe = (props) => {
         </View>
       </View>
     </LinearGradient>
-  );
+  ) : <View><Text>Oops!</Text></View> ;
 
   let viewToDisplay;
 
-  if (props.isSearching && !props.beerToView.label) {
+  if (props.isSearching && (!props.beerToView || !props.beerToView.label)) {
     viewToDisplay = searchingView;
   } else if (isLoadingWishlist) {
     viewToDisplay = loadingView;
