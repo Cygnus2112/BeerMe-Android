@@ -12,13 +12,13 @@ import {
 } from 'react-native';
 import clamp from 'clamp';
 import LinearGradient from 'react-native-linear-gradient';
+import FastImage from 'react-native-fast-image';
 
 /* Redux stuff...      */
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as beerActions from '../actions/beerActions';
 import * as wishlistActions from '../actions/wishlistActions';
-import * as authActions from '../actions/authActions';
 /* End redux stuff...      */
 
 import Drawer from '../components/Drawer';
@@ -33,7 +33,6 @@ const Swipe = (props) => {
   const [ isLoadingWishlist, setIsLoadingWishlist ] = useState(false);
   const [ pan, setPan ] = useState(new Animated.ValueXY());
   const [ enter, setEnter ] = useState(new Animated.Value(1));
-  const [ firstImageLoaded, setFirstImageLoaded ] = useState(false);
 
   /* Begin Tinder Swipe code, large portions of which are gratefully copied from
    * https://github.com/meteor-factory/react-native-tinder-swipe-cards, which was 
@@ -153,15 +152,15 @@ const Swipe = (props) => {
   useEffect(() => {
     _animateEntrance();
 
-    if (props.nextBeer.label) {
-      Image.prefetch(props.nextBeer.label).then(() => {});
-    }
-    if (!firstImageLoaded && props.beerToView.label) {
-      Image.prefetch(props.beerToView.label).then(() => {
-        setFirstImageLoaded(true);
-      });
-    }
-  }, [props.nextBeer, props.beerToView]);
+    // if (props.nextBeer.label) {
+    //   Image.prefetch(props.nextBeer.label).then(() => {});
+    // }
+    // if (!firstImageLoaded && props.beerToView.label) {
+    //   Image.prefetch(props.beerToView.label).then(() => {
+    //     setFirstImageLoaded(true);
+    //   });
+    // }
+  }, [props.nextBeer, props.beerToView]); // TODO: this is probably wrong implementation
 
   /* End gratefully copied Tinder Swipe code */
 
@@ -232,7 +231,7 @@ const Swipe = (props) => {
           {..._panResponder.panHandlers}
         >
           <View style={styles.labelWrap}>
-            <Image
+            <FastImage
               source={{ uri: props.beerToView.label }}
               style={styles.labelImg}
             />
@@ -242,13 +241,13 @@ const Swipe = (props) => {
         </Animated.View>
         <View style={styles.thumbs}>
           <TouchableOpacity onPress={() => dislikeBeer(props.beerToView)}>
-            <Image
+            <FastImage
               source={require('../assets/thumbdown_outline2.png')}
               style={styles.thumbDown}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => likeBeer(props.beerToView)}>
-            <Image
+            <FastImage
               source={require('../assets/thumbup_outline.png')}
               style={styles.thumbUp}
             />
@@ -265,7 +264,7 @@ const Swipe = (props) => {
 
   let viewToDisplay;
 
-  if ((props.isSearching && !props.beerToView.label) || !firstImageLoaded) {
+  if (props.isSearching && !props.beerToView.label) {
     viewToDisplay = searchingView;
   } else if (isLoadingWishlist) {
     viewToDisplay = loadingView;

@@ -2,6 +2,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import FastImage from 'react-native-fast-image';
 
 import { gradientColors } from '../utils';
 import Toolbar from '../components/Toolbar';
@@ -23,7 +24,7 @@ const About = (props) => {
             </View>
             <View style={styles.copyright}>
               <Text style={{ fontSize: 16, textAlign: 'center' }}>
-                <Image
+                <FastImage
                   source={require('../assets/ic_copyright_black_24dp.png')}
                   style={styles.copylogo}
                 />
