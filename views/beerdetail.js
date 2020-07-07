@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   Dimensions,
   TouchableOpacity,
   Linking,
@@ -11,6 +10,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Button from 'react-native-button';
+import FastImage from 'react-native-fast-image';
 
 /* Redux stuff...      */
 import { bindActionCreators } from 'redux';
@@ -213,7 +213,7 @@ const BeerDetail = (props) => {
   const heartView = toggled ? (
     <View style={styles.icon}>
       <TouchableOpacity onPress={toggleWishlist}>
-        <Image
+        <FastImage
           source={require('../assets/ic_favorite_filled_3x.png')}
           style={styles.favorite}
         />
@@ -224,7 +224,7 @@ const BeerDetail = (props) => {
   ) : (
     <View style={styles.icon}>
       <TouchableOpacity onPress={toggleWishlist}>
-        <Image
+        <FastImage
           source={require('../assets/heart_empty.png')}
           style={styles.favorite}
         />
@@ -274,7 +274,7 @@ const BeerDetail = (props) => {
           <View style={styles.card}>
             <View style={styles.cardWrap}>
               <View style={styles.selected}>
-                <Image
+                <FastImage
                   source={{ uri: selectedBeer.icon }}
                   style={{ width: 80, height: 80 }}
                 />
@@ -293,7 +293,7 @@ const BeerDetail = (props) => {
               {heartView}
               <View style={styles.icon}>
                 <TouchableOpacity onPress={websiteClicked}>
-                  <Image
+                  <FastImage
                     source={require('../assets/ic_language_black_24dp.png')}
                     style={styles.web}
                   />
@@ -303,7 +303,7 @@ const BeerDetail = (props) => {
               </View>
               <View style={styles.icon}>
                 <TouchableOpacity onPress={openShoppingModal}>
-                  <Image
+                  <FastImage
                     source={require('../assets/ic_shopping_cart_black_24dp.png')}
                     style={styles.favorite}
                   />
@@ -330,7 +330,7 @@ const BeerDetail = (props) => {
               <View style={{ flex: 6, justifyContent: 'space-between' }}>
                 <View style={styles.icon}>
                   <TouchableOpacity onPress={totalWineClicked}>
-                    <Image
+                    <FastImage
                       source={require('../assets/total_wine_logo.png')}
                       style={{ width: 200, height: 54 }}
                     />
@@ -338,7 +338,7 @@ const BeerDetail = (props) => {
                 </View>
                 <View style={styles.icon}>
                   <TouchableOpacity onPress={bevMoClicked}>
-                    <Image
+                    <FastImage
                       source={require('../assets/bevmo_logo.png')}
                       style={{ width: 150, height: 47 }}
                     />
@@ -346,7 +346,7 @@ const BeerDetail = (props) => {
                 </View>
                 <View style={styles.icon}>
                   <TouchableOpacity onPress={craftCityClicked}>
-                    <Image
+                    <FastImage
                       source={require('../assets/craft_city_logo.png')}
                       style={{ width: 150, height: 66 }}
                     />
@@ -354,7 +354,7 @@ const BeerDetail = (props) => {
                 </View>
                 <View style={styles.icon}>
                   <TouchableOpacity onPress={kingsClicked}>
-                    <Image
+                    <FastImage
                       source={require('../assets/craft_beer_kings_logo.png')}
                       style={{ width: 180, height: 50 }}
                     />
@@ -362,13 +362,13 @@ const BeerDetail = (props) => {
                 </View>
                 <View style={styles.twoicon}>
                   <TouchableOpacity onPress={beerTempleClicked}>
-                    <Image
+                    <FastImage
                       source={require('../assets/beer_temple_logo.jpg')}
                       style={{ width: 80, height: 76 }}
                     />
                   </TouchableOpacity>
                   <TouchableOpacity onPress={craftshackClicked}>
-                    <Image
+                    <FastImage
                       source={require('../assets/craftshack_logo.png')}
                       style={{ width: 115, height: 67 }}
                     />

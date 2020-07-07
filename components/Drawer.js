@@ -4,11 +4,11 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableOpacity,
   DrawerLayoutAndroid,
   // BackAndroid
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 /* Redux stuff...      */
 import { connect } from 'react-redux';
@@ -101,7 +101,7 @@ const Drawer = (props) => {
 
   const userView = (
     <View style={styles.wrap}>
-      <Image
+      <FastImage
         source={require('../assets/ic_person_black_24dp.png')}
         style={{ margin: 10 }}
       />
@@ -112,7 +112,7 @@ const Drawer = (props) => {
   const signoutView = (
     <TouchableOpacity onPress={signoutUser}>
       <View style={styles.wrap}>
-        <Image
+        <FastImage
           source={require('../assets/ic_account_circle_black_24dp_sm.png')}
           style={{ margin: 10 }}
         />
@@ -128,7 +128,7 @@ const Drawer = (props) => {
       }}
     >
       <View style={styles.wrap}>
-        <Image
+        <FastImage
           source={require('../assets/ic_account_circle_black_24dp_sm.png')}
           style={{ margin: 10 }}
         />
@@ -147,7 +147,7 @@ const Drawer = (props) => {
     <View style={styles.drawermain}>
       <View style={styles.drawer}>
         <View style={styles.logowrap}>
-          <Image
+          <FastImage
             source={require('../assets/logo_amber.png')}
             style={{ width: 294 * 0.65, height: 70 * 0.65 }}
           />
@@ -155,7 +155,7 @@ const Drawer = (props) => {
         {props.username ? userView : null}
         <TouchableOpacity onPress={wishlist}>
           <View style={styles.button}>
-            <Image
+            <FastImage
               source={require('../assets/ic_favorite_filled_3x.png')}
               style={styles.icon}
             />
@@ -164,7 +164,7 @@ const Drawer = (props) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={loadStyles}>
           <View style={styles.button}>
-            <Image
+            <FastImage
               source={require('../assets/beer-icon.png')}
               style={styles.icon}
             />
@@ -177,7 +177,7 @@ const Drawer = (props) => {
       <View style={styles.about}>
         <TouchableOpacity onPress={loadAbout}>
           <View style={styles.button}>
-            <Image
+            <FastImage
               source={require('../assets/ic_info_black_24dp.png')}
               style={styles.icon}
             />

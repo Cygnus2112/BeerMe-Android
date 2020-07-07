@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -46,7 +47,7 @@ const Styles = (props) => {
           <View style={styles.beerWrap}>
             <View style={styles.beer}>
               <TouchableOpacity onPress={() => openSwipe('Ale')}>
-                <Image
+                <FastImage
                   source={require('../assets/Ale-125.png')}
                   style={styles.ale}
                 />
@@ -55,7 +56,7 @@ const Styles = (props) => {
             </View>
             <View style={styles.beer}>
               <TouchableOpacity onPress={() => openSwipe('Lager')}>
-                <Image
+                <FastImage
                   source={require('../assets/Lager-125.png')}
                   style={styles.lager}
                 />
@@ -64,7 +65,7 @@ const Styles = (props) => {
             </View>
             <View style={styles.beer}>
               <TouchableOpacity onPress={() => openSwipe('Pilsner')}>
-                <Image
+                <FastImage
                   source={require('../assets/Pilsner-125.png')}
                   style={styles.pilsner}
                 />
@@ -73,7 +74,7 @@ const Styles = (props) => {
             </View>
             <View style={styles.beer}>
               <TouchableOpacity onPress={() => openSwipe('Stout')}>
-                <Image
+                <FastImage
                   source={require('../assets/Stout-125.png')}
                   style={styles.stout}
                 />

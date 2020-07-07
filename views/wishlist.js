@@ -4,10 +4,10 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableNativeFeedback,
   TouchableHighlight,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 /* Redux stuff...      */
 import { connect } from 'react-redux';
@@ -62,7 +62,7 @@ const Wishlist = (props) => {
             underlayColor="#ddd"
           >
             <View style={styles.row}>
-              <Image
+              <FastImage
                 source={{ uri: item.icon }}
                 style={styles.icon}
               />
