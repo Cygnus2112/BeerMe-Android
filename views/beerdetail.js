@@ -13,11 +13,8 @@ import Button from 'react-native-button';
 import FastImage from 'react-native-fast-image';
 
 /* Redux stuff...      */
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import * as beerActions from '../actions/beerActions';
+import { useSelector, useDispatch } from 'react-redux';
 import * as wishlistActions from '../actions/wishlistActions';
-import * as authActions from '../actions/authActions';
 /* End redux stuff...      */
 
 import Toolbar from '../components/Toolbar';
@@ -33,6 +30,9 @@ const BeerDetail = (props) => {
   const [actionMessage, setActionMessage] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
 
+  const username = useSelector((state) => state.authReducer.username);
+  const dispatch = useDispatch();
+
   const { selectedBeer } = props.route.params;
 
   const openShoppingModal = () => {
@@ -41,27 +41,30 @@ const BeerDetail = (props) => {
 
   const toggleWishlist = () => {
     const { rowID } = props.route.params;
-    const { addToWishlist, addDislike } = props.wishlistActions;
-    if (!props.username) {
+    if (!username) {
       setActionMessage('Please sign in to save beers to wishlist');
     } else {
       if (toggled) {
-        addDislike(
-          {
-            username: props.username,
-            dislike: rowID,
-          },
-          props.navigation,
+        dispatch(
+          wishlistActions.addDislike(
+            {
+              username: username,
+              dislike: rowID,
+            },
+            props.navigation,
+          ),
         );
         setToggled(false);
         setActionMessage('Removed From Wishlist');
       } else {
-        addToWishlist(
-          {
-            username: props.username,
-            wishlistToAdd: rowID,
-          },
-          props.navigation,
+        dispatch(
+          wishlistActions.addToWishlist(
+            {
+              username: username,
+              wishlistToAdd: rowID,
+            },
+            props.navigation,
+          ),
         );
         setToggled(true);
         setActionMessage('Added to Wishlist');
@@ -574,20 +577,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    authActions: bindActionCreators(authActions, dispatch),
-    wishlistActions: bindActionCreators(wishlistActions, dispatch),
-    beerActions: bindActionCreators(beerActions, dispatch),
-  };
-};
-
-const mapStateToProps = (state) => {
-  return {
-    username: state.authReducer.username,
-    wishlist: state.wishlistReducer.wishlist,
-    dislikes: state.wishlistReducer.dislikes,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(BeerDetail);
+export default BeerDetail;

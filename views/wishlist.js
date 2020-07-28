@@ -10,13 +10,13 @@ import {
 import FastImage from 'react-native-fast-image';
 
 /* Redux stuff...      */
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as wishlistActions from '../actions/wishlistActions';
+import { useSelector } from 'react-redux';
 
 import Drawer from '../components/Drawer';
 
 const Wishlist = (props) => {
+  const wishlist = useSelector((state) => state.wishlistReducer.wishlist);
+
   // TODO: use flatlist header
   // const renderHeader = () => {
   //   return (
@@ -45,7 +45,7 @@ const Wishlist = (props) => {
 
   const wishlistView = (
     <FlatList
-      data={props.wishlist}
+      data={wishlist}
       renderItem={({ item, index }) => {
         return (
           <TouchableHighlight
@@ -75,7 +75,7 @@ const Wishlist = (props) => {
     />
   );
 
-  if (!Object.keys(props.wishlist).length) {
+  if (!Object.keys(wishlist).length) {
     return <Drawer view={emptyWishlistView} navigation={props.navigation} />;
   } else {
     return <Drawer view={wishlistView} navigation={props.navigation} />;
@@ -118,16 +118,4 @@ let styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  return {
-    wishlist: state.wishlistReducer.wishlist,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    wishlistActions: bindActionCreators(wishlistActions, dispatch),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Wishlist);
+export default Wishlist;
