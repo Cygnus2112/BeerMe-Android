@@ -14,8 +14,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 
 /* Redux stuff...      */
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as beerActions from '../actions/beerActions';
 import * as wishlistActions from '../actions/wishlistActions';
 /* End redux stuff...      */
@@ -27,11 +26,21 @@ let width = Dimensions.get('window').width;
 
 const SWIPE_THRESHOLD = 105;
 
+const pan = new Animated.ValueXY();
+const enter = new Animated.Value(1);
+
 const Swipe = (props) => {
   const [ likeMessage, setLikeMessage ] = useState('');
   const [ isLoadingWishlist, setIsLoadingWishlist ] = useState(false);
-  const [ pan, setPan ] = useState(new Animated.ValueXY());
-  const [ enter, setEnter ] = useState(new Animated.Value(1));
+
+  const dispatch = useDispatch();
+
+  const username = useSelector((state) => state.authReducer.username);
+  const beerData = useSelector((state) => state.beerReducer.beerData);
+  const beerToView = useSelector((state) => state.beerReducer.beerToView);
+  const nextBeer = useSelector((state) => state.beerReducer.nextBeer);
+  const isSearching = useSelector((state) => state.beerReducer.isSearching);
+  const isUpdating = useSelector((state) => state.wishlistReducer.isUpdating);
 
   const _animateEntrance = () => {
     Animated.spring(enter, {
@@ -51,27 +60,26 @@ const Swipe = (props) => {
 
     setTimeout(_loadFrontBeer, 300);
 
-    if (props.beerData.length < 5 && !props.isSearching) {
-      const { loadBeers } = props.beerActions;
+    if (beerData.length < 5 && !isSearching) {
       let userData = {
-        username: props.username,
+        username,
         style: props.styleChoice,
       };
-      loadBeers(userData);
+      dispatch(beerActions.loadBeers(userData));
     }
   };
 
   const dislikeBeer = (beer) => {
-    const { addDislike } = props.wishlistActions;
-
     _loadFrontBeer();
-    if (props.username) {
-      addDislike(
-        {
-          username: props.username,
-          dislike: beer.id,
-        },
-        props.navigation,
+    if (username) {
+      dispatch(
+        wishlistActions.addDislike(
+          {
+            username,
+            dislike: beer.id,
+          },
+          props.navigation,
+        ),
       );
     }
 
@@ -79,19 +87,17 @@ const Swipe = (props) => {
       setLikeMessage('');
     }, 2000);
 
-    if (props.beerData.length < 5 && !props.isSearching) {
-      const { loadBeers } = props.beerActions;
+    if (beerData.length < 5 && !isSearching) {
       let userData = {
-        username: props.username,
+        username,
         style: props.styleChoice,
       };
-      loadBeers(userData);
+      dispatch(beerActions.loadBeers(userData));
     }
   };
 
   const _loadFrontBeer = () => {
-    const { loadFrontBeer } = props.beerActions;
-    loadFrontBeer();
+    dispatch(beerActions.loadFrontBeer());
   };
 
   const _resetState = () => {
@@ -126,12 +132,13 @@ const Swipe = (props) => {
 
       if (Math.abs(pan.x._value) > SWIPE_THRESHOLD) {
         pan.x._value > 0
-          ? likeBeer(props.beerToView)
-          : dislikeBeer(props.beerToView);
+          ? likeBeer(beerToView)
+          : dislikeBeer(beerToView);
 
         Animated.decay(pan, {
           velocity: { x: velocity, y: vy },
           deceleration: 0.98,
+          useNativeDriver: false,
         }).start(_resetState);
       } else {
         Animated.spring(pan, {
@@ -146,25 +153,24 @@ const Swipe = (props) => {
   useEffect(() => {
     _animateEntrance();
 
-    // if (props.nextBeer.label) {
-    //   Image.prefetch(props.nextBeer.label).then(() => {});
+    // if (label) {
+    //   Image.prefetch(label).then(() => {});
     // }
-    // if (!firstImageLoaded && props.beerToView.label) {
-    //   Image.prefetch(props.beerToView.label).then(() => {
+    // if (!firstImageLoaded && beerToView.label) {
+    //   Image.prefetch(beerToView.label).then(() => {
     //     setFirstImageLoaded(true);
     //   });
     // }
-  }, [props.nextBeer, props.beerToView]); // TODO: this is probably wrong implementation
+  }, [nextBeer, beerToView]); // TODO: this is probably wrong implementation
 
-  const wishlist = () => {
+  const loadWishlist = () => {
     let loading = true;
 
     setIsLoadingWishlist(true);
 
     while (loading) {
-      if (props.isUpdating === false) {
-        const { loadWishlist } = props.wishlistActions;
-        loadWishlist(props.navigation);
+      if (!isUpdating) {
+        dispatch(wishlistActions.loadWishlist(props.navigation));
         loading = false;
       }
     }
@@ -211,7 +217,7 @@ const Swipe = (props) => {
     </View>
   );
 
-  const mainView = (props.beerToView && props.beerToView.label) ? (
+  const mainView = (beerToView && beerToView.label) ? (
     <LinearGradient colors={gradientColors} style={{ flex: 1 }}>
       <View style={styles.main}>
         <Animated.View
@@ -220,21 +226,21 @@ const Swipe = (props) => {
         >
           <View style={styles.labelWrap}>
             <FastImage
-              source={{ uri: props.beerToView.label }}
+              source={{ uri: beerToView.label }}
               style={styles.labelImg}
             />
           </View>
-          <Text style={styles.choose}>{props.beerToView.name}</Text>
-          <Text style={{ fontSize: 16 }}>{props.beerToView.brewery}</Text>
+          <Text style={styles.choose}>{beerToView.name}</Text>
+          <Text style={{ fontSize: 16 }}>{beerToView.brewery}</Text>
         </Animated.View>
         <View style={styles.thumbs}>
-          <TouchableOpacity onPress={() => dislikeBeer(props.beerToView)}>
+          <TouchableOpacity onPress={() => dislikeBeer(beerToView)}>
             <FastImage
               source={require('../assets/thumbdown_outline2.png')}
               style={styles.thumbDown}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => likeBeer(props.beerToView)}>
+          <TouchableOpacity onPress={() => likeBeer(beerToView)}>
             <FastImage
               source={require('../assets/thumbup_outline.png')}
               style={styles.thumbUp}
@@ -252,7 +258,7 @@ const Swipe = (props) => {
 
   let viewToDisplay;
 
-  if (props.isSearching && (!props.beerToView || !props.beerToView.label)) {
+  if (isSearching && (!beerToView || !beerToView.label)) {
     viewToDisplay = searchingView;
   } else if (isLoadingWishlist) {
     viewToDisplay = loadingView;
@@ -262,7 +268,7 @@ const Swipe = (props) => {
   return (
     <Drawer
       view={viewToDisplay}
-      wishlistFunc={wishlist}
+      wishlistFunc={loadWishlist}
       navigation={props.navigation}
     />
   );
@@ -364,24 +370,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    wishlistActions: bindActionCreators(wishlistActions, dispatch),
-    beerActions: bindActionCreators(beerActions, dispatch),
-  };
-};
-
-const mapStateToProps = (state) => {
-  return {
-    username: state.authReducer.username,
-    beerData: state.beerReducer.beerData,
-    beerToView: state.beerReducer.beerToView,
-    nextBeer: state.beerReducer.nextBeer,
-    isSearching: state.beerReducer.isSearching,
-    isUpdating: state.wishlistReducer.isUpdating,
-    wishlist: state.wishlistReducer.wishlist,
-    dislikes: state.wishlistReducer.dislikes,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Swipe);
+export default Swipe;

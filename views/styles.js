@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 import LinearGradient from 'react-native-linear-gradient';
 
 /* Redux stuff...      */
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as beerActions from '../actions/beerActions';
 /* End Redux stuff...      */
 
@@ -15,23 +14,20 @@ import { gradientColors } from '../utils';
 import Drawer from '../components/Drawer';
 
 const Styles = (props) => {
-  const [ styleChoice, setStyleChoice ] = useState('');
-  const [ actionText, setActionText ] = useState('');
-  const [ username, setUsername ] = useState('');
+  const dispatch = useDispatch();
+  const username = useSelector((state) => state.authReducer.username);
 
   const fetchBeers = (style) => {
-    const { loadBeers } = props.beerActions;
     let userData = {
-      username: props.username || '',
+      username: username || '',
       style: style,
     };
-    loadBeers(userData);
+    dispatch(beerActions.loadBeers(userData));
     props.navigation.navigate('swipe', { styleChoice: style });
   };
 
   const openSwipe = (swipeChoice) => {
-    const { clearFrontBeer } = props.beerActions;
-    clearFrontBeer();
+    dispatch(beerActions.clearFrontBeer());
     fetchBeers(swipeChoice);
   };
 
@@ -143,16 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  return {
-    username: state.authReducer.username,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    beerActions: bindActionCreators(beerActions, dispatch),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Styles);
+export default Styles;
