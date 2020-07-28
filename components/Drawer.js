@@ -11,7 +11,8 @@ import {
 import FastImage from 'react-native-fast-image';
 
 /* Redux stuff...      */
-import { connect } from 'react-redux';
+
+import { connect, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import * as authActions from '../actions/authActions';
 import * as beerActions from '../actions/beerActions';
@@ -25,23 +26,26 @@ const Drawer = (props) => {
   const [ wishlistError, setWishlistError ] = useState('');
   const [ drawerOpen, setDrawerOpen ] = useState(false);
 
-  const fetchBeers = (style) => {
-    const { loadBeers } = props.beerActions;
-    const userData = {
-      username: props.username,
-      style,
-    };
-    loadBeers(userData);
-    props.navigation.navigate('swipe', { styleChoice: style });
-  };
+  const username = useSelector((state) => state.authReducer.username);
+  const isFetching = useSelector((state) => state.wishlistReducer.isFetching);
 
-  const openSwipe = (styleChoice) => {
-    // because for some reason onDrawerClose doesn't always work
-    setDrawerOpen(false);
-    const { clearFrontBeer } = props.beerActions;
-    clearFrontBeer();
-    fetchBeers(styleChoice);
-  };
+  // const fetchBeers = (style) => {
+  //   const { loadBeers } = props.beerActions;
+  //   const userData = {
+  //     username,
+  //     style,
+  //   };
+  //   loadBeers(userData);
+  //   props.navigation.navigate('swipe', { styleChoice: style });
+  // };
+
+  // const openSwipe = (styleChoice) => {
+  //   // because for some reason onDrawerClose doesn't always work
+  //   setDrawerOpen(false);
+  //   const { clearFrontBeer } = props.beerActions;
+  //   clearFrontBeer();
+  //   fetchBeers(styleChoice);
+  // };
 
   const signoutUser = () => {
     // because for some reason onDrawerClose doesn't always work
@@ -52,7 +56,7 @@ const Drawer = (props) => {
   };
 
   const wishlist = () => {
-    if (!props.username) {
+    if (!username) {
       setWishlistError('You must be signed in to access your wishlist');
       setTimeout(() => setWishlistError(''), 3000);
     } else {
@@ -105,7 +109,7 @@ const Drawer = (props) => {
         source={require('../assets/ic_person_black_24dp.png')}
         style={{ margin: 10 }}
       />
-      <Text style={styles.label}>{props.username}</Text>
+      <Text style={styles.label}>{username}</Text>
     </View>
   );
 
@@ -152,7 +156,7 @@ const Drawer = (props) => {
             style={{ width: 294 * 0.65, height: 70 * 0.65 }}
           />
         </View>
-        {props.username ? userView : null}
+        {username ? userView : null}
         <TouchableOpacity onPress={wishlist}>
           <View style={styles.button}>
             <FastImage
@@ -171,7 +175,7 @@ const Drawer = (props) => {
             <Text style={styles.label}>Browse Beers</Text>
           </View>
         </TouchableOpacity>
-        {props.username ? signoutView : loginView}
+        {username ? signoutView : loginView}
         {wishlistError ? errorView : null}
       </View>
       <View style={styles.about}>
@@ -212,7 +216,7 @@ const Drawer = (props) => {
       renderNavigationView={() => navigationView}
     >
       <Toolbar openDrawer={openDrawer} navigation={props.navigation} />
-      {props.isFetching ? loadingView : props.view}
+      {isFetching ? loadingView : props.view}
     </DrawerLayoutAndroid>
   );
 };
@@ -317,13 +321,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  return {
-    username: state.authReducer.username,
-    isFetching: state.wishlistReducer.isFetching,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     wishlistActions: bindActionCreators(wishlistActions, dispatch),
@@ -332,4 +329,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Drawer);
+export default connect(null, mapDispatchToProps)(Drawer);
