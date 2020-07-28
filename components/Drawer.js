@@ -12,10 +12,8 @@ import FastImage from 'react-native-fast-image';
 
 /* Redux stuff...      */
 
-import { connect, useSelector } from 'react-redux'
-import { bindActionCreators } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as authActions from '../actions/authActions';
-import * as beerActions from '../actions/beerActions';
 import * as wishlistActions from '../actions/wishlistActions';
 /* End Redux stuff...      */
 
@@ -29,30 +27,13 @@ const Drawer = (props) => {
   const username = useSelector((state) => state.authReducer.username);
   const isFetching = useSelector((state) => state.wishlistReducer.isFetching);
 
-  // const fetchBeers = (style) => {
-  //   const { loadBeers } = props.beerActions;
-  //   const userData = {
-  //     username,
-  //     style,
-  //   };
-  //   loadBeers(userData);
-  //   props.navigation.navigate('swipe', { styleChoice: style });
-  // };
-
-  // const openSwipe = (styleChoice) => {
-  //   // because for some reason onDrawerClose doesn't always work
-  //   setDrawerOpen(false);
-  //   const { clearFrontBeer } = props.beerActions;
-  //   clearFrontBeer();
-  //   fetchBeers(styleChoice);
-  // };
+  const dispatch = useDispatch();
 
   const signoutUser = () => {
     // because for some reason onDrawerClose doesn't always work
     setDrawerOpen(false);
     DRAWER.current.closeDrawer();
-    const { logout } = props.authActions;
-    logout(props.navigation);
+    dispatch(authActions.logout(props.navigation));
   };
 
   const wishlist = () => {
@@ -67,8 +48,7 @@ const Drawer = (props) => {
       if (props.wishlistFunc) {
         props.wishlistFunc();
       } else {
-        const { loadWishlist } = props.wishlistActions;
-        loadWishlist(props.navigation);
+        dispatch(wishlistActions.loadWishlist(props.navigation));
       }
     }
   };
@@ -321,12 +301,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    wishlistActions: bindActionCreators(wishlistActions, dispatch),
-    authActions: bindActionCreators(authActions, dispatch),
-    beerActions: bindActionCreators(beerActions, dispatch),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Drawer);
+export default Drawer;

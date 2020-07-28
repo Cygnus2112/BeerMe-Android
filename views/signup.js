@@ -7,8 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 /* Redux stuff...      */
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useDispatch } from 'react-redux';
 import * as authActions from '../actions/authActions';
 /* ---------------------- */
 import LinearGradient from 'react-native-linear-gradient';
@@ -37,6 +36,8 @@ const Signup = (props) => {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
 
+  const dispatch = useDispatch();
+
   const client = useApolloClient();
 
   const _validateEmail = () => {
@@ -53,7 +54,6 @@ const Signup = (props) => {
       setErrorMessage('Please enter a properly formatted email address.');
     } else {
       try {
-        const { setToken } = props.authActions;
         const user = {
           email,
           username,
@@ -65,12 +65,14 @@ const Signup = (props) => {
           variables: { user },
         });
         const { token } = data.signup;
-        setToken(
-          {
-            token,
-            username,
-          },
-          props.navigation,
+        dispatch(
+          authActions.setToken(
+            {
+              token,
+              username,
+            },
+            props.navigation,
+          ),
         );
         setErrorMessage('');
       } catch (err) {
@@ -182,10 +184,4 @@ const signupStyles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    authActions: bindActionCreators(authActions, dispatch),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Signup);
+export default Signup;

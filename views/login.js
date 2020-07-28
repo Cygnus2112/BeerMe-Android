@@ -11,8 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Button from 'react-native-button';
 
 /* Redux stuff...      */
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useDispatch } from 'react-redux';
 import * as authActions from '../actions/authActions';
 /* ---------------------- */
 
@@ -36,6 +35,8 @@ const Login = (props) => {
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
 
+  const dispatch = useDispatch();
+
   const client = useApolloClient();
 
   const user = {
@@ -54,15 +55,17 @@ const Login = (props) => {
           query: LOGIN,
           variables: { user },
         });
-        const { setToken } = props.authActions;
         const { token } = data.login;
-        setToken(
-          {
-            token,
-            username,
-          },
-          props.navigation,
+        dispatch(
+          authActions.setToken(
+            {
+              token,
+              username,
+            },
+            props.navigation,
+          ),
         );
+
         setErrorMessage('');
       } catch (err) {
         setErrorMessage('Username and/or password incorrect.');
@@ -173,10 +176,4 @@ const loginStyles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    authActions: bindActionCreators(authActions, dispatch),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(Login);
+export default Login;
