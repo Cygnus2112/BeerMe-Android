@@ -15,9 +15,7 @@ import { useSelector } from 'react-redux';
 import Drawer from '../components/Drawer';
 
 const Wishlist = (props) => {
-  // console.log('props: ', props);
   const wishlist = useSelector((state) => state.wishlistReducer.wishlist);
-  console.log('wishlist: ');
   console.log(wishlist);
 
   // TODO: use flatlist header

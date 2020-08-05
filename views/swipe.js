@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
@@ -163,7 +163,7 @@ const Swipe = (props) => {
     // }
   }, [nextBeer, beerToView]); // TODO: this is probably wrong implementation
 
-  const loadWishlist = () => {
+  const loadWishlist = useCallback(() => {
     let loading = true;
 
     setIsLoadingWishlist(true);
@@ -174,7 +174,7 @@ const Swipe = (props) => {
         loading = false;
       }
     }
-  };
+  }, [isUpdating, props.navigation, dispatch]);
 
   const [translateX, translateY] = [pan.x, pan.y];
   const rotate = pan.x.interpolate({
