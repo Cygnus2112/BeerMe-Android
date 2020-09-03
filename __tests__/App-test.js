@@ -29,16 +29,6 @@ const getMockProvider = (state) => {
   };
 };
 
-// it('renders without crashing', () => {
-//   const rendered = renderer.create(<App />).toJSON();
-//   expect(rendered).toBeTruthy();
-// });
-
-// it('renders correctly', () => {
-//   const tree = renderer.create(<App />).toJSON();
-//   expect(tree).toMatchSnapshot();
-// });
-
 describe('Testing the App', () => {
   it('renders without crashing', async () => {
     const rendered = renderer.create(<App />).toJSON();
