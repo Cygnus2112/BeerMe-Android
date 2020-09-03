@@ -5,27 +5,59 @@
 import 'react-native';
 import React from 'react';
 import App from '../App';
-import renderer from 'react-test-renderer';
+import { Provider } from 'react-redux';
+import renderer, { act } from 'react-test-renderer';
 import Adapter from 'enzyme-adapter-react-16';
 import { shallow, configure } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
-configure({ adapter: new Adapter() });
-const mockStore = configureStore([]);
-
 import Wishlist from '../views/wishlist';
 
-it('renders without crashing', () => {
-  const rendered = renderer.create(<App />).toJSON();
-  expect(rendered).toBeTruthy();
-});
+jest.useFakeTimers();
+jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
 
-it('renders correctly', () => {
-  const tree = renderer.create(<App />).toJSON();
-  expect(tree).toMatchSnapshot();
+configure({ adapter: new Adapter() });
+
+const getMockProvider = (state) => {
+  const mockStore = configureStore([]);
+  const store = mockStore(state);
+  return {
+    MockProvider: ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    ),
+    store,
+  };
+};
+
+// it('renders without crashing', () => {
+//   const rendered = renderer.create(<App />).toJSON();
+//   expect(rendered).toBeTruthy();
+// });
+
+// it('renders correctly', () => {
+//   const tree = renderer.create(<App />).toJSON();
+//   expect(tree).toMatchSnapshot();
+// });
+
+describe('Testing the App', () => {
+  it('renders without crashing', async () => {
+    const rendered = renderer.create(<App />).toJSON();
+    await act(async () => {});
+    expect(rendered).toBeTruthy();
+  });
+
+  it('renders correctly', async () => {
+    const tree = renderer.create(<App />).toJSON();
+    await act(async () => {});
+    expect(tree).toMatchSnapshot();
+  });
 });
 
 describe('Testing Wishlist', () => {
+  jest.mock('react-redux', () => ({
+    useSelector: jest.fn(),
+    useDispatch: () => jest.fn(),
+  }));
   const wishlist = [
     {
       "abv": "5.8",
@@ -58,17 +90,21 @@ describe('Testing Wishlist', () => {
     }
   ];
 
-  it('renders as expected', () => {
-    const initialState = {
+  it('renders as expected', async () => {
+    const state = {
       wishlistReducer: {
         wishlist,
       }
     };
 
+    const { MockProvider } = getMockProvider(state);
+
     const wrapper = shallow(
-      <Wishlist />,
-      { context: { store: mockStore(initialState) } },
+      <MockProvider>
+        <Wishlist />
+      </MockProvider>
     );
+
     expect(wrapper.dive()).toMatchSnapshot();
   });
 });
