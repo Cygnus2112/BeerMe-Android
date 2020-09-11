@@ -1,4 +1,4 @@
-# BeerMe! for Android
+# BeerMe!
 
 Swipe your way to craft-beer nirvana with BeerMe!, a fun way to expand your beer-drinking palette.
 
